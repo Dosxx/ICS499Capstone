@@ -1,6 +1,7 @@
 /**
  * Author: Thrown Exceptions
- *
+ * This class encapsulates the schema for Account
+ * table in SQLite database
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 

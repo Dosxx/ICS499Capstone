@@ -1,5 +1,7 @@
 /**
  * Author: Thrown Exceptions
+ * This class encapsulates a concrete strategy for adding a user
+ * to the user table in SQLite database
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
@@ -38,5 +40,8 @@ public class AddUserQuery implements QueryBuilder{
     }
     public User getUser(){
         return user;
+    }
+    public void setUser(User user){
+        this.user = user;
     }
 }
