@@ -17,22 +17,26 @@ public class AddUserQuery implements QueryBuilder{
 
     public AddUserQuery(Context appContext, User user){
         dbHelper = new DFCAccountDBHelper(appContext);
+        this.user = user;
     }
-    public void buildQuery(QueryContext context) {
+    public void buildQuery() {
         /* Gets the database into write mode */
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         /* Create a new map of values, where column names are the keys */
         ContentValues values = new ContentValues();
-        values.put(UserReaderContract.UserEntry.COLUMN_NAME_FIRST_NAME,"");
-        values.put(UserReaderContract.UserEntry.COLUMN_NAME_LAST_NAME,"");
-        values.put(UserReaderContract.UserEntry.COLUMN_NAME_EMAIL,"");
-        values.put(UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD,"");
+        values.put(UserReaderContract.UserEntry.COLUMN_NAME_FIRST_NAME, user.getFirstName());
+        values.put(UserReaderContract.UserEntry.COLUMN_NAME_LAST_NAME, user.getLastName());
+        values.put(UserReaderContract.UserEntry.COLUMN_NAME_EMAIL, user.getEmail());
+        values.put(UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD, user.getPassword());
 
         /* Insert the new row, returning the primary key value of the new row */
         userID = db.insert(UserReaderContract.UserEntry.TABLE_NAME, null, values);
     }
     public long getUserID(){
         return userID;
+    }
+    public User getUser(){
+        return user;
     }
 }
