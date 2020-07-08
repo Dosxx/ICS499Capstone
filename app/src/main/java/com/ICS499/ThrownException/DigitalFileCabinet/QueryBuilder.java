@@ -4,5 +4,5 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 public interface QueryBuilder {
-    public void buildQuery(QueryContext queryContext);
+    public void buildQuery();
 }

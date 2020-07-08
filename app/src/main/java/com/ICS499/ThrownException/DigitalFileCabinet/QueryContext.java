@@ -12,7 +12,6 @@ public abstract class QueryContext {
         this.sqlContext = sqlBuilder;
     };
     public void makeQuery(){
-        sqlContext.buildQuery();
     }
     public void setQueryBuilder(QueryBuilder sqlBuilder){
         sqlContext = sqlBuilder;
