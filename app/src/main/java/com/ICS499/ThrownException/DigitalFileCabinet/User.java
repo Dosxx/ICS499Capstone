@@ -1,15 +1,15 @@
-/**
+/*
  * Author: Thrown Exceptions
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-/**
+/*
  * This is a singleton class
  */
 public class User {
-    private User instance;
+    private static User instance;
     private FileCabinet fileCabinet;
     private String firstName;
     private String lastName;
@@ -72,7 +72,7 @@ public class User {
     }
 
     public boolean isAuthenticate(String email, String password){
-//        if(this.email == email && )
+
         return false;
     }
 }
