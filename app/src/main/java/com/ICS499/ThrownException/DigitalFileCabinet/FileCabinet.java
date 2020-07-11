@@ -6,11 +6,9 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 public class FileCabinet {
     private static FileCabinet cabinet;
 
-    private FileCabinet(){
+    private FileCabinet(){}
 
-    }
-
-    public static FileCabinet getInstance(){
+    public FileCabinet getInstance(){
         if(cabinet == null){
             cabinet = new FileCabinet();
         }
