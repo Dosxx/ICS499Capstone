@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DigitalFileCabinet</string>
+    <string name="app_name">Digital File Cabinet</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -31,5 +31,9 @@
     <string name="Document_editText">Document_name</string>
     <string name="Document_ImageView">Document_view</string>
     <string name="document_folder">Folder</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="forgot_password">Forgot Password?</string>
 
 </resources>
