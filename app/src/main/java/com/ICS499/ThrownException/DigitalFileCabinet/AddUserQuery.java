@@ -1,5 +1,6 @@
-/**
+/*
  * Author: Thrown Exceptions
+ * ICS499 Capstone 2020
  * This class encapsulates a concrete strategy for adding a user
  * to the user table in SQLite database
  */
@@ -11,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class AddUserQuery implements QueryBuilder{
     /* Create an instance of the database */
-    private DFCAccountDBHelper dbHelper = null;
+    private DFCAccountDBHelper dbHelper;
 
     /* The id of the added user */
     private long userID;
