@@ -11,15 +11,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorTitleBar"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_items"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="@string/action_sign_in"
+        app:title="@string/page_title_sign_in"
         app:titleMarginStart="70dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+        app:menu="@menu/top_app_bar"
+        app:navigationIcon="@drawable/ic_menu_24dp"
         app:titleTextColor="@color/colorTitleWhite" />
 
     <TextView

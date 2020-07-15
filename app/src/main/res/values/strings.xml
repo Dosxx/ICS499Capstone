@@ -37,5 +37,13 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="create_account">Create Account</string>
     <string name="profile_view">User Name</string>
+    <string name="content_description_search">Search</string>
+    <string name="content_description_login">Login</string>
+    <string name="content_description_logout">Logout</string>
+    <string name="content_description_signUp">Sign up</string>
+    <string name="page_title_home">Home Page</string>
+    <string name="page_title_sign_in">Sign in</string>
+    <string name="page_title_create">Create Account</string>
+
 
 </resources>

@@ -1,5 +1,6 @@
-/**
+/*
  * Author: Thrown Exceptions
+ * ICS499 Capstone 2020
  */
 
 package com.ICS499.ThrownException.DigitalFileCabinet;
@@ -14,19 +15,19 @@ import java.time.LocalDateTime;
 public class Document implements Serializable {
     /*Class variables declaration */
 
-    private String documentName = null;
-    private String createdDate = null;
-    private String lastEditDate = null;
+    private String documentName;
+    private String createdDate;
+    private String lastEditDate;
     private String fileExtension = "JPEG";
     private QueryContext sqlContext;
-    private String filePath = null;
+    private String filePath;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Document(String documentName){
         DateTimeFormatter dft = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         this.documentName = documentName;
-        createdDate = new String(dft.format(LocalDateTime.now()));
+        createdDate = dft.format(LocalDateTime.now());
         lastEditDate = createdDate;
     }
 
@@ -42,7 +43,7 @@ public class Document implements Serializable {
     public void setDocumentName(String documentName) {
         this.documentName = documentName;
         DateTimeFormatter dft = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        lastEditDate = new String(dft.format(LocalDateTime.now()));
+        lastEditDate = dft.format(LocalDateTime.now());
     }
 
     public String getFileExtension() {
