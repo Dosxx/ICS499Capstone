@@ -20,6 +20,8 @@ public class Document implements Serializable {
     private String lastEditDate;
     private String fileExtension = "JPEG";
     private QueryContext sqlContext;
+    private QueryBuilder selectQuery;
+    private QueryBuilder addQuery;
     private String filePath;
 
 
@@ -79,5 +81,6 @@ public class Document implements Serializable {
     }
 
     public void makeQuery(){
+
     }
 }

@@ -4,7 +4,9 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-public class SelectUserQuery implements  QueryBuilder{
+public class SelectDocumentQueryBuilder implements QueryBuilder{
+    /* Make a query to the database to get the document data */
+
 
 
     @Override

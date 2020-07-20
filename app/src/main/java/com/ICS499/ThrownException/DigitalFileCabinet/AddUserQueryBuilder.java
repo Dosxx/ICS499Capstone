@@ -10,7 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-public class AddUserQuery implements QueryBuilder{
+public class AddUserQueryBuilder implements QueryBuilder{
     /* Create an instance of the database */
     private DFCAccountDBHelper dbHelper;
 
@@ -18,7 +18,7 @@ public class AddUserQuery implements QueryBuilder{
     private long userID;
     private User user;
 
-    public AddUserQuery(Context appContext, User user){
+    public AddUserQueryBuilder(Context appContext, User user){
         dbHelper = new DFCAccountDBHelper(appContext);
         this.user = user;
     }
