@@ -5,9 +5,9 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 public class CreateAccountState implements DFCState{
-    private int accountId;
     private boolean isActive = false;
     private User acctUser;
+
 
     public CreateAccountState(User myUser){
         acctUser = myUser;
@@ -26,19 +26,17 @@ public class CreateAccountState implements DFCState{
         this.acctUser = acctUser;
     }
 
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
-
     public boolean isActive() {
         return isActive;
     }
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public void createAccount(){
+    /* Write user data in sql database and set the account to active */
+        acctUser.makeQuery();
+        setActive(true);
     }
 }

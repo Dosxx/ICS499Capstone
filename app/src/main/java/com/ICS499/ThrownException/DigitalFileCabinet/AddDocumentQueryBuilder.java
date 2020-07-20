@@ -5,14 +5,21 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-public class AddDocumentQuery implements QueryBuilder{
+public class AddDocumentQueryBuilder implements QueryBuilder{
     /* Create an instance of the database */
-    private DFCAccountDBHelper dbHelper = null;
+    private DFCAccountDBHelper dbHelper;
 
     private Document document;
     private long documentID;
+
+    public AddDocumentQueryBuilder(Context appContext, Document document){
+        this.document = document;
+        /* Initialize the database helper instance */
+        dbHelper = new DFCAccountDBHelper(appContext);
+    }
 
     @Override
     public void buildQuery() {
