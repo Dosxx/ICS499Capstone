@@ -1,6 +1,8 @@
-/**
+/*
  * Author: Thrown Exceptions
- *
+ * ICS499 Capstone 2020
+ * This class encapsulates the schema for Document
+ * table in SQLite database
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 import android.provider.BaseColumns;
