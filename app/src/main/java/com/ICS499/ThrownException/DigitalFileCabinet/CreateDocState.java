@@ -9,4 +9,9 @@ public class CreateDocState implements DFCState {
     public void setState(DFCContext context) {
         context.setState(this);
     }
+
+    @Override
+    public void createAccount() {
+        //TODO : handle the account creation here
+    }
 }

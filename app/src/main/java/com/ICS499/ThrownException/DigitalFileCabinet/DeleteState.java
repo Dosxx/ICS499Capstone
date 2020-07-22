@@ -9,4 +9,9 @@ public class DeleteState implements DFCState {
     public void setState(DFCContext context) {
         context.setState(this);
     }
+
+    @Override
+    public void createAccount() {
+        /* Do nothing here */
+    }
 }

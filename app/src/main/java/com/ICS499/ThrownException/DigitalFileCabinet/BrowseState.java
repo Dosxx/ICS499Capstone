@@ -4,9 +4,14 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-public class Browse implements DFCState {
+public class BrowseState implements DFCState {
     @Override
     public void setState(DFCContext context) {
         context.setState(this);
+    }
+
+    @Override
+    public void createAccount() {
+        /* Do nothing here this state does not involve account creation*/
     }
 }
