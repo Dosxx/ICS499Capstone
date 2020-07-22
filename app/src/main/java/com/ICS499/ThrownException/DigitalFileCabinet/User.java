@@ -1,20 +1,25 @@
-/**
+/*
  * Author: Thrown Exceptions
+ * ICS499 Capstone 2020
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import androidx.appcompat.app.AppCompatActivity;
 import org.mindrot.jbcrypt.BCrypt;
 
-/**
+/*
  * This is a singleton class
  */
-public class User {
-    private User instance;
+public class User extends AppCompatActivity {
+    private static User instance;
     private FileCabinet fileCabinet;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private QueryBuilder selectQuery;
+    private QueryBuilder addQuery;
+    private QueryContext sqlContext;
 
     /* Ensure only one instance of this class is created */
     private User(String firstName, String lastName, String email, String password){
@@ -72,7 +77,17 @@ public class User {
     }
 
     public boolean isAuthenticate(String email, String password){
-//        if(this.email == email && )
         return false;
+    }
+
+    public void makeQuery(){
+        /* decide what query to make */
+        sqlContext = new QueryContext();
+        sqlContext.setQueryBuilder(addQuery);
+        /*add user data into the database */
+        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
+        sqlContext.makeQuery();
+        /*Select a user data from database*/
+        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
     }
 }

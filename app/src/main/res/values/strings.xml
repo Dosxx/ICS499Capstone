@@ -1,3 +1,53 @@
 <resources>
-    <string name="app_name">DigitalFileCabinet</string>
+    <string name="app_name">Digital File Cabinet</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >8 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+    <!-- Strings related to create account -->
+    <string name="prompt_firstName">First Name</string>
+    <string name="prompt_lastName">Last Name</string>
+    <string name="prompt_confirm_password">Confirm password</string>
+    <string name="password_mismatch">Password do not match</string>
+    <string name="action_sign_up">Create Account</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="action_Cancel">Cancel</string>
+    <string name="Cancel_button">Cancel</string>
+    <string name="sign_up_button">Create Account</string>
+
+    <!-- Strings related to activities -->
+    <string name="Scan">Scan a document</string>
+    <string name="Import">Import a document</string>
+    <string name="Search_bar">Search</string>
+    <string name="Open_document">Open a document</string>
+    <string name="Organize_DFC">Organize DFC</string>
+    <string name="Save_document">Save</string>
+    <string name="search_hint">Search a document</string>
+    <string name="Document_editText">Document Name</string>
+    <string name="Document_ImageView">Document_view</string>
+    <string name="document_folder">Folder</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="create_account">Create Account</string>
+    <string name="profile_view">User Name</string>
+    <string name="content_description_search">Search</string>
+    <string name="content_description_login">Login</string>
+    <string name="content_description_logout">Logout</string>
+    <string name="content_description_signUp">Sign up</string>
+    <string name="page_title_home">Home Page</string>
+    <string name="page_title_sign_in">Sign in</string>
+    <string name="page_title_create">Create Account</string>
+    <string name="page_title">test tittle</string>
+    <string name="page_title_document_view">Document View</string>
+    <string name="created_date">date created: </string>
+    <string name="page_title_save_document">Save Document</string>
+
+
 </resources>
