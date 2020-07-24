@@ -34,10 +34,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /* Switch the context to the create activity view */
-                Intent intent = new Intent(myContext, CreateAccountActivity.class);
-                startActivity(intent);
+                Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
+                startActivity(createAccountIntent);
                 Log.i(TAG, "moving now");
-
             }
         });
 

@@ -4,13 +4,14 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.Application;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 /*
  * This is a singleton class
  */
-public class User extends AppCompatActivity {
+public class User extends Application {
     private static User instance;
     private FileCabinet fileCabinet;
     private String firstName;
@@ -28,7 +29,7 @@ public class User extends AppCompatActivity {
         this.email = email;
         this.password = hashPassword(password);
     }
-    public User getUserInstance(String firstName, String lastName, String email, String password){
+    public static User getUserInstance(String firstName, String lastName, String email, String password){
         if(instance == null){
             instance = new User(firstName, lastName, email, password);
         }
@@ -77,17 +78,18 @@ public class User extends AppCompatActivity {
     }
 
     public boolean isAuthenticate(String email, String password){
+        // TODO: implement this method
         return false;
     }
 
     public void makeQuery(){
         /* decide what query to make */
-        sqlContext = new QueryContext();
-        sqlContext.setQueryBuilder(addQuery);
-        /*add user data into the database */
-        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
-        sqlContext.makeQuery();
-        /*Select a user data from database*/
-        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
+//        sqlContext = new QueryContext();
+//        sqlContext.setQueryBuilder(addQuery);
+//        /*add user data into the database */
+//        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
+//        sqlContext.makeQuery();
+//        /*Select a user data from database*/
+//        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
     }
 }
