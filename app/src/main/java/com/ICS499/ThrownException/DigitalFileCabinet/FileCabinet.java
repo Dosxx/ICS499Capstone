@@ -18,6 +18,10 @@ public class FileCabinet extends Application {
     private DFCState state;
     private Context context;
 
+//    public Context getContext() {
+//        return context;
+//    }
+
     /* The instances of each state the file cabinet can be in */
     private AccountState accountState;
     private LoginState loginState;
@@ -39,7 +43,6 @@ public class FileCabinet extends Application {
 
     public DFCState createAccount() {
         /* Switch to the account state and carry out the task */
-
         if (accountState == null) {
             /* Instantiate in null */
             accountState = new AccountState(dfcUser);
@@ -164,5 +167,8 @@ public class FileCabinet extends Application {
     /* set up a user for the digital file cabinet */
     public void setUser(User user) {
         dfcUser = user;
+    }
+    public User getUser() {
+        return dfcUser;
     }
 }

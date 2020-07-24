@@ -38,7 +38,7 @@ public class AccountState implements DFCState{
     /* Write user data in sql database and set the account to active */
         acctUser.makeQuery();
         setActive(true);
-        return null;
+        return this;
     }
 
     @Override

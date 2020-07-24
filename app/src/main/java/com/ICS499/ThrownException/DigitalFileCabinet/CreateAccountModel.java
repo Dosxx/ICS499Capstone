@@ -47,21 +47,17 @@ public class CreateAccountModel extends ViewModel {
     }
 
     /* validation name field */
-    private boolean isNameValid(String name) {
+    private boolean isValidName(String name) {
         Pattern pattern = Pattern.compile("[^a-zA-Z]");
         if(name == null){
-            return false;
+            return true;
         }else {
             Matcher matcher = pattern.matcher(name);
             if (name.length() == 0) {
-                return false;
-            } else if (name.length() > 20) {
-                return false;
-            } else if (matcher.find()) {
-                return false;
-            } else {
                 return true;
-            }
+            } else if (name.length() > 20) {
+                return true;
+            } else return matcher.find();
         }
     }
 
@@ -105,12 +101,14 @@ public class CreateAccountModel extends ViewModel {
     }
 
     /* Validate input */
-    public void inputValidation(final EditText fName, final EditText lName, final EditText emailInput, final EditText pass1, final EditText pass2){
+    public void inputValidation(final EditText fName, final EditText lName,
+                                final EditText emailInput, final EditText pass1,
+                                final EditText pass2){
         fName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
-                    if(!isNameValid(fName.getText().toString())) {
+                    if(isValidName(fName.getText().toString())) {
                         fName.setError("Not a valid email");
                     }
                     first = fName.getText().toString();
@@ -123,7 +121,7 @@ public class CreateAccountModel extends ViewModel {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
-                    if(!isNameValid(lName.getText().toString())) {
+                    if(isValidName(lName.getText().toString())) {
                         lName.setError("Not a valid Name");
                     }
                     last = lName.getText().toString();

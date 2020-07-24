@@ -17,16 +17,17 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    private final Context myContext = this;
+    private Context myContext;
     private FileCabinet cabinet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        myContext = getApplicationContext();
+        cabinet = FileCabinet.getInstance(myContext);
         Log.d(TAG, "onCreate: Started.");
 
-        cabinet = FileCabinet.getInstance(myContext);
         final Button signUpButton = findViewById(R.id.sign_up_button);
         final Button signInButton = findViewById(R.id.sign_in_button);
         final TextView forgotPasswordLabel = findViewById(R.id.forgotPasswordTextView);
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /* Switch the context to the create activity view */
-                cabinet.createAccount();
+//                cabinet.createAccount();
                 Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
                 startActivity(createAccountIntent);
                 Log.i(TAG, "moving now");

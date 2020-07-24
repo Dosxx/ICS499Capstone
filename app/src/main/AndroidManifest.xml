@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:windowSoftInputMode="stateHidden">
-        <activity android:name=".DFCHomeActivity"></activity>
+        <activity android:name=".DFCHomeActivity" />
         <activity android:name=".EditDocumentActivity" />
         <activity android:name=".DocumentViewActivity" />
         <activity android:name=".LoginActivity" />
