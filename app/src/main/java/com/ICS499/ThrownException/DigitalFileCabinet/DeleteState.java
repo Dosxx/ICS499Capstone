@@ -14,4 +14,9 @@ public class DeleteState implements DFCState {
     public void createAccount() {
         /* Do nothing here */
     }
+
+    @Override
+    public void makeQuery() {
+
+    }
 }

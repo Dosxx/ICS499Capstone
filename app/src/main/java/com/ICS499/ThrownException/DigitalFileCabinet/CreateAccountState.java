@@ -39,4 +39,9 @@ public class CreateAccountState implements DFCState{
         acctUser.makeQuery();
         setActive(true);
     }
+
+    @Override
+    public void makeQuery() {
+
+    }
 }
