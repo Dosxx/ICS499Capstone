@@ -6,7 +6,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >8 characters</string>
+    <string name="invalid_password">Password must be 8 characters long</string>
     <string name="login_failed">"Login failed"</string>
 
     <!-- Strings related to create account -->
@@ -19,6 +19,9 @@
     <string name="action_Cancel">Cancel</string>
     <string name="Cancel_button">Cancel</string>
     <string name="sign_up_button">Create Account</string>
+    <string name="invalid_name">Not a valid name</string>
+    <string name="invalid_email">Not a valid email</string>
+
 
     <!-- Strings related to activities -->
     <string name="Scan">Scan a document</string>

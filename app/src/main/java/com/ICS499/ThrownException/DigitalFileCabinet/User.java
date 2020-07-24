@@ -4,15 +4,14 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import org.mindrot.jbcrypt.BCrypt;
+import android.content.Context;
 
 /*
  * This is a singleton class
  */
-public class User extends AppCompatActivity {
+public class User {
     private static User instance;
-    private FileCabinet fileCabinet;
+    private Context context;
     private String firstName;
     private String lastName;
     private String email;
@@ -22,25 +21,20 @@ public class User extends AppCompatActivity {
     private QueryContext sqlContext;
 
     /* Ensure only one instance of this class is created */
-    private User(String firstName, String lastName, String email, String password){
+    private User(String firstName, String lastName, String email, String password, Context appContext){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = hashPassword(password);
+        this.password = password;
+        context = appContext;
     }
-    public User getUserInstance(String firstName, String lastName, String email, String password){
+
+    public static User getUserInstance(String firstName, String lastName, String email,
+                                       String password, Context appContext){
         if(instance == null){
-            instance = new User(firstName, lastName, email, password);
+            instance = new User(firstName, lastName, email, password, appContext.getApplicationContext());
         }
         return instance;
-    }
-    /* Definition of a method to hash and salt the password*/
-    private String hashPassword(String password){
-        return BCrypt.hashpw(password, BCrypt.gensalt(13));
-    }
-    /* Verify the password match */
-    private boolean verifyHashPassword(String password, String hashPW){
-        return BCrypt.checkpw(password, hashPW);
     }
 
     /* Mutators and accessors*/
@@ -76,18 +70,21 @@ public class User extends AppCompatActivity {
         this.email = email;
     }
 
+    public Context getContext() { return context;}
+
     public boolean isAuthenticate(String email, String password){
+        // TODO: implement this method
         return false;
     }
 
     public void makeQuery(){
         /* decide what query to make */
-        sqlContext = new QueryContext();
-        sqlContext.setQueryBuilder(addQuery);
-        /*add user data into the database */
-        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
-        sqlContext.makeQuery();
-        /*Select a user data from database*/
-        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
+//        sqlContext = new QueryContext();
+//        sqlContext.setQueryBuilder(addQuery);
+//        /*add user data into the database */
+//        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
+//        sqlContext.makeQuery();
+//        /*Select a user data from database*/
+//        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
     }
 }

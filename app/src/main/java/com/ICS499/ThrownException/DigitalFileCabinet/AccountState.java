@@ -4,17 +4,47 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-public class BrowseState implements DFCState {
+public class AccountState implements DFCState{
+    private boolean isActive = false;
+    private User acctUser;
+
+
+    public AccountState(User myUser){
+        acctUser = myUser;
+    }
+
     @Override
     public void setState(DFCContext context) {
         context.setState(this);
     }
 
-    @Override
-    public void createAccount() {/* This state is not responsible for this behavior */}
+    public User getAcctUser() {
+        return acctUser;
+    }
+
+    public void setAcctUser(User acctUser) {
+        this.acctUser = acctUser;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void createAccount(){
+    /* Write user data in sql database and set the account to active */
+        acctUser.makeQuery();
+        setActive(true);
+    }
 
     @Override
-    public void deleteAccount() {/* This state is not responsible for this behavior */}
+    public void deleteAccount() {
+        /* Delete the user and account from database */
+        // TODO: remove the account data from the database
+    }
 
     @Override
     public void login() {/* This state is not responsible for this behavior */}
@@ -35,9 +65,7 @@ public class BrowseState implements DFCState {
     public void importDoc() {/* This state is not responsible for this behavior */}
 
     @Override
-    public void browse() {
-        // TODO implement browsing functionality here
-    }
+    public void browse() {/* This state is not responsible for this behavior */}
 
     @Override
     public void deleteDoc() {/* This state is not responsible for this behavior */}
