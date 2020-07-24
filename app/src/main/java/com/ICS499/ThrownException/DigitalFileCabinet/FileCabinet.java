@@ -4,15 +4,19 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.app.Application;
+import android.content.Context;
+
 /*
  * FileCabinet Class works as the context class for the state pattern
  */
-public class FileCabinet {
+public class FileCabinet extends Application {
     /* Instance variables */
     private static FileCabinet cabinet;
     private User dfcUser;
     private Document document;
     private DFCState state;
+    private Context context;
 
     /* The instances of each state the file cabinet can be in */
     private AccountState accountState;
@@ -21,29 +25,29 @@ public class FileCabinet {
     private DocumentEditState documentEditState;
     private BrowseState browseState;
 
-    private FileCabinet() {}
+    private FileCabinet(Context context) {
+        this.context = context.getApplicationContext();
+    }
 
     /* Singleton getInstance method */
-    public FileCabinet getInstance() {
+    public static FileCabinet getInstance(Context context) {
         if(cabinet == null){
-            cabinet = new FileCabinet();
+            cabinet = new FileCabinet(context);
         }
         return cabinet;
     }
 
-    public void createAccount() {
+    public DFCState createAccount() {
         /* Switch to the account state and carry out the task */
-        try {
-            if (accountState == null) {
-                /* Instantiate in null */
-                accountState = new AccountState(dfcUser);
-            }
-            changeState(accountState);
-            state.createAccount();
-        } catch (Exception e) {
-            // TODO: handle the exception here
-            e.printStackTrace();
+
+        if (accountState == null) {
+            /* Instantiate in null */
+            accountState = new AccountState(dfcUser);
         }
+        changeState(accountState);
+        state.createAccount();
+        return state;
+
     }
     public void deleteAccount() {
         /* Switch to the account state and carry out the task */
