@@ -5,42 +5,40 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 public class BrowseState implements DFCState {
-
     @Override
     public void setState(DFCContext context) {
         context.setState(this);
     }
 
     @Override
-    public DFCState createAccount() {return null;}
+    public void createAccount() {/* This state is not responsible for this behavior */}
 
     @Override
-    public DFCState deleteAccount() {return null;}
+    public void deleteAccount() {/* This state is not responsible for this behavior */}
 
     @Override
-    public DFCState login() {return null;}
+    public void login() {/* This state is not responsible for this behavior */}
 
     @Override
-    public DFCState logout() {return null;}
+    public void logout() {/* This state is not responsible for this behavior */}
 
     @Override
-    public DFCState openDoc() {return null;}
+    public void openDoc() {/* This state is not responsible for this behavior */}
 
     @Override
-    public DFCState saveDoc() {return null;}
+    public void saveDoc() {/* This state is not responsible for this behavior */}
 
     @Override
-    public DFCState createDoc() {return null;}
+    public void createDoc() {/* This state is not responsible for this behavior */}
 
     @Override
-    public DFCState importDoc() {return null;}
+    public void importDoc() {/* This state is not responsible for this behavior */}
 
     @Override
-    public DFCState browse() {
+    public void browse() {
         // TODO implement browsing functionality here
-        return this;
     }
 
     @Override
-    public DFCState deleteDoc() {return null;}
+    public void deleteDoc() {/* This state is not responsible for this behavior */}
 }
