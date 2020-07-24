@@ -34,39 +34,47 @@ public class AccountState implements DFCState{
         isActive = active;
     }
 
-    public void createAccount(){
+    public DFCState createAccount(){
     /* Write user data in sql database and set the account to active */
         acctUser.makeQuery();
         setActive(true);
+        return null;
     }
 
     @Override
-    public void deleteAccount() {
+    public DFCState deleteAccount() {
         /* Delete the user and account from database */
         // TODO: remove the account data from the database
+        return null;
     }
 
     @Override
-    public void login() {/* This state is not responsible for this behavior */}
+    public DFCState login() {return null;}
 
     @Override
-    public void logout() {/* This state is not responsible for this behavior */}
+    public DFCState logout() {return null;}
 
     @Override
-    public void openDoc() {/* This state is not responsible for this behavior */}
+    public DFCState openDoc() {return null;}
 
     @Override
-    public void saveDoc() {/* This state is not responsible for this behavior */}
+    public DFCState saveDoc() {return null;}
 
     @Override
-    public void createDoc() {/* This state is not responsible for this behavior */}
+    public DFCState createDoc() {return null;}
 
     @Override
-    public void importDoc() {/* This state is not responsible for this behavior */}
+    public DFCState importDoc() {return null;}
 
     @Override
-    public void browse() {/* This state is not responsible for this behavior */}
+    public DFCState browse() {return null;}
 
     @Override
-    public void deleteDoc() {/* This state is not responsible for this behavior */}
+    public DFCState deleteDoc() {return null;}
+
+    @Override
+    public DFCState makeQuery() {
+        return null;
+    }
+
 }

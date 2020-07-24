@@ -35,6 +35,11 @@ public class LogoutState implements DFCState {
     public DFCState deleteDoc() {return null;}
 
     @Override
+    public DFCState makeQuery() {
+        return null;
+    }
+
+    @Override
     public DFCState browse() {return null;}
 
     @Override

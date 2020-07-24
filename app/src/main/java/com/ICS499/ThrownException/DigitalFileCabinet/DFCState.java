@@ -17,4 +17,5 @@ public interface DFCState {
     public DFCState importDoc();
     public DFCState browse();
     public DFCState deleteDoc();
+    public DFCState makeQuery();
 }
