@@ -57,4 +57,9 @@ class DocumentEditState implements DFCState {
         // TODO : implementation goes here
         return null;
     }
+
+    @Override
+    public DFCState makeQuery() {
+        return null;
+    }
 }
