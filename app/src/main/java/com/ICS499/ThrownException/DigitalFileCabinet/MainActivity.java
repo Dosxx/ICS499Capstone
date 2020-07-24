@@ -5,6 +5,7 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setContentView(R.layout.activity_create_account);
+                /* Switch the context to the create activity view */
+                Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
+                startActivity(createAccountIntent);
+                Log.i(TAG, "moving now");
             }
         });
 
