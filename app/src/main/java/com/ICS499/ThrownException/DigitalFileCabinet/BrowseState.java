@@ -4,7 +4,7 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-public class BrowseState implements DFCState {
+public class  BrowseState implements DFCState {
     @Override
     public void setState(DFCContext context) {
         context.setState(this);
@@ -40,5 +40,11 @@ public class BrowseState implements DFCState {
     }
 
     @Override
+
+    public void makeQuery() {
+
+    }
+
     public void deleteDoc() {/* This state is not responsible for this behavior */}
+
 }

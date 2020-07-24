@@ -8,6 +8,7 @@ public interface DFCState {
     /* Interfaces that the states need to implement individually */
     void setState(DFCContext context);
     void createAccount();
+    void makeQuery();
     public void deleteAccount();
     public void login();
     public void logout();
