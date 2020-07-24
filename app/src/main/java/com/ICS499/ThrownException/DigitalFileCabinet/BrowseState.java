@@ -42,4 +42,9 @@ public class BrowseState implements DFCState {
 
     @Override
     public DFCState deleteDoc() {return null;}
+
+    @Override
+    public DFCState makeQuery() {
+        return null;
+    }
 }
