@@ -11,34 +11,35 @@ public class LogoutState implements DFCState {
     }
 
     @Override
-    public void createAccount() {/* This state is not responsible for this behavior */}
+    public DFCState createAccount() {return null;}
 
     @Override
-    public void deleteAccount() {/* This state is not responsible for this behavior */}
+    public DFCState deleteAccount() {return null;}
 
     @Override
-    public void login() {/* This state is not responsible for this behavior */}
+    public DFCState login() {return null;}
 
     @Override
-    public void openDoc() {/* This state is not responsible for this behavior */}
+    public DFCState openDoc() {return null;}
 
     @Override
-    public void saveDoc() {/* This state is not responsible for this behavior */}
+    public DFCState saveDoc() {return null;}
 
     @Override
-    public void createDoc() {/* This state is not responsible for this behavior */}
+    public DFCState createDoc() {return null;}
 
     @Override
-    public void importDoc() {/* This state is not responsible for this behavior */}
+    public DFCState importDoc() {return null;}
 
     @Override
-    public void deleteDoc() {/* This state is not responsible for this behavior */}
+    public DFCState deleteDoc() {return null;}
 
     @Override
-    public void browse() {/* This state is not responsible for this behavior */}
+    public DFCState browse() {return null;}
 
     @Override
-    public void logout() {
+    public DFCState logout() {
         // TODO : implementation goes here
+        return this;
     }
 }
