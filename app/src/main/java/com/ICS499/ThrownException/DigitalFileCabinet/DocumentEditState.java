@@ -13,43 +13,48 @@ class DocumentEditState implements DFCState {
     public void setState(DFCContext context) { }
 
     @Override
-    public void createAccount() {/* This state is not responsible for this behavior */}
+    public DFCState createAccount() {return null;}
 
     @Override
-    public void deleteAccount() {/* This state is not responsible for this behavior */}
+    public DFCState deleteAccount() {return null;}
 
     @Override
-    public void login() {/* This state is not responsible for this behavior */}
+    public DFCState login() {return null;}
 
     @Override
-    public void logout() {/* This state is not responsible for this behavior */}
+    public DFCState logout() {return null;}
 
     @Override
-    public void browse() {/* This state is not responsible for this behavior */}
+    public DFCState browse() {return null;}
     /* Method that apply to document are aggregated in this class*/
 
     @Override
-    public void openDoc() {
+    public DFCState openDoc() {
         // TODO : implementation goes here
+        return null;
     }
 
     @Override
-    public void saveDoc() {
+    public DFCState saveDoc() {
         // TODO : implementation goes here
+        return null;
     }
 
     @Override
-    public void createDoc() {
+    public DFCState createDoc() {
         // TODO: implementation goes here
+        return null;
     }
 
     @Override
-    public void importDoc() {
+    public DFCState importDoc() {
         // TODO : implementation goes here
+        return null;
     }
 
     @Override
-    public void deleteDoc() {
+    public DFCState deleteDoc() {
         // TODO : implementation goes here
+        return null;
     }
 }
