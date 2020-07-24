@@ -2,6 +2,8 @@
   <dictionary name="kekel">
     <words>
       <w>autoincreament</w>
+      <w>firstname</w>
+      <w>lastname</w>
       <w>mutators</w>
     </words>
   </dictionary>
