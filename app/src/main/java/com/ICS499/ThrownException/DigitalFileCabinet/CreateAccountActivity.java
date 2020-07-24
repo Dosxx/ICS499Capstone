@@ -17,13 +17,14 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Context myContext;
     private String firstName, lastName, email, password, password2;
     private User dfcUser;
+    private FileCabinet cabinet;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-        myContext = getApplicationContext();
+        cabinet = (FileCabinet)getApplication();
         Log.d(TAG, "onCreate: Started.");
 
         final Button createAccountButton = findViewById(R.id.create_account_button);
@@ -136,10 +137,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                     if(createModel.isValid()) {
                         /* Create a user with valid input only */
                         dfcUser = createModel.createUser(myContext);
+                        cabinet.setUser(dfcUser);
                         Log.d(TAG, dfcUser.getFirstName());
                         Toast.makeText(getApplicationContext(), dfcUser.getFirstName(),
                                 Toast.LENGTH_LONG).show();
-                        Intent HomeActivityIntent = new Intent(dfcUser.getContext(), DFCHomeActivity.class);
+                        Intent HomeActivityIntent = new Intent(cabinet, DFCHomeActivity.class);
                         startActivity(HomeActivityIntent);
                     }else {
                         Toast.makeText(getApplicationContext(), "Please provide valid input only",
