@@ -27,7 +27,7 @@ public class CreateAccountModel extends ViewModel {
     /* Create account function*/
     public User createUser(Context context) {
             /* Create a user with valid input only */
-            return User.getUserInstance(first, last, email, pwd1, context);
+            return User.getUserInstance(first, last, email, pwd1);
     }
 
     public String getFirst() {
