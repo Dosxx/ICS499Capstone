@@ -21,8 +21,7 @@ public class FileCabinet extends Application {
     /* The instances of each state the file cabinet can be in */
     private AccountState accountState;
     private LoginState loginState;
-    private LogoutState logoutState;
-    private DocumentEditState documentEditState;
+    private EditDocument documentEditState;
     private BrowseState browseState;
 
     private FileCabinet(Context context) {
@@ -78,12 +77,7 @@ public class FileCabinet extends Application {
     public void logout() {
         /* Switch to logout state and carry out the task */
         try {
-            if (logoutState == null) {
-                /* Instantiate in null */
-                logoutState = new LogoutState();
-            }
-            changeState(logoutState);
-            state.logout();
+
         } catch (Exception e) {
             // TODO: handle the exception here
             e.printStackTrace();
@@ -92,11 +86,7 @@ public class FileCabinet extends Application {
     public void openDoc() {
         /* Switch to document edit state and carry out the task */
         try{
-            if (documentEditState == null){
-                documentEditState = new DocumentEditState();
-            }
-            changeState(documentEditState);
-            state.openDoc();
+            //TODO: instantiate EditDocument
         }catch (Exception e){
             //TODO : handle the exception properly here
             e.printStackTrace();
@@ -105,11 +95,7 @@ public class FileCabinet extends Application {
     public void saveDoc() {
         /* Switch to document edit state and carry out the task */
         try{
-            if (documentEditState == null){
-                documentEditState = new DocumentEditState();
-            }
-            changeState(documentEditState);
-            state.saveDoc();
+
         }catch (Exception e){
             //TODO : handle the exception properly here
             e.printStackTrace();
@@ -118,11 +104,7 @@ public class FileCabinet extends Application {
     public void importDoc() {
         /* Switch to document edit state and carry out the task */
         try{
-            if (documentEditState == null){
-                documentEditState = new DocumentEditState();
-            }
-            changeState(documentEditState);
-            state.importDoc();
+
         }catch (Exception e){
             //TODO : handle the exception properly here
             e.printStackTrace();
@@ -131,11 +113,7 @@ public class FileCabinet extends Application {
     public void deleteDoc() {
         /* Switch to document edit state to carry out the task */
         try{
-            if (documentEditState == null){
-                documentEditState = new DocumentEditState();
-            }
-            changeState(documentEditState);
-            state.deleteDoc();
+
         }catch (Exception e){
             //TODO : handle the exception properly here
             e.printStackTrace();
