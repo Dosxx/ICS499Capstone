@@ -51,6 +51,11 @@
     <string name="page_title_document_view">Document View</string>
     <string name="created_date">date created: </string>
     <string name="page_title_save_document">Save Document</string>
+    <string name="take_picture">Scan</string>
+    <string name="scan_document">take a picture of the document</string>
+    <string name="capture_image">scan document</string>
+    <string name="small_scaled_image">Small (Scaled) image</string>
+    <string name="small_scale_image">small scaled image view</string>
 
 
 </resources>
