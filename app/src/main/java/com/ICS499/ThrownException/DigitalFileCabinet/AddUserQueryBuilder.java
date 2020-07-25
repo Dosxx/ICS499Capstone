@@ -23,6 +23,20 @@ public class AddUserQueryBuilder implements QueryBuilder{
         this.user = user;
     }
     public void buildQuery() {
+
+    }
+    public long getUserID(){
+        return userID;
+    }
+    public User getUser(){
+        return user;
+    }
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    @Override
+    public long addQuery() {
         /* Gets the database into write mode */
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -35,14 +49,11 @@ public class AddUserQueryBuilder implements QueryBuilder{
 
         /* Insert the new row, returning the primary key value of the new row */
         userID = db.insert(UserReaderContract.UserEntry.TABLE_NAME, null, values);
-    }
-    public long getUserID(){
         return userID;
     }
-    public User getUser(){
-        return user;
-    }
-    public void setUser(User user){
-        this.user = user;
+
+    @Override
+    public void selectQuery() {
+       /* Will not be used*/
     }
 }
