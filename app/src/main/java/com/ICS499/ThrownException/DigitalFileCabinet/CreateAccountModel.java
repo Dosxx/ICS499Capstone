@@ -13,6 +13,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateAccountModel extends ViewModel {
+    public static final String PASSWORD_ERROR = "Password must be >= 8 and contains alpha-numeric characters and symbols";
+    public static final String EMAIL_ERROR = "Not a valid email";
+    public static final String NAME_ERROR = "Not a valid Name";
+    public static final String MISMATCH_ERROR = "Password do not match";
     private String first = null;
     private String last = null;
     private String email = null;
@@ -75,24 +79,18 @@ public class CreateAccountModel extends ViewModel {
 
     /* Validate password field */
     private boolean isPasswordValid(String password) {
-//        Pattern pattern1 = Pattern.compile("[\\W]");
-//        Pattern pattern2 = Pattern.compile("[0-9]");
-//        Pattern pattern3 = Pattern.compile("[a-zA-Z]");
-//        if(password != null){
-//            Matcher matcher1 = pattern1.matcher(password);
-//            Matcher matcher2 = pattern2.matcher(password);
-//            Matcher matcher3 = pattern3.matcher(password);
-//            if(matcher1.find() && matcher2.find() && matcher3.find()
-//                    && password.trim().length() >= 8){
-//                return true;
-//            }
-//        }
-        return password != null && password.trim().length() >= 8;
-    }
-
-    /* Verify the password match */
-    private boolean verifyHashPassword(String password, String hashPW){
-        return BCrypt.checkpw(password, hashPW);
+       Pattern pattern1 = Pattern.compile("[\\W]");
+        Pattern pattern2 = Pattern.compile("[0-9]");
+        Pattern pattern3 = Pattern.compile("[a-zA-Z]");
+        if(password != null){
+            Matcher matcher1 = pattern1.matcher(password);
+            Matcher matcher2 = pattern2.matcher(password);
+            Matcher matcher3 = pattern3.matcher(password);
+            return matcher1.find() && matcher2.find()
+                    && matcher3.find() && password.trim().length() >= 8;
+        }else {
+            return false;
+        }
     }
 
     /* Definition of a method to hash and salt the password*/
@@ -109,7 +107,7 @@ public class CreateAccountModel extends ViewModel {
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
                     if(isValidName(fName.getText().toString())) {
-                        fName.setError("Not a valid email");
+                        fName.setError(NAME_ERROR);
                     }
                     first = fName.getText().toString();
                 } catch (Exception e) {
@@ -122,7 +120,7 @@ public class CreateAccountModel extends ViewModel {
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
                     if(isValidName(lName.getText().toString())) {
-                        lName.setError("Not a valid Name");
+                        lName.setError(NAME_ERROR);
                     }
                     last = lName.getText().toString();
                 } catch (Exception e) {
@@ -136,7 +134,7 @@ public class CreateAccountModel extends ViewModel {
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
                     if(!isEmailValid(emailInput.getText().toString())) {
-                        emailInput.setError("Not a valid email");
+                        emailInput.setError(EMAIL_ERROR);
                     }
                     email = emailInput.getText().toString();
 
@@ -151,7 +149,7 @@ public class CreateAccountModel extends ViewModel {
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
                     if(!isPasswordValid(pass1.getText().toString())) {
-                        pass1.setError("Password must be 8 characters long");
+                        pass1.setError(PASSWORD_ERROR);
                     }
                     pwd1 = hashPassword(pass1.getText().toString());
 
@@ -166,7 +164,7 @@ public class CreateAccountModel extends ViewModel {
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
                     if(!pass1.getText().toString().equals(pass2.getText().toString())) {
-                        pass2.setError("Password do not match");
+                        pass2.setError(MISMATCH_ERROR);
                     }
                     pwd2 = pwd1;
                 } catch (Exception e) {

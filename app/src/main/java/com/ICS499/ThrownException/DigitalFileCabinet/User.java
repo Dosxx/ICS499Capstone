@@ -4,12 +4,15 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.app.Application;
 import android.content.Context;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 /*
  * This is a singleton class
  */
-public class User {
+public class User extends Application {
     private static User instance;
     private Context context;
     private String firstName;
@@ -70,11 +73,16 @@ public class User {
         this.email = email;
     }
 
-    public Context getContext() { return context;}
 
     public boolean isAuthenticate(String email, String password){
         // TODO: implement this method
         return false;
+    }
+
+    /* Verify the password match */
+    //The password argument should not be hashed
+    private boolean verifyHashPassword(String password, String hashPW){
+        return BCrypt.checkpw(password, hashPW);
     }
 
     public void makeQuery(){

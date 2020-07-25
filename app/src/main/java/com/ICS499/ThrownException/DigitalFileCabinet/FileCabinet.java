@@ -18,10 +18,6 @@ public class FileCabinet extends Application {
     private DFCState state;
     private Context context;
 
-//    public Context getContext() {
-//        return context;
-//    }
-
     /* The instances of each state the file cabinet can be in */
     private AccountState accountState;
     private LoginState loginState;
@@ -66,7 +62,7 @@ public class FileCabinet extends Application {
             e.printStackTrace();
         }
     }
-    public void login() {
+    public void login(String email, String pwd) {
         /* Switch to login state and carry out the task */
         try {
             if (loginState == null) {
@@ -74,9 +70,8 @@ public class FileCabinet extends Application {
                 loginState = new LoginState();
             }
             changeState(loginState);
-            state.login();
+            state.login(email, pwd);
         } catch (Exception e) {
-            // TODO: handle the exception here
             e.printStackTrace();
         }
     }

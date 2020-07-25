@@ -17,7 +17,7 @@ public class LogoutState implements DFCState {
     public DFCState deleteAccount() {return null;}
 
     @Override
-    public DFCState login() {return null;}
+    public DFCState login(String email, String pwd) {return null;}
 
     @Override
     public DFCState openDoc() {return null;}

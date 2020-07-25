@@ -13,8 +13,10 @@ public class LoginState implements DFCState {
     }
 
     @Override
-    public DFCState login() {
+    public DFCState login(String email, String pwd) {
         // TODO : implementation goes here
+        /* make a query to database, retrieve user data for validation*/
+
         return this;
     }
 
