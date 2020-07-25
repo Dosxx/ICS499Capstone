@@ -39,7 +39,6 @@ public class FileCabinet extends Application {
 
     public DFCState createAccount() {
         /* Switch to the account state and carry out the task */
-
         if (accountState == null) {
             /* Instantiate in null */
             accountState = new AccountState(dfcUser);
@@ -63,7 +62,7 @@ public class FileCabinet extends Application {
             e.printStackTrace();
         }
     }
-    public void login() {
+    public void login(String email, String pwd) {
         /* Switch to login state and carry out the task */
         try {
             if (loginState == null) {
@@ -71,9 +70,8 @@ public class FileCabinet extends Application {
                 loginState = new LoginState();
             }
             changeState(loginState);
-            state.login();
+            state.login(email, pwd);
         } catch (Exception e) {
-            // TODO: handle the exception here
             e.printStackTrace();
         }
     }
@@ -164,5 +162,8 @@ public class FileCabinet extends Application {
     /* set up a user for the digital file cabinet */
     public void setUser(User user) {
         dfcUser = user;
+    }
+    public User getUser() {
+        return dfcUser;
     }
 }

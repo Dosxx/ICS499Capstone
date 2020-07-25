@@ -4,14 +4,15 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.content.Context;
+import android.app.Application;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 /*
  * This is a singleton class
  */
-public class User {
+public class User extends Application {
     private static User instance;
-    private Context context;
     private String firstName;
     private String lastName;
     private String email;
@@ -21,18 +22,17 @@ public class User {
     private QueryContext sqlContext;
 
     /* Ensure only one instance of this class is created */
-    private User(String firstName, String lastName, String email, String password, Context appContext){
+    private User(String firstName, String lastName, String email, String password){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        context = appContext;
     }
 
     public static User getUserInstance(String firstName, String lastName, String email,
-                                       String password, Context appContext){
+                                       String password){
         if(instance == null){
-            instance = new User(firstName, lastName, email, password, appContext.getApplicationContext());
+            instance = new User(firstName, lastName, email, password);
         }
         return instance;
     }
@@ -70,11 +70,16 @@ public class User {
         this.email = email;
     }
 
-    public Context getContext() { return context;}
 
     public boolean isAuthenticate(String email, String password){
         // TODO: implement this method
         return false;
+    }
+
+    /* Verify the password match */
+    //The password argument should not be hashed
+    private boolean verifyHashPassword(String password, String hashPW){
+        return BCrypt.checkpw(password, hashPW);
     }
 
     public void makeQuery(){

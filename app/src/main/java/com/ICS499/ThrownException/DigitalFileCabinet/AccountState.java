@@ -38,7 +38,7 @@ public class AccountState implements DFCState{
     /* Write user data in sql database and set the account to active */
         acctUser.makeQuery();
         setActive(true);
-        return null;
+        return this;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class AccountState implements DFCState{
     }
 
     @Override
-    public DFCState login() {return null;}
+    public DFCState login(String email, String pwd) {return null;}
 
     @Override
     public DFCState logout() {return null;}
