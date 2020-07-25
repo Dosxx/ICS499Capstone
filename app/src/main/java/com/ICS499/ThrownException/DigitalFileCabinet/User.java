@@ -6,8 +6,6 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.app.Application;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 /*
  * This is a singleton class
  */
@@ -75,11 +73,4 @@ public class User extends Application {
         // TODO: implement this method
         return false;
     }
-
-    /* Verify the password match */
-    //The password argument should not be hashed
-    private boolean verifyHashPassword(String password, String hashPW){
-        return BCrypt.checkpw(password, hashPW);
-    }
-
 }

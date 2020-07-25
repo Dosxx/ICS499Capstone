@@ -52,6 +52,6 @@ public class AddDocumentQueryBuilder implements QueryBuilder{
 
     @Override
     public void selectQuery() {
-
+        /* Will not be used */
     }
 }

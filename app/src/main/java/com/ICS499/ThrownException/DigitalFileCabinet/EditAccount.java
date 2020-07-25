@@ -6,9 +6,13 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.Context;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class EditAccount {
     private boolean isActive = false;
     private User acctUser;
+    private QueryContext sqlContext;
+    private QueryBuilder sqlBuilder;
 
     public EditAccount(User myUser){
         acctUser = myUser;
@@ -31,9 +35,11 @@ public class EditAccount {
         isActive = active;
     }
 */
-    public boolean createAccount(){
+    public boolean createAccount(Context context){
     /* Write user data in sql database and set the account to active */
-        acctUser.makeQuery();
+        sqlContext = new QueryContext();
+        sqlBuilder = new AddUserQueryBuilder(context.getApplicationContext(), acctUser);
+        makeQuery(this.acctUser, context, sqlBuilder);
 //        setActive(true);
         return true;
         //TODO get the return to not always be true.
@@ -45,18 +51,26 @@ public class EditAccount {
         return false;
     }
 
-    public boolean login(String email, String pwd) {return false;}
-
-    public void makeQuery(User user, Context context){
-        this.acctUser = user;
-        /* decide what query to make */
-        QueryContext sqlContext = new QueryContext();
-        QueryBuilder userQuery = new AddUserQueryBuilder(context.getApplicationContext(), acctUser);
-        sqlContext.setQueryBuilder(userQuery);
-        /*add user data into the database */
-        sqlContext.makeQuery();
-        /*Select a user data from database*/
-        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
+    public boolean login(String email, String pwd, Context context) {
+        sqlContext = new QueryContext();
+        sqlBuilder = new SelectUserQueryBuilder(context.getApplicationContext());
+        makeQuery(this.acctUser, context, sqlBuilder);
+        //TODO : validate the query result against user input
+        /* */
+        return this.acctUser.isAuthenticate(email, pwd);
     }
 
+    private void makeQuery(User user, Context context, QueryBuilder query){
+        this.acctUser = user;
+        /* decide what query to make */
+        sqlContext.setQueryBuilder(query);
+        /*add user data into the database */
+        sqlContext.makeQuery();
+    }
+
+    /* Verify the password match */
+    //The password argument should not be hashed
+    private boolean verifyHashPassword(String password, String hashPW){
+        return BCrypt.checkpw(password, hashPW);
+    }
 }
