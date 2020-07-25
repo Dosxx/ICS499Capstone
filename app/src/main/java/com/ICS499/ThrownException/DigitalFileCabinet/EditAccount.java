@@ -4,6 +4,8 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.content.Context;
+
 public class EditAccount {
     private boolean isActive = false;
     private User acctUser;
@@ -32,7 +34,7 @@ public class EditAccount {
     public boolean createAccount(){
     /* Write user data in sql database and set the account to active */
         acctUser.makeQuery();
-        setActive(true);
+//        setActive(true);
         return true;
         //TODO get the return to not always be true.
     }
@@ -43,14 +45,15 @@ public class EditAccount {
         return false;
     }
 
-    public DFCState login(String email, String pwd) {return null;}
+    public boolean login(String email, String pwd) {return false;}
 
-    public void makeQuery(User user){
+    public void makeQuery(User user, Context context){
+        this.acctUser = user;
         /* decide what query to make */
-        sqlContext = new QueryContext();
-        sqlContext.setQueryBuilder(addQuery);
+        QueryContext sqlContext = new QueryContext();
+        QueryBuilder userQuery = new AddUserQueryBuilder(context.getApplicationContext(), acctUser);
+        sqlContext.setQueryBuilder(userQuery);
         /*add user data into the database */
-        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
         sqlContext.makeQuery();
         /*Select a user data from database*/
         selectQuery = new SelectUserQueryBuilder(getApplicationContext());

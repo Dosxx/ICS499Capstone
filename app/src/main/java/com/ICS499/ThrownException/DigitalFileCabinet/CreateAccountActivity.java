@@ -16,7 +16,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Context myContext;
     private User dfcUser;
     private FileCabinet cabinet;
-    private DFCState state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

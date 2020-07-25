@@ -9,7 +9,7 @@ public class QueryContext {
     QueryBuilder sqlContext;
 
     public void makeQuery(){
-        sqlContext.buildQuery();
+        sqlContext.addQuery();
     }
     public void setQueryBuilder(QueryBuilder sqlBuilder){
         this.sqlContext = sqlBuilder;

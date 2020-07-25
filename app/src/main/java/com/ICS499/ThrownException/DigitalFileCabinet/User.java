@@ -82,14 +82,4 @@ public class User extends Application {
         return BCrypt.checkpw(password, hashPW);
     }
 
-    public void makeQuery(){
-        /* decide what query to make */
-//        sqlContext = new QueryContext();
-//        sqlContext.setQueryBuilder(addQuery);
-//        /*add user data into the database */
-//        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
-//        sqlContext.makeQuery();
-//        /*Select a user data from database*/
-//        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
-    }
 }

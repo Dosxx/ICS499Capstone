@@ -32,7 +32,7 @@ class EditDocument {
         // TODO : implementation goes here
     }
 
-    public Document makeQuery() {
+    public Document makeQuery(Document document, String action) {
         return null;
     }
 }
