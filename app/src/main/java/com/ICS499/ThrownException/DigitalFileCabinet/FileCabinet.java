@@ -18,6 +18,7 @@ public class FileCabinet extends Application {
     private Context context;
 
     /* The instances of each state the file cabinet can be in */
+
     private EditAccount editAccount;
     private EditDocument editDocument;
     private FileBrower fileBrower;
@@ -33,7 +34,6 @@ public class FileCabinet extends Application {
         }
         return cabinet;
     }
-
 
     /* set up a user for the digital file cabinet */
     public void setUser(User user) {
@@ -54,7 +54,6 @@ public class FileCabinet extends Application {
     public Context getContext() {
         return context;
     }
-
     public void setContext(Context context) {
         this.context = context;
     }
