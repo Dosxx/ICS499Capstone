@@ -24,6 +24,18 @@ public class LoginState implements DFCState {
     public DFCState createAccount() {return null;}
 
     @Override
+    public void makeQuery(){
+        /* decide what query to make */
+        sqlContext = new QueryContext();
+        sqlContext.setQueryBuilder(addQuery);
+        /*add user data into the database */
+        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
+        sqlContext.makeQuery();
+        /*Select a user data from database*/
+        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
+    }
+
+    @Override
     public DFCState deleteAccount() {return null;}
 
     @Override

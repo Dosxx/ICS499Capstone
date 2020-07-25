@@ -4,18 +4,12 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-public class AccountState implements DFCState{
+public class EditAccount {
     private boolean isActive = false;
     private User acctUser;
 
-
-    public AccountState(User myUser){
+    public EditAccount(User myUser){
         acctUser = myUser;
-    }
-
-    @Override
-    public void setState(DFCContext context) {
-        context.setState(this);
     }
 
     public User getAcctUser() {
@@ -26,22 +20,23 @@ public class AccountState implements DFCState{
         this.acctUser = acctUser;
     }
 
-    public boolean isActive() {
+    //These methods refer to the isActive field. Not sure if we still need this field.
+ /*   public boolean isActive() {
         return isActive;
     }
 
     public void setActive(boolean active) {
         isActive = active;
     }
-
-    public DFCState createAccount(){
+*/
+    public boolean createAccount(){
     /* Write user data in sql database and set the account to active */
         acctUser.makeQuery();
         setActive(true);
-        return this;
+        return true;
+        //TODO get the return to not always be true.
     }
 
-    @Override
     public DFCState deleteAccount() {
         /* Delete the user and account from database */
         // TODO: remove the account data from the database
@@ -51,30 +46,15 @@ public class AccountState implements DFCState{
     @Override
     public DFCState login(String email, String pwd) {return null;}
 
-    @Override
-    public DFCState logout() {return null;}
-
-    @Override
-    public DFCState openDoc() {return null;}
-
-    @Override
-    public DFCState saveDoc() {return null;}
-
-    @Override
-    public DFCState createDoc() {return null;}
-
-    @Override
-    public DFCState importDoc() {return null;}
-
-    @Override
-    public DFCState browse() {return null;}
-
-    @Override
-    public DFCState deleteDoc() {return null;}
-
-    @Override
-    public DFCState makeQuery() {
-        return null;
+    public void makeQuery(User user){
+        /* decide what query to make */
+        sqlContext = new QueryContext();
+        sqlContext.setQueryBuilder(addQuery);
+        /*add user data into the database */
+        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
+        sqlContext.makeQuery();
+        /*Select a user data from database*/
+        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
     }
 
 }
