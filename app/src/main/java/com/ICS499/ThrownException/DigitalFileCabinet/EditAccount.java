@@ -37,13 +37,12 @@ public class EditAccount {
         //TODO get the return to not always be true.
     }
 
-    public DFCState deleteAccount() {
+    public boolean deleteAccount() {
         /* Delete the user and account from database */
         // TODO: remove the account data from the database
-        return null;
+        return false;
     }
 
-    @Override
     public DFCState login(String email, String pwd) {return null;}
 
     public void makeQuery(User user){

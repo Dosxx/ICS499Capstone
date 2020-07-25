@@ -20,9 +20,8 @@ public class FileCabinet extends Application {
 
     /* The instances of each state the file cabinet can be in */
     private AccountState accountState;
-    private LoginState loginState;
     private EditDocument documentEditState;
-    private BrowseState browseState;
+    private FileBrowser browseState;
 
     private FileCabinet(Context context) {
         this.context = context.getApplicationContext();
@@ -62,17 +61,6 @@ public class FileCabinet extends Application {
         }
     }
     public void login(String email, String pwd) {
-        /* Switch to login state and carry out the task */
-        try {
-            if (loginState == null) {
-                /* Instantiate in null */
-                loginState = new LoginState();
-            }
-            changeState(loginState);
-            state.login(email, pwd);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
     public void logout() {
         /* Switch to logout state and carry out the task */
@@ -124,7 +112,7 @@ public class FileCabinet extends Application {
         try {
             if (browseState == null) {
                 /* Instantiate in null */
-                browseState = new BrowseState();
+                browseState = new FileBrowser();
             }
             changeState(browseState);
             state.browse();
