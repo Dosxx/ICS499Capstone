@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,6 +34,8 @@ public class DFCHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO : display the user profile (first, last name, email)
+                Toast.makeText(getApplicationContext(),"hello you are new!",
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
