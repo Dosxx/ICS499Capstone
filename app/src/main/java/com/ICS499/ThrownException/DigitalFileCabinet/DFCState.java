@@ -6,16 +6,16 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 
 public interface DFCState {
     /* Interfaces that the states need to implement individually */
-    public void setState(DFCContext context);
-    public DFCState createAccount();
-    public DFCState deleteAccount();
-    public DFCState login();
-    public DFCState logout();
-    public DFCState openDoc();
-    public DFCState saveDoc();
-    public DFCState createDoc();
-    public DFCState importDoc();
-    public DFCState browse();
-    public DFCState deleteDoc();
-    public DFCState makeQuery();
+    void setState(DFCContext context);
+    DFCState createAccount();
+    DFCState deleteAccount();
+    DFCState login(String email, String password);
+    DFCState logout();
+    DFCState openDoc();
+    DFCState saveDoc();
+    DFCState createDoc();
+    DFCState importDoc();
+    DFCState browse();
+    DFCState deleteDoc();
+    DFCState makeQuery();
 }

@@ -20,12 +20,14 @@ public class DFCHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        cabinet= (FileCabinet) getApplication();
-        Log.d(TAG, cabinet.getApplicationInfo().toString());
+        cabinet = FileCabinet.getInstance(getApplication());
+
+        Log.d(TAG, cabinet.getUser().getFirstName());
+//
         final TextView userName = findViewById(R.id.profile_view);
         final Button profileButton = findViewById(R.id.profile_button);
         /*show the logged in user name */
-        userName.setText(R.string.welcome);
+        userName.setText(String.format("%s %s", cabinet.getUser().getFirstName(), cabinet.getUser().getLastName()));
 
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
