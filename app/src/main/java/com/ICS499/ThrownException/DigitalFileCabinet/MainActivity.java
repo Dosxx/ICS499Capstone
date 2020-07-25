@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         final LogInModel model = new LogInModel();
         model.inputValidation(emailEditText,passwordEditText);
 
-        cabinet.login(model.getEmail(), model.getPwd());
         /* Defines the action listener on sign in button click */
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
