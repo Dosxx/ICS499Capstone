@@ -57,6 +57,7 @@
     <string name="small_scaled_image">Small (Scaled) image</string>
     <string name="small_scale_image">small scaled image view</string>
     <string name="original_image">original_image</string>
+    <string name="profile_detail">Profile detail</string>
 
 
 </resources>
