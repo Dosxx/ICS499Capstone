@@ -57,10 +57,25 @@
                 android:textSize="16sp"/>
 
             <ImageView
+                android:id="@+id/captureImageSmall"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:contentDescription="@string/small_scale_image" />
+                android:contentDescription="@string/app_name"
+                android:adjustViewBounds="false"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/original_image"
+                android:textColor="@color/colorButton"
+                android:textSize="16sp"/>
+            <ImageView
+                android:id="@+id/captureImageOriginal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:contentDescription="@string/app_name"/>
 
         </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -69,7 +70,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                         Log.d(TAG, cabinet.getUser().getFirstName());
                         Toast.makeText(getApplicationContext(), "Welcome "+dfcUser.getLastName(),
                                 Toast.LENGTH_LONG).show();
-                        Intent HomeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
+//                        Intent HomeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
+                        Intent HomeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
                         startActivity(HomeActivityIntent);
                     }else {
                         Toast.makeText(getApplicationContext(), "Please provide valid input only",
