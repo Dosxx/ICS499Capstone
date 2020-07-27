@@ -7,14 +7,17 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 public class QueryContext {
     /* Attributes */
     private QueryBuilder sqlBuilder;
-    private boolean hasResult = false;
+    private User queryResult;
 
-    public void makeQuery(){
+    public Object makeQuery(){
         if(sqlBuilder instanceof AddUserQueryBuilder) {
-            sqlBuilder.addQuery();
+            queryResult = (User) sqlBuilder.addQuery();
+            return queryResult;
         }else if(sqlBuilder instanceof SelectUserQueryBuilder){
-            hasResult = sqlBuilder.selectQuery();
+            queryResult = (User)sqlBuilder.selectQuery();
+            return queryResult;
         }
+        return null;
     }
     public void setQueryBuilder(QueryBuilder sqlBuilder){
         this.sqlBuilder = sqlBuilder;

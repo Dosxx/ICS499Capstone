@@ -7,7 +7,7 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
-public class AddDocumentQueryBuilder implements QueryBuilder{
+public class AddDocumentQueryBuilder extends QueryBuilder{
     /* Create an instance of the database */
     private Document document;
     private DFCAccountDBHelper DFCDatabase;
@@ -23,7 +23,7 @@ public class AddDocumentQueryBuilder implements QueryBuilder{
     }
 
     @Override
-    public void addQuery() {
+    public Document addQuery() {
         /* Gets the database into write mode */
         SQLiteDatabase db = DFCDatabase.getWritableDatabase();
 
@@ -37,11 +37,12 @@ public class AddDocumentQueryBuilder implements QueryBuilder{
 
         /* Insert the new row, returning the primary key value of the new row */
         document.setDocumentID(db.insert(DocumentReaderContract.DocumentEntry.TABLE_NAME, null, values));
+        return document;
     }
 
     @Override
-    public boolean selectQuery() {
+    public Object selectQuery() {
         /* Will not be used */
-        return false;
+        return null;
     }
 }

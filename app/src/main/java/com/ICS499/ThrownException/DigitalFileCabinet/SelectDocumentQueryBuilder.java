@@ -7,11 +7,14 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class SelectDocumentQueryBuilder implements QueryBuilder {
+public class SelectDocumentQueryBuilder extends QueryBuilder {
 
     private DFCAccountDBHelper dbHelper;
     private ArrayList<Document> queryResultList = new ArrayList<>();
@@ -21,13 +24,14 @@ public class SelectDocumentQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public long addQuery() {
+    public Object addQuery() {
         /* Will not be use */
-        return 0;
+        return null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public ArrayList<Document> selectQuery() {
+    public Document selectQuery() {
         /* Make a query to the database to get the document data */
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -63,13 +67,10 @@ public class SelectDocumentQueryBuilder implements QueryBuilder {
         /* retrieve the data from the cursor */
         //TODO: define what data need to be retrieve
         //TODO: build document form the query result and return in arraylist
-
+        Document result = null;
         while(cursor.moveToNext()) {
             String document_Id = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry._ID));
-            //TODO : convert the blob into a file
-//            File file = new File(cursor.getString(
-//                    cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_OBJECT)));
             String document_name = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_NAME));
             String createDate = cursor.getString(
@@ -78,9 +79,9 @@ public class SelectDocumentQueryBuilder implements QueryBuilder {
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LAST_MODIFIED));
             String location = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LOCATION));
-
+            result = new Document(document_name, location, new File(location));
         }
         cursor.close();
-        return ;
+        return result;
     }
 }

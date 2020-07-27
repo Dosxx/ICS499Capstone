@@ -26,7 +26,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
         myContext = getApplicationContext();
         cabinet = FileCabinet.getInstance(myContext);
-        dbHelper =
+//        dbHelper =
         Log.d(TAG, "onCreate: Started.");
 
         final Button createAccountButton = findViewById(R.id.create_account_button);
