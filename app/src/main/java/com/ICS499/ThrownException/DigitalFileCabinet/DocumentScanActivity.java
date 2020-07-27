@@ -1,6 +1,7 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,11 +27,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DocumentViewActivity extends AppCompatActivity {
+public class DocumentScanActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 2;
     private String currentImagePath;
     private ImageView imageSmall, imageOriginal;
+    private Document document;
+    private Context myContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class DocumentViewActivity extends AppCompatActivity {
                         != PackageManager.PERMISSION_GRANTED) {
 
                     ActivityCompat.requestPermissions(
-                            DocumentViewActivity.this,
+                            DocumentScanActivity.this,
                             new String[]{
                                     Manifest.permission.CAMERA,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE
