@@ -17,6 +17,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Context myContext;
     private User dfcUser;
     private FileCabinet cabinet;
+    private DFCAccountDBHelper dbHelper;
+    private EditAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
         myContext = getApplicationContext();
         cabinet = FileCabinet.getInstance(myContext);
+        dbHelper =
         Log.d(TAG, "onCreate: Started.");
 
         final Button createAccountButton = findViewById(R.id.create_account_button);
@@ -37,17 +40,17 @@ public class CreateAccountActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* take user to the app */
+                /* take user to the log in UI */
                 Intent loginIntent = new Intent(myContext, MainActivity.class);
                 Log.i(TAG, "moving now");
-                Toast.makeText(getApplicationContext(), "Account creation canceled!",
+                Toast.makeText(myContext, "Action canceled!",
                         Toast.LENGTH_SHORT).show();
                 startActivity(loginIntent);
             }
         });
 
         /* Validate input */
-        final CreateAccountModel createModel = new CreateAccountModel();
+        final CreateAccountValidator createModel = new CreateAccountValidator();
         createModel.inputValidation(firstNameEditText,lastNameEditText, emailEditText, passwordEditText, password2EditText);
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
@@ -68,11 +71,13 @@ public class CreateAccountActivity extends AppCompatActivity {
                         // TODO: need working
 
                         Log.d(TAG, cabinet.getUser().getFirstName());
-                        Toast.makeText(getApplicationContext(), "Welcome "+dfcUser.getLastName(),
-                                Toast.LENGTH_LONG).show();
-//                        Intent HomeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
-                        Intent HomeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
-                        startActivity(HomeActivityIntent);
+                        Toast.makeText(getApplicationContext(), "Welcome "+
+                                        dfcUser.getLastName(),
+                                        Toast.LENGTH_SHORT).show();
+                        /* Redirect the user to the home activity */
+                        Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
+//                        Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
+                        startActivity(homeActivityIntent);
                     }else {
                         Toast.makeText(getApplicationContext(), "Please provide valid input only",
                                 Toast.LENGTH_LONG).show();

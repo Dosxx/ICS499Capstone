@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class DFCHomeActivity extends AppCompatActivity {
     private FileCabinet cabinet;
+    private User accountUser = null;
     public static final String TAG = "DFCHomeActivity";
 
     @Override
@@ -22,22 +23,36 @@ public class DFCHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         cabinet = FileCabinet.getInstance(getApplication());
+        accountUser = cabinet.getUser();
+//        Intent loginIntent = getIntent();
+//        Deneme dene = (Deneme)i.getSerializableExtra("sampleObject");
+        Log.d(TAG, accountUser.getFirstName());
 
-        Log.d(TAG, cabinet.getUser().getFirstName());
-//
-        final TextView userName = findViewById(R.id.profile_view);
+        final TextView userName = findViewById(R.id.profile_name_textView);
+        final TextView userProfile = findViewById(R.id.profileDetailTextView);
         final Button profileButton = findViewById(R.id.profile_button);
+
         /*show the logged in user name */
-        userName.setText(String.format("%s %s", cabinet.getUser().getFirstName(), cabinet.getUser().getLastName()));
+        if (accountUser != null) {
+            userName.setText(String.format("%s %s", accountUser.getFirstName(),
+                                accountUser.getLastName()));
+        }
 
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO : display the user profile (first, last name, email)
-                Toast.makeText(getApplicationContext(),"hello you are new!",
-                        Toast.LENGTH_LONG).show();
+                if(accountUser != null) {
+                    userProfile.setText(accountUser.toString());
+                }else {
+                    Toast.makeText(cabinet.getContext(),"Profile Not Available",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
 }

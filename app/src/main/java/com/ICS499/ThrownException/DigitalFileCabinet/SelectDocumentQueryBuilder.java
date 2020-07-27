@@ -8,9 +8,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.File;
+import java.util.ArrayList;
+
 public class SelectDocumentQueryBuilder implements QueryBuilder {
 
     private DFCAccountDBHelper dbHelper;
+    private ArrayList<Document> queryResultList = new ArrayList<>();
 
     public SelectDocumentQueryBuilder(Context appContext){
         dbHelper = new DFCAccountDBHelper(appContext);
@@ -23,7 +27,7 @@ public class SelectDocumentQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public void selectQuery() {
+    public ArrayList<Document> selectQuery() {
         /* Make a query to the database to get the document data */
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -58,12 +62,25 @@ public class SelectDocumentQueryBuilder implements QueryBuilder {
 
         /* retrieve the data from the cursor */
         //TODO: define what data need to be retrieve
+        //TODO: build document form the query result and return in arraylist
+
         while(cursor.moveToNext()) {
+            String document_Id = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry._ID));
+            //TODO : convert the blob into a file
+//            File file = new File(cursor.getString(
+//                    cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_OBJECT)));
             String document_name = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_NAME));
-            String document_object = cursor.getString(
-                    cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_OBJECT));
+            String createDate = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_CREATE_DATE));
+            String editDate = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LAST_MODIFIED));
+            String location = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LOCATION));
+
         }
         cursor.close();
+        return ;
     }
 }

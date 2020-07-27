@@ -5,27 +5,17 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 public class AddDocumentQueryBuilder implements QueryBuilder{
     /* Create an instance of the database */
-    private DFCAccountDBHelper dbHelper;
-
     private Document document;
-    private long documentID;
+    private DFCAccountDBHelper DFCDatabase;
 
-    public AddDocumentQueryBuilder(Context appContext, Document document){
+    public AddDocumentQueryBuilder(DFCAccountDBHelper DBHelper, Document document){
         this.document = document;
         /* Initialize the database helper instance */
-        dbHelper = new DFCAccountDBHelper(appContext);
-    }
-
-    public long getDocumentID(){
-        return documentID;
-    }
-    public void setDocument(Document doc){
-        document = doc;
+        DFCDatabase = DBHelper;
     }
 
     public Document getDocument(){
@@ -33,9 +23,9 @@ public class AddDocumentQueryBuilder implements QueryBuilder{
     }
 
     @Override
-    public long addQuery() {
+    public void addQuery() {
         /* Gets the database into write mode */
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = DFCDatabase.getWritableDatabase();
 
         /* Create a new map of values, where column names are the keys */
         ContentValues values = new ContentValues();
@@ -46,12 +36,12 @@ public class AddDocumentQueryBuilder implements QueryBuilder{
         values.put(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LOCATION, document.getFilePath());
 
         /* Insert the new row, returning the primary key value of the new row */
-        documentID = db.insert(DocumentReaderContract.DocumentEntry.TABLE_NAME, null, values);
-        return documentID;
+        document.setDocumentID(db.insert(DocumentReaderContract.DocumentEntry.TABLE_NAME, null, values));
     }
 
     @Override
-    public void selectQuery() {
+    public boolean selectQuery() {
         /* Will not be used */
+        return false;
     }
 }

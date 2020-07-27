@@ -5,6 +5,6 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 public interface QueryBuilder {
-    long addQuery();
-    void selectQuery();
+    void addQuery();
+    boolean selectQuery();
 }

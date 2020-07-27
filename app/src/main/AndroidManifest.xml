@@ -23,7 +23,6 @@
         <activity android:name=".DFCHomeActivity" />
         <activity android:name=".EditDocumentActivity" />
         <activity android:name=".DocumentViewActivity" />
-        <activity android:name=".LoginActivity" />
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

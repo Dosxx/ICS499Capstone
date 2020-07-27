@@ -16,18 +16,24 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * The digital file cabinet start here at the login UI
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     private Context myContext;
     private FileCabinet cabinet;
+    private User authenticatedUser;
+    /* Instance of the DFC database */
+    private DFCAccountDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        dbHelper = new DFCAccountDBHelper(myContext);
         myContext = getApplicationContext();
-        cabinet = FileCabinet.getInstance(myContext);
         Log.d(TAG, "onCreate: Started.");
 
         final Button signUpButton = findViewById(R.id.sign_up_button);
@@ -41,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 /* Switch the context to the create activity view */
-
                 Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
                 startActivity(createAccountIntent);
                 Log.i(TAG, "moving now");
@@ -49,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /*validate input */
-        final LogInModel model = new LogInModel();
+        final LoginValidator model = new LoginValidator();
         model.inputValidation(emailEditText,passwordEditText);
 
         /* Defines the action listener on sign in button click */
@@ -57,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO : handle the log in process in here
+                // TODO : retrieve user info from database upon success
+                // if authenticated then do this below
+                if (true) {
+                    cabinet = FileCabinet.getInstance(myContext);
+                    Intent homeActivityIntent = new Intent(cabinet, DFCHomeActivity.class);
+//                homeActivityIntent.putExtra("authenticatedUser", )
+                    startActivity(homeActivityIntent);
+                    Toast.makeText(cabinet, "Welcome!", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -68,5 +82,9 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -4,7 +4,6 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -12,37 +11,48 @@ public class SelectUserQueryBuilder implements  QueryBuilder{
     /* Make a query to the database to get the user data */
 
     private DFCAccountDBHelper dbHelper;
+    private User foundUser;
+    private String email;
 
-    public SelectUserQueryBuilder(Context appContext){
-        dbHelper = new DFCAccountDBHelper(appContext);
+    public SelectUserQueryBuilder(DFCAccountDBHelper dbHelper, String email){
+        this.dbHelper = dbHelper;
+        this.email = email;
     }
 
+    public User getFoundUser() {
+        return foundUser;
+    }
 
     @Override
-    public long addQuery() {
+    public void addQuery() {
         /* Will not be used */
-        return 0;
     }
 
     @Override
-    public void selectQuery() {
+    public boolean selectQuery() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
                 UserReaderContract.UserEntry._ID,
+                UserReaderContract.UserEntry.COLUMN_NAME_FIRST_NAME,
+                UserReaderContract.UserEntry.COLUMN_NAME_LAST_NAME,
                 UserReaderContract.UserEntry.COLUMN_NAME_EMAIL,
                 UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD
         };
 
-        // Filter results WHERE "title" = 'My Title'
+        // Filter results WHERE "email" = 'email' and "Password" = 'password'
         String selection = UserReaderContract.UserEntry.COLUMN_NAME_EMAIL + " = ?";
-        String[] selectionArgs = { "email" };
+        String[] selectionArgs = {email};
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
-                UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD + " DESC";
+                UserReaderContract.UserEntry._ID+ " DESC";
+
+//        Cursor cursor = db.rawQuery("SELECT * FROM "+
+//                UserReaderContract.UserEntry.TABLE_NAME,
+//                null);
 
         Cursor cursor = db.query(
                 UserReaderContract.UserEntry.TABLE_NAME,   // The table to query
@@ -55,13 +65,24 @@ public class SelectUserQueryBuilder implements  QueryBuilder{
         );
 
         /* retrieve the data from the cursor */
-        //TODO: define what data need retrieving from DB
-        while(cursor.moveToNext()) {
-            String email = cursor.getString(
-                    cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_EMAIL));
-            String pass = cursor.getString(
-                    cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD));
+        if(cursor.getCount() < 1){
+            return false;
+        }else {
+            while(cursor.moveToNext()) {
+                long userID = cursor.getLong(cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry._ID));
+                String firstName = cursor.getString(
+                        cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_FIRST_NAME));
+                String lastName = cursor.getString(
+                        cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_LAST_NAME));
+                String email = cursor.getString(
+                        cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_EMAIL));
+                String password = cursor.getString(
+                        cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD));
+                foundUser = User.getUserInstance(firstName, lastName, email, password);
+                foundUser.setUser_id(userID);
+            }
+            cursor.close();
+            return foundUser.getUser_id()!= 0;
         }
-        cursor.close();
     }
 }

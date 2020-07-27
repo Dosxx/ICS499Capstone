@@ -14,50 +14,38 @@ public class EditAccount {
     private QueryContext sqlContext;
     private QueryBuilder sqlBuilder;
 
-    public EditAccount(User myUser){
-        acctUser = myUser;
-    }
 
-    public User getAcctUser() {
-        return acctUser;
-    }
-
-    public void setAcctUser(User acctUser) {
-        this.acctUser = acctUser;
-    }
-
-    //These methods refer to the isActive field. Not sure if we still need this field.
- /*   public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-*/
-    public boolean createAccount(Context context){
+    public boolean createAccount(DFCAccountDBHelper dbHelper, User user){
     /* Write user data in sql database and set the account to active */
+        acctUser = user;
         sqlContext = new QueryContext();
-        sqlBuilder = new AddUserQueryBuilder(context.getApplicationContext(), acctUser);
-        makeQuery(this.acctUser, context, sqlBuilder);
-//        setActive(true);
-        return true;
-        //TODO get the return to not always be true.
+        sqlBuilder = new AddUserQueryBuilder(dbHelper, acctUser);
+        sqlContext.setQueryBuilder(sqlBuilder);
+        sqlContext.makeQuery();
+        if (acctUser.getUser_id() != 0) {
+            setActive(true);
+        }
+        return isActive;
     }
 
     public boolean deleteAccount() {
         /* Delete the user and account from database */
         // TODO: remove the account data from the database
-        return false;
+        setActive(false);
+        return isActive;
     }
 
-    public boolean login(String email, String pwd, Context context) {
+    public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd, Context context) {
         sqlContext = new QueryContext();
-        sqlBuilder = new SelectUserQueryBuilder(context.getApplicationContext());
-        makeQuery(this.acctUser, context, sqlBuilder);
+        /*find user in the database */
+        sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
+        sqlContext.setQueryBuilder(sqlBuilder);
+        sqlContext.makeQuery();
+
         //TODO : validate the query result against user input
         /* */
-        return this.acctUser.isAuthenticate(email, pwd);
+        sqlBuilder.
+        return
     }
 
     private void makeQuery(User user, Context context, QueryBuilder query){
@@ -73,4 +61,10 @@ public class EditAccount {
     private boolean verifyHashPassword(String password, String hashPW){
         return BCrypt.checkpw(password, hashPW);
     }
+
+    //These methods refer to the isActive field. Not sure if we still need this field.
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
 }
