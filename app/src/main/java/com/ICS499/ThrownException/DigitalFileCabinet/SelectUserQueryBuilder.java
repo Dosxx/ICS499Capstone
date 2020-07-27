@@ -44,8 +44,8 @@ public class SelectUserQueryBuilder extends QueryBuilder{
         };
 
         // Filter results WHERE "email" = 'email' and "Password" = 'password'
-        String selection = UserReaderContract.UserEntry.COLUMN_NAME_EMAIL + " = ?";
-        String[] selectionArgs = {email};
+//        String selection = UserReaderContract.UserEntry.COLUMN_NAME_EMAIL + " = ?";
+//        String[] selectionArgs = {email};
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
@@ -58,8 +58,8 @@ public class SelectUserQueryBuilder extends QueryBuilder{
 //        Cursor cursor = db.query(
 //                UserReaderContract.UserEntry.TABLE_NAME,   // The table to query
 //                projection,             // The array of columns to return (pass null to get all)
-//                selection,              // The columns for the WHERE clause
-//                selectionArgs,          // The values for the WHERE clause
+//                null,              // The columns for the WHERE clause
+//                null,          // The values for the WHERE clause
 //                null,          // don't group the rows
 //                null,           // don't filter by row groups
 //                sortOrder              // The sort order
@@ -84,6 +84,7 @@ public class SelectUserQueryBuilder extends QueryBuilder{
                 break;
             }
             cursor.close();
+            /* Return the first user in the database */
             return foundUser;
         }
     }
