@@ -18,7 +18,7 @@ import java.util.List;
 public class SelectDocumentQueryBuilder extends QueryBuilder {
 
     private DFCAccountDBHelper dbHelper;
-    private ArrayList<Document>   queryResultList = new ArrayList<>();
+    private ArrayList<Document> queryResultList = new ArrayList<>();
 
     public SelectDocumentQueryBuilder(Context appContext){
         dbHelper = new DFCAccountDBHelper(appContext);
@@ -65,6 +65,7 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         );
 
         /* retrieve the data from the cursor */
+        Document result = null;
         while(cursor.moveToNext()) {
             String document_Id = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry._ID));
