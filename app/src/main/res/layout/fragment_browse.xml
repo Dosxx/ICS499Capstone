@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="45sp"
-        android:text="@string/Scan"
+        android:text="@string/browse"
         android:textStyle="bold"/>
 
     <TextView
@@ -26,7 +26,7 @@
         android:textSize="12sp"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="@string/edit_fragment_Scan_xml_to_change_the_appearance"
+        android:text="@string/edit_fragment_browse_xml_to_change_the_appearance"
         android:id="@+id/textView2" />
 
 </RelativeLayout>
