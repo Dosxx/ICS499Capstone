@@ -18,7 +18,7 @@ import java.util.List;
 public class SelectDocumentQueryBuilder extends QueryBuilder {
 
     private DFCAccountDBHelper dbHelper;
-    private ArrayList<Document>  documentsResult = new ArrayList<>();
+    private ArrayList<Document>   queryResultList = new ArrayList<>();
 
     public SelectDocumentQueryBuilder(Context appContext){
         dbHelper = new DFCAccountDBHelper(appContext);
@@ -26,7 +26,7 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
 
     @Override
     public Object addQuery() {
-        /* Will not be use */
+        /* Will not be used */
         return null;
     }
 
@@ -35,7 +35,6 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
     public List<Document> selectQuery() {
         /* Make a query to the database to get the document data */
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -77,7 +76,7 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LAST_MODIFIED));
             String location = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LOCATION));
-            result = new Document(document_name, location, new File(location));
+            Document result = new Document(document_name, location, new File(location));
             queryResultList.add(result);
         }
         cursor.close();
