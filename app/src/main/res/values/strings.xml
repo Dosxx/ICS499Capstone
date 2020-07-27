@@ -51,6 +51,35 @@
     <string name="page_title_document_view">Document View</string>
     <string name="created_date">date created: </string>
     <string name="page_title_save_document">Save Document</string>
+    <string name="take_picture">Scan</string>
+    <string name="scan_document">take a picture of the document</string>
+    <string name="capture_image">scan document</string>
+    <string name="small_scaled_image">Small (Scaled) image</string>
+    <string name="small_scale_image">small scaled image view</string>
+    <string name="original_image">original_image</string>
+    <string name="profile_detail">Profile detail</string>
+    <string name="navigation_item_name">Item Name</string>
+    <string name="decrypt">Decrypt</string>
+    <string name="edit_fragment_decrypt_xml_to_change_the_appearance">Edit fragment_decrypt.xml to change the appearance</string>
+    <string name="edit_fragment_browse_xml_to_change_the_appearance">Edit fragment_decrypt.xml to change the appearance</string>
+    <string name="browse">Browse file DB</string>
+    <string name="edit_fragment_edit_xml_to_change_the_appearance">Edit fragment_decrypt.xml to change the appearance</string>
+    <string name="edit">edit</string>
+    <string name="encrypt">encrypt</string>
+    <string name="edit_fragment_encrypt_xml_to_change_the_appearance">Edit fragment_encrypt.xml to change the appearance</string>
+    <string name="edit_fragment_Import_xml_to_change_the_appearance">Edit fragment_Import.xml to change the appearance</string>
+    <string name="edit_fragment_logout_xml_to_change_the_appearance">Edit fragment_logout.xml to change the appearance</string>
+    <string name="edit_fragment_Scan_xml_to_change_the_appearance">Edit fragment_Scan.xml to change the appearance</string>
 
+
+    <string-array name="navigation_drawer_items_array">
+        <item>Scan</item>
+        <item>Import</item>
+        <item>Encrypt</item>
+        <item>Decrypt</item>
+        <item>Browse</item>
+        <item>Edit</item>
+        <item>Logout</item>
+    </string-array>
 
 </resources>

@@ -11,11 +11,9 @@ public final class DocumentReaderContract {
     /* define the create table query as a constant */
     public static final String CREATE_TABLE =
         "CREATE TABLE "+ DocumentEntry.TABLE_NAME + " ("+
-        DocumentEntry._ID + " INTEGER PRIMARY KEY AUTOINCREAMENT NOT NULL, " +
-        DocumentEntry.COLUMN_NAME_USER_ID + " INTEGER NOT NULL," +
-        " FOREIGN KEY ("+ DocumentEntry.COLUMN_NAME_USER_ID +") REFERENCES "+
+        DocumentEntry._ID + " INTEGER PRIMARY KEY, " +
         DocumentEntry.COLUMN_NAME_DOCUMENT_NAME + " TEXT," +
-        DocumentEntry.COLUMN_NAME_CREATE_DATE + " TEXT NOT NULL," +
+        DocumentEntry.COLUMN_NAME_CREATE_DATE + " TEXT," +
         DocumentEntry.COLUMN_NAME_DOCUMENT_OBJECT+ " BLOB," +
         DocumentEntry.COLUMN_NAME_LAST_MODIFIED + " TEXT," +
         DocumentEntry.COLUMN_NAME_LOCATION + " TEXT);";
@@ -30,7 +28,6 @@ public final class DocumentReaderContract {
     /* This class defines the document table contents */
     public static class DocumentEntry implements BaseColumns {
         public static final String TABLE_NAME = "Document_table";
-        public static final String COLUMN_NAME_USER_ID = "user_id";
         public static final String COLUMN_NAME_DOCUMENT_NAME = "document_name";
         public static final String COLUMN_NAME_CREATE_DATE= "create_date";
         public static final String COLUMN_NAME_DOCUMENT_OBJECT= "document_object";

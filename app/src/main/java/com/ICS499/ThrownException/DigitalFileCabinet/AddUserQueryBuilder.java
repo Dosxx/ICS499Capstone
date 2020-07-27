@@ -7,38 +7,26 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-public class AddUserQueryBuilder implements QueryBuilder{
+public class AddUserQueryBuilder extends QueryBuilder{
     /* Create an instance of the database */
-    private DFCAccountDBHelper dbHelper;
-
-    /* The id of the added user */
-    private long userID;
+    private DFCAccountDBHelper DFCDatabase;
     private User user;
 
-    public AddUserQueryBuilder(Context appContext, User user){
-        dbHelper = new DFCAccountDBHelper(appContext);
+    public AddUserQueryBuilder(DFCAccountDBHelper DBHelper, User user){
         this.user = user;
+        this.DFCDatabase = DBHelper;
     }
-    public void buildQuery() {
 
-    }
-    public long getUserID(){
-        return userID;
-    }
     public User getUser(){
         return user;
     }
-    public void setUser(User user){
-        this.user = user;
-    }
 
     @Override
-    public long addQuery() {
+    public Object addQuery() {
         /* Gets the database into write mode */
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = DFCDatabase.getWritableDatabase();
 
         /* Create a new map of values, where column names are the keys */
         ContentValues values = new ContentValues();
@@ -48,12 +36,13 @@ public class AddUserQueryBuilder implements QueryBuilder{
         values.put(UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD, user.getPassword());
 
         /* Insert the new row, returning the primary key value of the new row */
-        userID = db.insert(UserReaderContract.UserEntry.TABLE_NAME, null, values);
-        return userID;
+        user.setUser_id(db.insert(UserReaderContract.UserEntry.TABLE_NAME, null, values));
+        return user;
     }
 
     @Override
-    public void selectQuery() {
+    public Object selectQuery() {
        /* Will not be used*/
+        return null;
     }
 }

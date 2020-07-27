@@ -6,12 +6,10 @@ import android.widget.EditText;
 
 import androidx.lifecycle.ViewModel;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LogInModel extends ViewModel {
+public class LoginValidator extends ViewModel {
     private String email = null;
     private String pwd = null;
     private boolean isValid = false;
@@ -73,7 +71,7 @@ public class LogInModel extends ViewModel {
                     if(!isPasswordValid(pass1.getText().toString())) {
                         pass1.setError(PASSWORD_ERROR);
                     }
-                    pwd = hashPassword(pass1.getText().toString());
+                    pwd = pass1.getText().toString();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -87,11 +85,6 @@ public class LogInModel extends ViewModel {
             isValid = true;
         }
         return isValid;
-    }
-
-    /* Definition of a method to hash and salt the password*/
-    private String hashPassword(String password){
-        return BCrypt.hashpw(password, BCrypt.gensalt(13));
     }
 
     public String getEmail() {

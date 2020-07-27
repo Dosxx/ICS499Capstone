@@ -6,18 +6,18 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.app.Application;
 
+import java.io.Serializable;
+
 /*
  * This is a singleton class
  */
-public class User extends Application {
+public class User extends Application implements Serializable {
     private static User instance;
+    private long user_id;  // set when user is added to the database
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    private QueryBuilder selectQuery;
-    private QueryBuilder addQuery;
-    private QueryContext sqlContext;
 
     /* Ensure only one instance of this class is created */
     private User(String firstName, String lastName, String email, String password){
@@ -36,6 +36,15 @@ public class User extends Application {
     }
 
     /* Mutators and accessors*/
+
+    public long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -68,9 +77,10 @@ public class User extends Application {
         this.email = email;
     }
 
-
-    public boolean isAuthenticate(String email, String password){
-        // TODO: implement this method
-        return false;
+    public String toString() {
+        return String.format("First Name: %s\nLast Name: %s\nEmail address: %s",
+                this.firstName,
+                this.lastName,
+                this.email);
     }
 }

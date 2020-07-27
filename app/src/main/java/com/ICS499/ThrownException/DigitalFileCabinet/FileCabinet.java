@@ -57,4 +57,11 @@ public class FileCabinet extends Application {
     public void setContext(Context context) {
         this.context = context;
     }
+
+    public void setEditAccount(EditAccount editAccount) {
+        this.editAccount = editAccount;
+    }
+    public EditAccount getEditAccount() {
+        return editAccount;
+    }
 }

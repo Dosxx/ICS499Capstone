@@ -16,18 +16,25 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * The digital file cabinet start here at the login UI
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     private Context myContext;
     private FileCabinet cabinet;
+    private DFCAccountDBHelper dbHelper;
+    private EditAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        myContext = getApplicationContext();
+        dbHelper = new DFCAccountDBHelper(this);
+        myContext = this;
         cabinet = FileCabinet.getInstance(myContext);
+        account = new EditAccount();
         Log.d(TAG, "onCreate: Started.");
 
         final Button signUpButton = findViewById(R.id.sign_up_button);
@@ -40,23 +47,46 @@ public class MainActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* Switch the context to the create activity view */
-
-                Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
-                startActivity(createAccountIntent);
-                Log.i(TAG, "moving now");
+                /* Check if the database has a user store, if so disable this activity */
+                if(account.isUserRegistered(dbHelper)) {
+                    Toast.makeText(myContext, "Please sign in An account is registered",
+                            Toast.LENGTH_LONG).show();
+                }else {
+                    /* Switch the context to the create activity view */
+                    Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
+                    cabinet.setEditAccount(account);
+                    startActivity(createAccountIntent);
+                    Log.i(TAG, "moving now");
+                }
             }
         });
 
         /*validate input */
-        final LogInModel model = new LogInModel();
+        final LoginValidator model = new LoginValidator();
         model.inputValidation(emailEditText,passwordEditText);
 
         /* Defines the action listener on sign in button click */
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO : handle the log in process in here
+
+                if (model.isValid()) {
+                    if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
+                        cabinet.setUser(account.getAcctUser());
+                        cabinet.setEditAccount(account);
+                        Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
+                        startActivity(homeActivityIntent);
+                        Toast.makeText(myContext, "Welcome!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        passwordEditText.setError("Wrong password or email!");
+                        passwordEditText.setText("");
+                        Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    emailEditText.setError("Required!");
+                    passwordEditText.setError("Required!");
+                    Toast.makeText(myContext, "Please Provide inputs", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -69,4 +99,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+//    homeActivityIntent.putExtra("authenticatedUser", )
 }
