@@ -49,11 +49,17 @@ public class MainActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* Switch the context to the create activity view */
-                Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
-                cabinet.setEditAccount(account);
-                startActivity(createAccountIntent);
-                Log.i(TAG, "moving now");
+                /* Check if the database has a user store, if so disable this activity */
+                if(account.isUserRegistered(dbHelper)) {
+                    Toast.makeText(myContext, "Please sign in An account is registered",
+                            Toast.LENGTH_LONG).show();
+                }else {
+                    /* Switch the context to the create activity view */
+                    Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
+                    cabinet.setEditAccount(account);
+                    startActivity(createAccountIntent);
+                    Log.i(TAG, "moving now");
+                }
             }
         });
 
@@ -66,17 +72,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
-//                    cabinet = FileCabinet.getInstance(myContext);
-                    cabinet.setEditAccount(account);
-                    Intent homeActivityIntent = new Intent(cabinet, DFCHomeActivity.class);
-//                homeActivityIntent.putExtra("authenticatedUser", )
-                    startActivity(homeActivityIntent);
-                    Toast.makeText(cabinet, "Welcome!", Toast.LENGTH_SHORT).show();
+                if (model.isValid()) {
+                    if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
+    //                    cabinet = FileCabinet.getInstance(myContext);
+                        cabinet.setEditAccount(account);
+                        Intent homeActivityIntent = new Intent(cabinet, DFCHomeActivity.class);
+    //                homeActivityIntent.putExtra("authenticatedUser", )
+                        startActivity(homeActivityIntent);
+                        Toast.makeText(cabinet, "Welcome!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        passwordEditText.setError("Wrong password or email!");
+                        passwordEditText.setText("");
+                        Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
+                    }
                 }else {
-                    passwordEditText.setError("Wrong password or email!");
-                    passwordEditText.setText("");
-                    Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
+                    emailEditText.setError("Required!");
+                    passwordEditText.setError("Required!");
+                    Toast.makeText(myContext, "Please Provide inputs", Toast.LENGTH_SHORT).show();
                 }
 
             }

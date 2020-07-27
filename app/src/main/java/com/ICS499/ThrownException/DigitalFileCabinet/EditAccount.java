@@ -4,6 +4,9 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 public class EditAccount {
@@ -25,6 +28,19 @@ public class EditAccount {
             setActive(true);
         }
         return isActive;
+    }
+
+    public boolean isUserRegistered(DFCAccountDBHelper dbHelper){
+        if(numberOfRowsInDB(dbHelper) > 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private int numberOfRowsInDB(DFCAccountDBHelper dbHelper){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return (int) DatabaseUtils.queryNumEntries(db, UserReaderContract.UserEntry.TABLE_NAME);
     }
 
     public boolean deleteAccount() {
