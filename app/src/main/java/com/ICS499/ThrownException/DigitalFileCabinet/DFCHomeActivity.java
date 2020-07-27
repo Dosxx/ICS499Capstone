@@ -1,7 +1,6 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,9 +23,9 @@ public class DFCHomeActivity extends AppCompatActivity {
 
         cabinet = FileCabinet.getInstance(getApplication());
         accountUser = cabinet.getUser();
+
 //        Intent loginIntent = getIntent();
 //        Deneme dene = (Deneme)i.getSerializableExtra("sampleObject");
-        Log.d(TAG, accountUser.getFirstName());
 
         final TextView userName = findViewById(R.id.profile_name_textView);
         final TextView userProfile = findViewById(R.id.profileDetailTextView);
@@ -37,7 +36,6 @@ public class DFCHomeActivity extends AppCompatActivity {
             userName.setText(String.format("%s %s", accountUser.getFirstName(),
                                 accountUser.getLastName()));
         }
-
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

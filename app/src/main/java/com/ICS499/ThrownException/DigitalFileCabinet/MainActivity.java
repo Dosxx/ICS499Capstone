@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         dbHelper = new DFCAccountDBHelper(this);
-        myContext = getApplicationContext();
+        myContext = this;
         cabinet = FileCabinet.getInstance(myContext);
         account = new EditAccount();
         Log.d(TAG, "onCreate: Started.");
@@ -75,11 +75,12 @@ public class MainActivity extends AppCompatActivity {
                 if (model.isValid()) {
                     if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
     //                    cabinet = FileCabinet.getInstance(myContext);
+                        cabinet.setUser(account.getAcctUser());
                         cabinet.setEditAccount(account);
-                        Intent homeActivityIntent = new Intent(cabinet, DFCHomeActivity.class);
+                        Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
     //                homeActivityIntent.putExtra("authenticatedUser", )
                         startActivity(homeActivityIntent);
-                        Toast.makeText(cabinet, "Welcome!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(myContext, "Welcome!", Toast.LENGTH_SHORT).show();
                     }else {
                         passwordEditText.setError("Wrong password or email!");
                         passwordEditText.setText("");

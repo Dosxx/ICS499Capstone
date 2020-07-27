@@ -54,6 +54,10 @@ public class EditAccount {
         return isActive;
     }
 
+    public User getAcctUser() {
+        return acctUser;
+    }
+
     public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd) {
         sqlContext = new QueryContext();
         /*find user in the database */
@@ -67,7 +71,7 @@ public class EditAccount {
         if (acctUser != null) {
             emailRetrieved = acctUser.getEmail();
             pwdRetrieved = acctUser.getPassword();
-            if (email.equals(emailRetrieved) && pwd.equals(pwdRetrieved)) {
+            if (email.equals(emailRetrieved) && verifyHashPassword(pwd, pwdRetrieved)) {
                 return true;
             }
         }
