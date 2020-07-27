@@ -87,11 +87,6 @@ public class LoginValidator extends ViewModel {
         return isValid;
     }
 
-//    /* Definition of a method to hash and salt the password*/
-//    private String hashPassword(String password){
-//        return BCrypt.hashpw(password, BCrypt.gensalt(13));
-//    }
-
     public String getEmail() {
         return email;
     }

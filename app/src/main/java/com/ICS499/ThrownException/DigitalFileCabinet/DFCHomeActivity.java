@@ -20,12 +20,8 @@ public class DFCHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         cabinet = FileCabinet.getInstance(getApplication());
         accountUser = cabinet.getUser();
-
-//        Intent loginIntent = getIntent();
-//        Deneme dene = (Deneme)i.getSerializableExtra("sampleObject");
 
         final TextView userName = findViewById(R.id.profile_name_textView);
         final TextView userProfile = findViewById(R.id.profileDetailTextView);
@@ -52,5 +48,7 @@ public class DFCHomeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-
+//    Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
+//    Intent loginIntent = getIntent();
+//        Deneme dene = (Deneme)i.getSerializableExtra("sampleObject");
 }

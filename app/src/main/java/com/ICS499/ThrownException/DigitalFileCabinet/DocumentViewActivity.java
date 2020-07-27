@@ -29,7 +29,6 @@ import java.util.Locale;
 public class DocumentViewActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 2;
-
     private String currentImagePath;
     private ImageView imageSmall, imageOriginal;
 
@@ -118,14 +117,11 @@ public class DocumentViewActivity extends AppCompatActivity {
             try{
                 // Display small image
                 imageSmall.setImageBitmap(getScaledBitmap(imageSmall));
-
                 // Display original image
                 imageOriginal.setImageBitmap(BitmapFactory.decodeFile(currentImagePath));
-
                 // Following is the captured image file
-                // to be save on the database.
+                // TODO : to be save on the database.
                 File capturedImageFile = new File(currentImagePath);
-
             }catch (Exception exception) {
                 Toast.makeText(this, exception.getMessage(),
                         Toast.LENGTH_SHORT).show();
@@ -133,6 +129,8 @@ public class DocumentViewActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    /* image scaling functions */
     private Bitmap getScaledBitmap(ImageView imageView) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;

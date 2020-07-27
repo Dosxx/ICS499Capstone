@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
     private Context myContext;
     private FileCabinet cabinet;
-    private User authenticatedUser;
-    /* Instance of the DFC database */
     private DFCAccountDBHelper dbHelper;
     private EditAccount account;
 
@@ -74,11 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if (model.isValid()) {
                     if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
-    //                    cabinet = FileCabinet.getInstance(myContext);
                         cabinet.setUser(account.getAcctUser());
                         cabinet.setEditAccount(account);
                         Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
-    //                homeActivityIntent.putExtra("authenticatedUser", )
                         startActivity(homeActivityIntent);
                         Toast.makeText(myContext, "Welcome!", Toast.LENGTH_SHORT).show();
                     }else {
@@ -107,4 +103,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+//    homeActivityIntent.putExtra("authenticatedUser", )
 }

@@ -56,41 +56,38 @@ public class CreateAccountActivity extends AppCompatActivity {
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* instantiate a user with the provided input */
-                Log.d(TAG,"Creating a user ");
-                try {
-                    if(createModel.isValid()) {
-                        /* Create a user with valid input only */
-                        dfcUser = createModel.createUser(myContext);
-                        cabinet.setUser(dfcUser);
-                        Log.d(TAG, "User created");
-                        Log.d(TAG, cabinet.getUser().toString());
-                        Log.d(TAG, cabinet.getEditAccount().isActive()+"");
-                        EditAccount account = cabinet.getEditAccount();
-                        account.createAccount(dbHelper, cabinet.getUser());
-                        Log.d(TAG, account.isActive()+"");
-                        while(!account.isActive()){
+            /* instantiate a user with the provided input */
+            Log.d(TAG,"Creating a user ");
+            try {
+                if(createModel.isValid()) {
+                    /* Create a user with valid input only */
+                    dfcUser = createModel.createUser(myContext);
+                    cabinet.setUser(dfcUser);
+                    Log.d(TAG, "User created");
+                    Log.d(TAG, cabinet.getUser().toString());
+                    Log.d(TAG, cabinet.getEditAccount().isActive()+"");
+                    EditAccount account = cabinet.getEditAccount();
+                    account.createAccount(dbHelper, cabinet.getUser());
+                    Log.d(TAG, account.isActive()+"");
+                    while(!account.isActive()){
 
-                        }
-                        Toast.makeText(myContext, "Account created successfully", Toast.LENGTH_LONG).show();
-                        Toast.makeText(getApplicationContext(), "Welcome "+
-                                        dfcUser.getLastName(),
-                                        Toast.LENGTH_SHORT).show();
-                        /* Redirect the user to the home activity */
-                        Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
-//                        Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
-                        startActivity(homeActivityIntent);
-
-
-                    }else {
-                        Toast.makeText(getApplicationContext(), "Please provide valid input only",
-                                Toast.LENGTH_LONG).show();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), e.getMessage(),
+                    Toast.makeText(myContext, "Account created successfully", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Welcome "+
+                                    dfcUser.getLastName(),
+                                    Toast.LENGTH_SHORT).show();
+                    /* Redirect the user to the home activity */
+                    Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
+                    startActivity(homeActivityIntent);
+                }else {
+                    Toast.makeText(getApplicationContext(), "Please provide valid input only",
                             Toast.LENGTH_LONG).show();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
             }
         });
     }

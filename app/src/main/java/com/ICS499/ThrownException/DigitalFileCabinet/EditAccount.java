@@ -23,7 +23,6 @@ public class EditAccount {
         sqlBuilder = new AddUserQueryBuilder(dbHelper, acctUser);
         sqlContext.setQueryBuilder(sqlBuilder);
         acctUser = (User) sqlContext.makeQuery();
-//        Thread.sleep(3000);
         if (acctUser.getUser_id() != 0) {
             setActive(true);
         }
@@ -65,7 +64,7 @@ public class EditAccount {
         sqlContext.setQueryBuilder(sqlBuilder);
         acctUser = (User) sqlContext.makeQuery();
 
-        /* */
+        /* Authenticate the login request */
         String emailRetrieved = null;
         String pwdRetrieved = null;
         if (acctUser != null) {
@@ -77,14 +76,6 @@ public class EditAccount {
         }
         return false;
     }
-
-//    private void makeQuery(User user, Context context, QueryBuilder query){
-//        this.acctUser = user;
-//        /* decide what query to make */
-//        sqlContext.setQueryBuilder(query);
-//        /*add user data into the database */
-//        sqlContext.makeQuery();
-//    }
 
     /* Verify the password match */
     private boolean verifyHashPassword(String password, String hashPW){
