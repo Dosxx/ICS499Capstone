@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class SelectUserQueryBuilder implements  QueryBuilder{
-/* Make a query to the database to get the user data */
+    /* Make a query to the database to get the user data */
 
     private DFCAccountDBHelper dbHelper;
 
@@ -17,8 +17,15 @@ public class SelectUserQueryBuilder implements  QueryBuilder{
         dbHelper = new DFCAccountDBHelper(appContext);
     }
 
+
     @Override
-    public void buildQuery() {
+    public long addQuery() {
+        /* Will not be used */
+        return 0;
+    }
+
+    @Override
+    public void selectQuery() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -48,6 +55,7 @@ public class SelectUserQueryBuilder implements  QueryBuilder{
         );
 
         /* retrieve the data from the cursor */
+        //TODO: define what data need retrieving from DB
         while(cursor.moveToNext()) {
             String email = cursor.getString(
                     cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_EMAIL));

@@ -6,8 +6,6 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.app.Application;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 /*
  * This is a singleton class
  */
@@ -74,22 +72,5 @@ public class User extends Application {
     public boolean isAuthenticate(String email, String password){
         // TODO: implement this method
         return false;
-    }
-
-    /* Verify the password match */
-    //The password argument should not be hashed
-    private boolean verifyHashPassword(String password, String hashPW){
-        return BCrypt.checkpw(password, hashPW);
-    }
-
-    public void makeQuery(){
-        /* decide what query to make */
-//        sqlContext = new QueryContext();
-//        sqlContext.setQueryBuilder(addQuery);
-//        /*add user data into the database */
-//        addQuery = new AddUserQueryBuilder(getApplicationContext(), this);
-//        sqlContext.makeQuery();
-//        /*Select a user data from database*/
-//        selectQuery = new SelectUserQueryBuilder(getApplicationContext());
     }
 }

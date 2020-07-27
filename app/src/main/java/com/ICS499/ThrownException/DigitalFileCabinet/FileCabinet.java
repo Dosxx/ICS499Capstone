@@ -21,7 +21,7 @@ public class FileCabinet extends Application {
 
     private EditAccount editAccount;
     private EditDocument editDocument;
-    private FileBrower fileBrower;
+    private FileBrowser fileBrowser;
 
     private FileCabinet(Context context) {
         this.context = context.getApplicationContext();

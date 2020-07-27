@@ -9,7 +9,11 @@ public class QueryContext {
     QueryBuilder sqlContext;
 
     public void makeQuery(){
-        sqlContext.buildQuery();
+        if(sqlContext instanceof AddUserQueryBuilder) {
+            sqlContext.addQuery();
+        }else if(sqlContext instanceof SelectUserQueryBuilder){
+            sqlContext.selectQuery();
+        }
     }
     public void setQueryBuilder(QueryBuilder sqlBuilder){
         this.sqlContext = sqlBuilder;

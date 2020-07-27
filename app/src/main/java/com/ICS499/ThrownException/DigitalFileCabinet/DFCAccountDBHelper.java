@@ -21,7 +21,7 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(AccountReaderContract.CREATE_TABLE);
+//        db.execSQL(AccountReaderContract.CREATE_TABLE);
         db.execSQL(UserReaderContract.CREATE_TABLE);
         db.execSQL(DocumentReaderContract.CREATE_TABLE);
         Log.d("Database Operations", "All tables are created");
@@ -30,7 +30,7 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         /* Simply discard the data and start over on upgrade */
-        db.execSQL(AccountReaderContract.DROP_TABLE);
+//        db.execSQL(AccountReaderContract.DROP_TABLE);
         db.execSQL(UserReaderContract.DROP_TABLE);
         db.execSQL(DocumentReaderContract.DROP_TABLE);
         Log.d("Database Operations", "All tables are deleted");
