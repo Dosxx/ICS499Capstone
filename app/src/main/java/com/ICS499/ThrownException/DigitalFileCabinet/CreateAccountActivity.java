@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -25,8 +24,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
         myContext = getApplicationContext();
-        cabinet = FileCabinet.getInstance(myContext);
-//        dbHelper =
+        dbHelper = new DFCAccountDBHelper(getApplicationContext());
+        cabinet = FileCabinet.getInstance(getApplication());
+
         Log.d(TAG, "onCreate: Started.");
 
         final Button createAccountButton = findViewById(R.id.create_account_button);
@@ -64,13 +64,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                         dfcUser = createModel.createUser(myContext);
                         cabinet.setUser(dfcUser);
                         Log.d(TAG, "User created");
-                        /* change state to account and create account*/
-                        // TODO: need working
+                        Log.d(TAG, cabinet.getUser().toString());
+                        Log.d(TAG, cabinet.getEditAccount().isActive()+"");
+                        EditAccount account = cabinet.getEditAccount();
+                        account.createAccount(dbHelper, cabinet.getUser());
+                        Log.d(TAG, account.isActive()+"");
+                        while(!account.isActive()){
 
-                        /* make add account to that database */
-                        // TODO: need working
-
-                        Log.d(TAG, cabinet.getUser().getFirstName());
+                        }
+                        Toast.makeText(myContext, "Account created successfully", Toast.LENGTH_LONG).show();
                         Toast.makeText(getApplicationContext(), "Welcome "+
                                         dfcUser.getLastName(),
                                         Toast.LENGTH_SHORT).show();
@@ -78,12 +80,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                         Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
 //                        Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
                         startActivity(homeActivityIntent);
+
+
                     }else {
                         Toast.makeText(getApplicationContext(), "Please provide valid input only",
                                 Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Please provide the input",
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), e.getMessage(),
                             Toast.LENGTH_LONG).show();
                 }
             }

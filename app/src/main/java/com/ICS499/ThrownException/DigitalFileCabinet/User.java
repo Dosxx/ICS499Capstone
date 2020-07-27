@@ -81,7 +81,7 @@ public class User extends Application implements Serializable {
     }
 
     public String toString() {
-        return String.format("First Name: %s\rLast Name: %s\rEmail address: %s",
+        return String.format("First Name: %s\nLast Name: %s\nEmail address: %s",
                 this.firstName,
                 this.lastName,
                 this.email);

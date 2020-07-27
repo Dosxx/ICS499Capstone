@@ -4,8 +4,6 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.content.Context;
-
 import org.mindrot.jbcrypt.BCrypt;
 
 public class EditAccount {
@@ -15,13 +13,14 @@ public class EditAccount {
     private QueryBuilder sqlBuilder;
 
 
-    public boolean createAccount(DFCAccountDBHelper dbHelper, User user){
+    public boolean createAccount(DFCAccountDBHelper dbHelper, User user) throws InterruptedException {
     /* Write user data in sql database and set the account to active */
         acctUser = user;
         sqlContext = new QueryContext();
         sqlBuilder = new AddUserQueryBuilder(dbHelper, acctUser);
         sqlContext.setQueryBuilder(sqlBuilder);
         acctUser = (User) sqlContext.makeQuery();
+//        Thread.sleep(3000);
         if (acctUser.getUser_id() != 0) {
             setActive(true);
         }
@@ -35,29 +34,39 @@ public class EditAccount {
         return isActive;
     }
 
-//    public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd, Context context) {
-//        sqlContext = new QueryContext();
-//        /*find user in the database */
-//        sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
-//        sqlContext.setQueryBuilder(sqlBuilder);
-//        sqlContext.makeQuery();
-//
-//        //TODO : validate the query result against user input
-//        /* */
-//        SelectUserQueryBuilder user = (SelectUserQueryBuilder)sqlBuilder.getFoundUser();
-//        return
-//    }
-
-    private void makeQuery(User user, Context context, QueryBuilder query){
-        this.acctUser = user;
-        /* decide what query to make */
-        sqlContext.setQueryBuilder(query);
-        /*add user data into the database */
-        sqlContext.makeQuery();
+    public boolean isActive() {
+        return isActive;
     }
 
+    public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd) {
+        sqlContext = new QueryContext();
+        /*find user in the database */
+        sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
+        sqlContext.setQueryBuilder(sqlBuilder);
+        acctUser = (User) sqlContext.makeQuery();
+
+        /* */
+        String emailRetrieved = null;
+        String pwdRetrieved = null;
+        if (acctUser != null) {
+            emailRetrieved = acctUser.getEmail();
+            pwdRetrieved = acctUser.getPassword();
+            if (email.equals(emailRetrieved) && pwd.equals(pwdRetrieved)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+//    private void makeQuery(User user, Context context, QueryBuilder query){
+//        this.acctUser = user;
+//        /* decide what query to make */
+//        sqlContext.setQueryBuilder(query);
+//        /*add user data into the database */
+//        sqlContext.makeQuery();
+//    }
+
     /* Verify the password match */
-    //The password argument should not be hashed
     private boolean verifyHashPassword(String password, String hashPW){
         return BCrypt.checkpw(password, hashPW);
     }

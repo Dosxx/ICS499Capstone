@@ -13,13 +13,11 @@ public final class UserReaderContract {
     /* define the create table query as a constant */
     public static final String CREATE_TABLE =
         "CREATE TABLE " + UserEntry.TABLE_NAME + " ("+
-        UserEntry._ID + " INTEGER PRIMARY KEY AUTOINCREAMENT NOT NULL, " +
-        UserEntry.COLUMN_NAME_DOCUMENT_ID + " INTEGER NOT NULL," +
-        " FOREIGN KEY ("+ UserEntry.COLUMN_NAME_DOCUMENT_ID +") REFERENCES "+
-        UserEntry.COLUMN_NAME_FIRST_NAME + " TEXT NOT NULL," +
-        UserEntry.COLUMN_NAME_LAST_NAME + " TEXT NOT NULL," +
-        UserEntry.COLUMN_NAME_EMAIL + " TEXT NOT NULL," +
-        UserEntry.COLUMN_NAME_PASSWORD + " TEXT NOT NULL," + ");";
+        UserEntry._ID + " INTEGER PRIMARY KEY," +
+        UserEntry.COLUMN_NAME_FIRST_NAME + " TEXT," +
+        UserEntry.COLUMN_NAME_LAST_NAME + " TEXT," +
+        UserEntry.COLUMN_NAME_EMAIL + " TEXT," +
+        UserEntry.COLUMN_NAME_PASSWORD + " TEXT)";
 
     /* Define the drop table query as a constant */
     public static final String DROP_TABLE =
@@ -31,7 +29,6 @@ public final class UserReaderContract {
     /* This class defines the user table contents */
     public static class UserEntry implements BaseColumns {
         public static final String TABLE_NAME = "User_table";
-        public static final String COLUMN_NAME_DOCUMENT_ID = "document_id";
         public static final String COLUMN_NAME_FIRST_NAME = "first_name";
         public static final String COLUMN_NAME_LAST_NAME = "last_name";
         public static final String COLUMN_NAME_EMAIL = "email";

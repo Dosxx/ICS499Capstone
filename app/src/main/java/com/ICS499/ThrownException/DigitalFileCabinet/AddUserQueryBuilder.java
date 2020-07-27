@@ -37,7 +37,7 @@ public class AddUserQueryBuilder extends QueryBuilder{
 
         /* Insert the new row, returning the primary key value of the new row */
         user.setUser_id(db.insert(UserReaderContract.UserEntry.TABLE_NAME, null, values));
-        return null;
+        return user;
     }
 
     @Override

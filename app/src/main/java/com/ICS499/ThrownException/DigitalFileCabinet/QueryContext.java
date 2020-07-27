@@ -11,8 +11,7 @@ public class QueryContext {
 
     public Object makeQuery(){
         if(sqlBuilder instanceof AddUserQueryBuilder) {
-            queryResult = (User) sqlBuilder.addQuery();
-            return queryResult;
+            return (User) sqlBuilder.addQuery();
         }else if(sqlBuilder instanceof SelectUserQueryBuilder){
             queryResult = (User)sqlBuilder.selectQuery();
             return queryResult;
