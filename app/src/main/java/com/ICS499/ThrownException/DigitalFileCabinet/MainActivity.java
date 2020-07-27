@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView forgotPasswordLabel = findViewById(R.id.forgotPasswordTextView);
         final EditText emailEditText = findViewById(R.id.email_input);
         final EditText passwordEditText = findViewById(R.id.password_input);
+        final ProgressBar loadingProgressBar = findViewById(R.id.progressBar);
 
         /* Show create content view on the click of create account button*/
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +71,10 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                loadingProgressBar.setVisibility(View.VISIBLE);
+                while(!model.isValid()){
+                    loadingProgressBar.setVisibility(View.GONE);
+                }
                 if (model.isValid()) {
                     if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
                         cabinet.setUser(account.getAcctUser());
@@ -104,6 +109,4 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         dbHelper.close();
     }
-
-//    homeActivityIntent.putExtra("authenticatedUser", )
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -68,6 +68,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
+                    android:visibility="invisible"
                     android:paddingRight="10dp"
                     android:paddingBottom="10dp"
                     android:text="@string/profile_detail" />
@@ -76,11 +77,6 @@
 
         </FrameLayout>
 
-<!--        <ListView-->
-<!--            android:id="@+id/docList"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ListView
@@ -88,7 +84,7 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFFFFF"
+        android:background="#423E3E"
         android:choiceMode="singleChoice"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />

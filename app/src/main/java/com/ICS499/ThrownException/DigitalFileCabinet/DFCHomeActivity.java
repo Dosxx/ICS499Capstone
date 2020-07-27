@@ -85,6 +85,11 @@ public class DFCHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(accountUser != null) {
                     userProfile.setText(accountUser.toString());
+                    if(userProfile.getVisibility() == TextView.VISIBLE) {
+                        userProfile.setVisibility(TextView.INVISIBLE);
+                    }else {
+                        userProfile.setVisibility(TextView.VISIBLE);
+                    }
                 }else {
                     Toast.makeText(cabinet.getContext(),"Profile Not Available",
                             Toast.LENGTH_LONG).show();
@@ -111,7 +116,6 @@ public class DFCHomeActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
-
     }
 
     private void selectItem(int position) {
@@ -178,6 +182,7 @@ public class DFCHomeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
 
 //    Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
 //    Intent loginIntent = getIntent();
