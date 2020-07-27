@@ -1,7 +1,10 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,6 +14,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * UI class and home of the digital file cabinet
@@ -52,8 +57,18 @@ public class DFCHomeActivity extends AppCompatActivity {
         drawerItem[5] = new NavigationDataModel(R.drawable.ic_edit_24, "Edit");
         drawerItem[6] = new NavigationDataModel(R.drawable.ic_logout_24, "Logout");
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
         getSupportActionBar().setHomeButtonEnabled(true);
+        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.navigation_list_view, drawerItem);
+        drawerList.setAdapter(adapter);
+        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.addDrawerListener(drawerToggle);
+        setupDrawerToggle();
 
 
         final TextView userName = findViewById(R.id.profile_name_textView);
@@ -78,7 +93,7 @@ public class DFCHomeActivity extends AppCompatActivity {
         });
     }
 
-    private void setupToolbar(){
+    private void setupToolbar()throws NullPointerException {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -91,6 +106,74 @@ public class DFCHomeActivity extends AppCompatActivity {
         drawerToggle.syncState();
     }
 
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+
+    }
+
+    private void selectItem(int position) {
+        Fragment fragment = null;
+        switch (position) {
+            case 0:
+                fragment = new ScanFragment();
+                break;
+            case 1:
+                fragment = new ImportFragment();
+                break;
+            case 2:
+                fragment = new EncryptFragment();
+                break;
+            case 3:
+                fragment = new DecryptFragment();
+                break;
+            case 4:
+                fragment = new BrowseFragment();
+                break;
+            case 5:
+                fragment = new EditFragment();
+                break;
+            case 6:
+                fragment = new LogoutFragment();
+                break;
+            default:
+                break;
+        }
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+            drawerList.setItemChecked(position, true);
+            drawerList.setSelection(position);
+            setTitle(navigationDrawerItemTitles[position]);
+            drawerLayout.closeDrawer(drawerList);
+        } else {
+            Log.e("DFCHomeActivity", "Error in creating fragment");
+        }
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        this.title = title;
+        getSupportActionBar().setTitle(this.title);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -99,82 +182,5 @@ public class DFCHomeActivity extends AppCompatActivity {
 //    Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
 //    Intent loginIntent = getIntent();
 //        Deneme dene = (Deneme)i.getSerializableExtra("sampleObject");
-
-
-
-//
-//        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.list_view_item_row, drawerItem);
-//        mDrawerList.setAdapter(adapter);
-//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
-//        setupDrawerToggle();
-//
-//    }
-//
-//    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-//
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            selectItem(position);
-//        }
-//
-//    }
-//
-//    private void selectItem(int position) {
-//
-//        Fragment fragment = null;
-//
-//        switch (position) {
-//            case 0:
-//                fragment = new ConnectFragment();
-//                break;
-//            case 1:
-//                fragment = new FixturesFragment();
-//                break;
-//            case 2:
-//                fragment = new TableFragment();
-//                break;
-//
-//            default:
-//                break;
-//        }
-//
-//        if (fragment != null) {
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-//
-//            mDrawerList.setItemChecked(position, true);
-//            mDrawerList.setSelection(position);
-//            setTitle(mNavigationDrawerItemTitles[position]);
-//            mDrawerLayout.closeDrawer(mDrawerList);
-//
-//        } else {
-//            Log.e("MainActivity", "Error in creating fragment");
-//        }
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        if (mDrawerToggle.onOptionsItemSelected(item)) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public void setTitle(CharSequence title) {
-//        mTitle = title;
-//        getSupportActionBar().setTitle(mTitle);
-//    }
-//
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        mDrawerToggle.syncState();
-//    }
-//}
 
 }
