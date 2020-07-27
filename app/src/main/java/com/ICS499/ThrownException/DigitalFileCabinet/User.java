@@ -18,9 +18,6 @@ public class User extends Application implements Serializable {
     private String lastName;
     private String email;
     private String password;
-    private QueryBuilder selectQuery;
-    private QueryBuilder addQuery;
-    private QueryContext sqlContext;
 
     /* Ensure only one instance of this class is created */
     private User(String firstName, String lastName, String email, String password){

@@ -51,19 +51,19 @@ public class SelectUserQueryBuilder extends QueryBuilder{
         String sortOrder =
                 UserReaderContract.UserEntry._ID+ " DESC";
 
-//        Cursor cursor = db.rawQuery("SELECT * FROM "+
-//                UserReaderContract.UserEntry.TABLE_NAME,
-//                null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+
+                UserReaderContract.UserEntry.TABLE_NAME,
+                null);
 
-        Cursor cursor = db.query(
-                UserReaderContract.UserEntry.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                selectionArgs,          // The values for the WHERE clause
-                null,          // don't group the rows
-                null,           // don't filter by row groups
-                sortOrder              // The sort order
-        );
+//        Cursor cursor = db.query(
+//                UserReaderContract.UserEntry.TABLE_NAME,   // The table to query
+//                projection,             // The array of columns to return (pass null to get all)
+//                selection,              // The columns for the WHERE clause
+//                selectionArgs,          // The values for the WHERE clause
+//                null,          // don't group the rows
+//                null,           // don't filter by row groups
+//                sortOrder              // The sort order
+//        );
 
         /* retrieve the data from the cursor */
         if(cursor.getCount() < 1){
@@ -81,6 +81,7 @@ public class SelectUserQueryBuilder extends QueryBuilder{
                         cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD));
                 foundUser = User.getUserInstance(firstName, lastName, email, password);
                 foundUser.setUser_id(userID);
+                break;
             }
             cursor.close();
             return foundUser;

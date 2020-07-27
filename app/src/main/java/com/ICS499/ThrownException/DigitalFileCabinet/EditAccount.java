@@ -4,6 +4,9 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 public class EditAccount {
@@ -20,11 +23,23 @@ public class EditAccount {
         sqlBuilder = new AddUserQueryBuilder(dbHelper, acctUser);
         sqlContext.setQueryBuilder(sqlBuilder);
         acctUser = (User) sqlContext.makeQuery();
-//        Thread.sleep(3000);
         if (acctUser.getUser_id() != 0) {
             setActive(true);
         }
         return isActive;
+    }
+
+    public boolean isUserRegistered(DFCAccountDBHelper dbHelper){
+        if(numberOfRowsInDB(dbHelper) > 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private int numberOfRowsInDB(DFCAccountDBHelper dbHelper){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return (int) DatabaseUtils.queryNumEntries(db, UserReaderContract.UserEntry.TABLE_NAME);
     }
 
     public boolean deleteAccount() {
@@ -38,6 +53,10 @@ public class EditAccount {
         return isActive;
     }
 
+    public User getAcctUser() {
+        return acctUser;
+    }
+
     public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd) {
         sqlContext = new QueryContext();
         /*find user in the database */
@@ -45,26 +64,18 @@ public class EditAccount {
         sqlContext.setQueryBuilder(sqlBuilder);
         acctUser = (User) sqlContext.makeQuery();
 
-        /* */
+        /* Authenticate the login request */
         String emailRetrieved = null;
         String pwdRetrieved = null;
         if (acctUser != null) {
             emailRetrieved = acctUser.getEmail();
             pwdRetrieved = acctUser.getPassword();
-            if (email.equals(emailRetrieved) && pwd.equals(pwdRetrieved)) {
+            if (email.equals(emailRetrieved) && verifyHashPassword(pwd, pwdRetrieved)) {
                 return true;
             }
         }
         return false;
     }
-
-//    private void makeQuery(User user, Context context, QueryBuilder query){
-//        this.acctUser = user;
-//        /* decide what query to make */
-//        sqlContext.setQueryBuilder(query);
-//        /*add user data into the database */
-//        sqlContext.makeQuery();
-//    }
 
     /* Verify the password match */
     private boolean verifyHashPassword(String password, String hashPW){
