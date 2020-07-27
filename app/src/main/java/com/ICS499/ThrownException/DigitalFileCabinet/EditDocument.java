@@ -7,6 +7,8 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
  */
 class EditDocument {
     private Document document;
+    private QueryContext sqlContext;
+    private QueryBuilder sqlBuilder;
 
     /* Method that apply to document are aggregated in this class*/
     public Document openDoc() {
@@ -32,7 +34,7 @@ class EditDocument {
         // TODO : implementation goes here
     }
 
-    public Document makeQuery() {
+    public Document makeQuery(Document document, String action) {
         return null;
     }
 }

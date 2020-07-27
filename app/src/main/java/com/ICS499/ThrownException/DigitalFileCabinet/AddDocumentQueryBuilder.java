@@ -21,8 +21,19 @@ public class AddDocumentQueryBuilder implements QueryBuilder{
         dbHelper = new DFCAccountDBHelper(appContext);
     }
 
+    public long getDocumentID(){
+        return documentID;
+    }
+    public void setDocument(Document doc){
+        document = doc;
+    }
+
+    public Document getDocument(){
+        return document;
+    }
+
     @Override
-    public void buildQuery() {
+    public long addQuery() {
         /* Gets the database into write mode */
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -36,15 +47,11 @@ public class AddDocumentQueryBuilder implements QueryBuilder{
 
         /* Insert the new row, returning the primary key value of the new row */
         documentID = db.insert(DocumentReaderContract.DocumentEntry.TABLE_NAME, null, values);
-    }
-    public long getDocumentID(){
         return documentID;
     }
-    public void setDocument(Document doc){
-        document = doc;
-    }
 
-    public Document getDocument(){
-        return document;
+    @Override
+    public void selectQuery() {
+        /* Will not be used */
     }
 }

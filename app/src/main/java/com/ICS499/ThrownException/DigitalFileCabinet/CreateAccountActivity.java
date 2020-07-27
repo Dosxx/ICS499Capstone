@@ -16,7 +16,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Context myContext;
     private User dfcUser;
     private FileCabinet cabinet;
-    private DFCState state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         /* Create a user with valid input only */
                         dfcUser = createModel.createUser(myContext);
                         cabinet.setUser(dfcUser);
-                        Log.d(TAG, state.toString());
+                        Log.d(TAG, "User created");
                         /* change state to account and create account*/
                         // TODO: need working
 
