@@ -4,8 +4,6 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.content.Context;
-
 import org.mindrot.jbcrypt.BCrypt;
 
 public class EditAccount {
@@ -35,29 +33,32 @@ public class EditAccount {
         return isActive;
     }
 
-//    public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd, Context context) {
-//        sqlContext = new QueryContext();
-//        /*find user in the database */
-//        sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
-//        sqlContext.setQueryBuilder(sqlBuilder);
-//        sqlContext.makeQuery();
-//
-//        //TODO : validate the query result against user input
-//        /* */
-//        SelectUserQueryBuilder user = (SelectUserQueryBuilder)sqlBuilder.getFoundUser();
-//        return
-//    }
+    public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd) {
+        sqlContext = new QueryContext();
+        /*find user in the database */
+        sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
+        sqlContext.setQueryBuilder(sqlBuilder);
+        acctUser = (User) sqlContext.makeQuery();
 
-    private void makeQuery(User user, Context context, QueryBuilder query){
-        this.acctUser = user;
-        /* decide what query to make */
-        sqlContext.setQueryBuilder(query);
-        /*add user data into the database */
-        sqlContext.makeQuery();
+        //TODO : validate the query result against user input
+        /* */
+        String emailRetrieved = acctUser.getEmail();
+        String pwdRetrieved = acctUser.getPassword();
+        if (email.equals(emailRetrieved) && pwd.equals(pwdRetrieved)) {
+            return true;
+        }
+        return false;
     }
 
+//    private void makeQuery(User user, Context context, QueryBuilder query){
+//        this.acctUser = user;
+//        /* decide what query to make */
+//        sqlContext.setQueryBuilder(query);
+//        /*add user data into the database */
+//        sqlContext.makeQuery();
+//    }
+
     /* Verify the password match */
-    //The password argument should not be hashed
     private boolean verifyHashPassword(String password, String hashPW){
         return BCrypt.checkpw(password, hashPW);
     }

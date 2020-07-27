@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        dbHelper = new DFCAccountDBHelper(myContext);
+        dbHelper = new DFCAccountDBHelper(this);
         myContext = getApplicationContext();
         Log.d(TAG, "onCreate: Started.");
 
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /* Switch the context to the create activity view */
                 Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
+
                 startActivity(createAccountIntent);
                 Log.i(TAG, "moving now");
             }
@@ -61,15 +62,17 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO : handle the log in process in here
-                // TODO : retrieve user info from database upon success
-                // if authenticated then do this below
-                if (true) {
+                EditAccount account = new EditAccount();
+
+                if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
                     cabinet = FileCabinet.getInstance(myContext);
+                    cabinet.setEditAccount(account);
                     Intent homeActivityIntent = new Intent(cabinet, DFCHomeActivity.class);
 //                homeActivityIntent.putExtra("authenticatedUser", )
                     startActivity(homeActivityIntent);
                     Toast.makeText(cabinet, "Welcome!", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
                 }
 
             }

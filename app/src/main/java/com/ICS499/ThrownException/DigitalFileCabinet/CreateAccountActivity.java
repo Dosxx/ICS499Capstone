@@ -25,8 +25,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
         myContext = getApplicationContext();
+        dbHelper = new DFCAccountDBHelper(myContext);
         cabinet = FileCabinet.getInstance(myContext);
-//        dbHelper =
+
         Log.d(TAG, "onCreate: Started.");
 
         final Button createAccountButton = findViewById(R.id.create_account_button);
@@ -64,20 +65,21 @@ public class CreateAccountActivity extends AppCompatActivity {
                         dfcUser = createModel.createUser(myContext);
                         cabinet.setUser(dfcUser);
                         Log.d(TAG, "User created");
-                        /* change state to account and create account*/
-                        // TODO: need working
 
-                        /* make add account to that database */
-                        // TODO: need working
-
+                        boolean isCreated = cabinet.getEditAccount().createAccount(dbHelper, cabinet.getUser());
                         Log.d(TAG, cabinet.getUser().getFirstName());
-                        Toast.makeText(getApplicationContext(), "Welcome "+
-                                        dfcUser.getLastName(),
-                                        Toast.LENGTH_SHORT).show();
-                        /* Redirect the user to the home activity */
-                        Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
+                        if (isCreated) {
+                            Log.d(TAG, cabinet.getUser().getFirstName());
+                            Toast.makeText(getApplicationContext(), "Welcome "+
+                                            dfcUser.getLastName(),
+                                            Toast.LENGTH_SHORT).show();
+                            /* Redirect the user to the home activity */
+                            Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
 //                        Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
-                        startActivity(homeActivityIntent);
+                            startActivity(homeActivityIntent);
+                        }else {
+                            Toast.makeText(myContext, "Account creating failed", Toast.LENGTH_LONG).show();
+                        }
                     }else {
                         Toast.makeText(getApplicationContext(), "Please provide valid input only",
                                 Toast.LENGTH_LONG).show();

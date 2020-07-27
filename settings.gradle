@@ -1,2 +1,3 @@
+include ':sqlite-android-3320300'
 include ':app'
 rootProject.name = "DigitalFileCabinet"
