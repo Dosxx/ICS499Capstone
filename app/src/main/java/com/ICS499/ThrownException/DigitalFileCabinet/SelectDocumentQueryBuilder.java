@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SelectDocumentQueryBuilder extends QueryBuilder {
 
@@ -31,7 +32,7 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public Document selectQuery() {
+    public List<Document> selectQuery() {
         /* Make a query to the database to get the document data */
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -76,10 +77,10 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LAST_MODIFIED));
             String location = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LOCATION));
-            documentsResult.add(new Document(document_name, location, new File(location)));
+            result = new Document(document_name, location, new File(location));
+            queryResultList.add(result);
         }
         cursor.close();
-        //TODO : might need to fix this
-        return documentsResult.get(0);
+        return queryResultList;
     }
 }
