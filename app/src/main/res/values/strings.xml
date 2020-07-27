@@ -59,6 +59,18 @@
     <string name="original_image">original_image</string>
     <string name="profile_detail">Profile detail</string>
     <string name="navigation_item_name">Item Name</string>
+    <string name="decrypt">Decrypt</string>
+    <string name="edit_fragment_decrypt_xml_to_change_the_appearance">Edit fragment_decrypt.xml to change the appearance</string>
+    <string name="edit_fragment_browse_xml_to_change_the_appearance">Edit fragment_decrypt.xml to change the appearance</string>
+    <string name="browse">Browse file DB</string>
+    <string name="edit_fragment_edit_xml_to_change_the_appearance">Edit fragment_decrypt.xml to change the appearance</string>
+    <string name="edit">edit</string>
+    <string name="encrypt">encrypt</string>
+    <string name="edit_fragment_encrypt_xml_to_change_the_appearance">Edit fragment_encrypt.xml to change the appearance</string>
+    <string name="edit_fragment_Import_xml_to_change_the_appearance">Edit fragment_Import.xml to change the appearance</string>
+    <string name="edit_fragment_logout_xml_to_change_the_appearance">Edit fragment_logout.xml to change the appearance</string>
+    <string name="edit_fragment_Scan_xml_to_change_the_appearance">Edit fragment_Scan.xml to change the appearance</string>
+
 
     <string-array name="navigation_drawer_items_array">
         <item>Scan</item>
