@@ -5,6 +5,7 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.Context;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -35,5 +36,12 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
         db.execSQL(DocumentReaderContract.DROP_TABLE);
         Log.d("Database Operations", "All tables are deleted");
         onCreate(db);
+    }
+
+    public long getDocumentsCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        long count = DatabaseUtils.queryNumEntries(db, "Document_table");
+        db.close();
+        return count;
     }
 }
