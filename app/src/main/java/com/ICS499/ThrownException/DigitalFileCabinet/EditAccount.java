@@ -13,13 +13,14 @@ public class EditAccount {
     private QueryBuilder sqlBuilder;
 
 
-    public boolean createAccount(DFCAccountDBHelper dbHelper, User user){
+    public boolean createAccount(DFCAccountDBHelper dbHelper, User user) throws InterruptedException {
     /* Write user data in sql database and set the account to active */
         acctUser = user;
         sqlContext = new QueryContext();
         sqlBuilder = new AddUserQueryBuilder(dbHelper, acctUser);
         sqlContext.setQueryBuilder(sqlBuilder);
         acctUser = (User) sqlContext.makeQuery();
+//        Thread.sleep(3000);
         if (acctUser.getUser_id() != 0) {
             setActive(true);
         }
@@ -33,6 +34,10 @@ public class EditAccount {
         return isActive;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd) {
         sqlContext = new QueryContext();
         /*find user in the database */
@@ -40,12 +45,15 @@ public class EditAccount {
         sqlContext.setQueryBuilder(sqlBuilder);
         acctUser = (User) sqlContext.makeQuery();
 
-        //TODO : validate the query result against user input
         /* */
-        String emailRetrieved = acctUser.getEmail();
-        String pwdRetrieved = acctUser.getPassword();
-        if (email.equals(emailRetrieved) && pwd.equals(pwdRetrieved)) {
-            return true;
+        String emailRetrieved = null;
+        String pwdRetrieved = null;
+        if (acctUser != null) {
+            emailRetrieved = acctUser.getEmail();
+            pwdRetrieved = acctUser.getPassword();
+            if (email.equals(emailRetrieved) && pwd.equals(pwdRetrieved)) {
+                return true;
+            }
         }
         return false;
     }

@@ -14,7 +14,6 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "DFCAccount.db";
-//    private final String database_path = "/data/data/com.ICS499.ThrownException.DigitalFileCabinet/databases";
     private final Context context;
     SQLiteDatabase DFCDatabase;
     private final String TAG = "Database Initialization";
@@ -42,56 +41,6 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
 //        Log.d("Database Operations", "All tables are deleted");
 //        onCreate(db);
     }
-
-//    private boolean checkDatabase() {
-//        try{
-//            final String DB_PATH = database_path + DATABASE_NAME;
-//            final File file = new File(DB_PATH);
-//            if(file.exists()) {
-//                return true;
-//            }else {
-//                return false;
-//            }
-//        }catch (SQLException e){
-//            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-//            return false;
-//        }
-//    }
-
-//    private void getDatabase() throws IOException {
-//        try {
-//            InputStream inputStream = context.getAssets().open(DATABASE_NAME);
-//            String outputFIleName = database_path + DATABASE_NAME;
-//            OutputStream outputStream = new FileOutputStream(outputFIleName);
-//            byte[] buffer = new byte[1024];
-//            int length;
-//            while((length = inputStream.read(buffer)) > 0) {
-//                outputStream.write(buffer, 0, length);
-//            }
-//            outputStream.flush();
-//            outputStream.close();
-//            inputStream.close();
-//
-//        }catch (Exception e) {
-//            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-//        }
-//    }
-
-//    public void createDatabase() throws  IOException {
-//        boolean databaseExist = checkDatabase();
-//        if(!checkDatabase()) {
-//            this.getReadableDatabase();
-//            this.close();
-//        }
-//        try {
-//            getDatabase();
-//        }catch (IOException e) {
-//            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-//            throw new Error("Error retrieving database");
-//        }finally {
-//            this.close();
-//        }
-//    }
 
     @Override
     public synchronized void close() {

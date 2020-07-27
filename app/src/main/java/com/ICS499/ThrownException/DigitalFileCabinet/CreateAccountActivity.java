@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -25,8 +24,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
         myContext = getApplicationContext();
-        dbHelper = new DFCAccountDBHelper(myContext);
-        cabinet = FileCabinet.getInstance(myContext);
+        dbHelper = new DFCAccountDBHelper(getApplicationContext());
+        cabinet = FileCabinet.getInstance(getApplication());
 
         Log.d(TAG, "onCreate: Started.");
 
@@ -65,27 +64,31 @@ public class CreateAccountActivity extends AppCompatActivity {
                         dfcUser = createModel.createUser(myContext);
                         cabinet.setUser(dfcUser);
                         Log.d(TAG, "User created");
+                        Log.d(TAG, cabinet.getUser().toString());
+                        Log.d(TAG, cabinet.getEditAccount().isActive()+"");
+                        EditAccount account = cabinet.getEditAccount();
+                        account.createAccount(dbHelper, cabinet.getUser());
+                        Log.d(TAG, account.isActive()+"");
+                        while(!account.isActive()){
 
-                        boolean isCreated = cabinet.getEditAccount().createAccount(dbHelper, cabinet.getUser());
-                        Log.d(TAG, cabinet.getUser().getFirstName());
-                        if (isCreated) {
-                            Log.d(TAG, cabinet.getUser().getFirstName());
-                            Toast.makeText(getApplicationContext(), "Welcome "+
-                                            dfcUser.getLastName(),
-                                            Toast.LENGTH_SHORT).show();
-                            /* Redirect the user to the home activity */
-                            Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
-//                        Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
-                            startActivity(homeActivityIntent);
-                        }else {
-                            Toast.makeText(myContext, "Account creating failed", Toast.LENGTH_LONG).show();
                         }
+                        Toast.makeText(myContext, "Account created successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Welcome "+
+                                        dfcUser.getLastName(),
+                                        Toast.LENGTH_SHORT).show();
+                        /* Redirect the user to the home activity */
+                        Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
+//                        Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
+                        startActivity(homeActivityIntent);
+
+
                     }else {
                         Toast.makeText(getApplicationContext(), "Please provide valid input only",
                                 Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Please provide the input",
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), e.getMessage(),
                             Toast.LENGTH_LONG).show();
                 }
             }

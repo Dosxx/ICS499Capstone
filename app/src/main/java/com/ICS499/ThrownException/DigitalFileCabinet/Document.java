@@ -87,7 +87,7 @@ public class Document implements Serializable {
 
 
     public String toString() {
-        return String.format("Name: %s\rCreate date: %s\rLast edited: %s\rFilePath: %s\r",
+        return String.format("Name: %s\nCreate date: %s\nLast edited: %s\nFilePath: %s",
                 this.documentName,
                 this.createdDate,
                 this.lastEditDate,
