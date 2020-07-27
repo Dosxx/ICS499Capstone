@@ -12,7 +12,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CreateAccountModel extends ViewModel {
+public class CreateAccountValidator extends ViewModel {
     public static final String PASSWORD_ERROR = "Password must be >= 8 and contains alpha-numeric characters and symbols";
     public static final String EMAIL_ERROR = "Not a valid email";
     public static final String NAME_ERROR = "Not a valid Name";

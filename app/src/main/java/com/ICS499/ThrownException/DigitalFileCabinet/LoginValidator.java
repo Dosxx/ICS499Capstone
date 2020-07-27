@@ -11,7 +11,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LogInModel extends ViewModel {
+public class LoginValidator extends ViewModel {
     private String email = null;
     private String pwd = null;
     private boolean isValid = false;
