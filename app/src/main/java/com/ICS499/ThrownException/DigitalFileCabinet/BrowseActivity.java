@@ -28,7 +28,7 @@ public class BrowseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstateState){
         super.onCreate(savedInstateState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_browse);
         myContext = getApplicationContext();
         cabinet = FileCabinet.getInstance(myContext);
         listView = findViewById(R.id.docList);
