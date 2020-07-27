@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class SelectDocumentQueryBuilder extends QueryBuilder {
 
     private DFCAccountDBHelper dbHelper;
-    private ArrayList<Document> queryResultList = new ArrayList<>();
+    private ArrayList<Document>  documentsResult = new ArrayList<>();
 
     public SelectDocumentQueryBuilder(Context appContext){
         dbHelper = new DFCAccountDBHelper(appContext);
@@ -47,8 +47,8 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         };
 
         // Filter results WHERE "title" = 'My Title'
-        String selection = DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_NAME + " = ?";
-        String[] selectionArgs = { "document_name" };
+//        String selection = DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_NAME + " = ?";
+//        String[] selectionArgs = { "document_name" };
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
@@ -57,17 +57,14 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         Cursor cursor = db.query(
                 DocumentReaderContract.DocumentEntry.TABLE_NAME,   // The table to query
                 projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                selectionArgs,          // The values for the WHERE clause
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
                 null,          // don't group the rows
                 null,           // don't filter by row groups
                 sortOrder              // The sort order
         );
 
         /* retrieve the data from the cursor */
-        //TODO: define what data need to be retrieve
-        //TODO: build document form the query result and return in arraylist
-        Document result = null;
         while(cursor.moveToNext()) {
             String document_Id = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry._ID));
@@ -79,9 +76,10 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LAST_MODIFIED));
             String location = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LOCATION));
-            result = new Document(document_name, location, new File(location));
+            documentsResult.add(new Document(document_name, location, new File(location)));
         }
         cursor.close();
-        return result;
+        //TODO : might need to fix this
+        return documentsResult.get(0);
     }
 }
