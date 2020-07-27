@@ -7,7 +7,7 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class SelectUserQueryBuilder implements  QueryBuilder{
+public class SelectUserQueryBuilder extends QueryBuilder{
     /* Make a query to the database to get the user data */
 
     private DFCAccountDBHelper dbHelper;
@@ -24,12 +24,13 @@ public class SelectUserQueryBuilder implements  QueryBuilder{
     }
 
     @Override
-    public void addQuery() {
+    public Object addQuery() {
         /* Will not be used */
+        return null;
     }
 
     @Override
-    public boolean selectQuery() {
+    public Object selectQuery() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -66,7 +67,7 @@ public class SelectUserQueryBuilder implements  QueryBuilder{
 
         /* retrieve the data from the cursor */
         if(cursor.getCount() < 1){
-            return false;
+            return null;
         }else {
             while(cursor.moveToNext()) {
                 long userID = cursor.getLong(cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry._ID));
@@ -82,7 +83,7 @@ public class SelectUserQueryBuilder implements  QueryBuilder{
                 foundUser.setUser_id(userID);
             }
             cursor.close();
-            return foundUser.getUser_id()!= 0;
+            return foundUser;
         }
     }
 }

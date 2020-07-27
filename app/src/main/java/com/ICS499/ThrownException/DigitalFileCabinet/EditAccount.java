@@ -21,7 +21,7 @@ public class EditAccount {
         sqlContext = new QueryContext();
         sqlBuilder = new AddUserQueryBuilder(dbHelper, acctUser);
         sqlContext.setQueryBuilder(sqlBuilder);
-        sqlContext.makeQuery();
+        acctUser = (User) sqlContext.makeQuery();
         if (acctUser.getUser_id() != 0) {
             setActive(true);
         }
@@ -35,18 +35,18 @@ public class EditAccount {
         return isActive;
     }
 
-    public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd, Context context) {
-        sqlContext = new QueryContext();
-        /*find user in the database */
-        sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
-        sqlContext.setQueryBuilder(sqlBuilder);
-        sqlContext.makeQuery();
-
-        //TODO : validate the query result against user input
-        /* */
-        sqlBuilder.
-        return
-    }
+//    public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd, Context context) {
+//        sqlContext = new QueryContext();
+//        /*find user in the database */
+//        sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
+//        sqlContext.setQueryBuilder(sqlBuilder);
+//        sqlContext.makeQuery();
+//
+//        //TODO : validate the query result against user input
+//        /* */
+//        SelectUserQueryBuilder user = (SelectUserQueryBuilder)sqlBuilder.getFoundUser();
+//        return
+//    }
 
     private void makeQuery(User user, Context context, QueryBuilder query){
         this.acctUser = user;
