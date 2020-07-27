@@ -1,32 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".EditDocumentActivity">
 
-
-    <TextView
-        android:id="@+id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/ScanDocumentButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="45sp"
-        android:text="@string/Scan"
-        android:textStyle="bold"/>
+        android:text="@string/capture_image"
+        android:background="@drawable/button_round"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
-    <TextView
-        android:layout_below="@id/label"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:text="@string/edit_fragment_Scan_xml_to_change_the_appearance"
-        android:id="@+id/textView2" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/small_scaled_image"
+                android:textColor="@color/colorButton"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/captureImageSmall"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:contentDescription="@string/app_name"
+                android:adjustViewBounds="false"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/original_image"
+                android:textColor="@color/colorButton"
+                android:textSize="16sp"/>
+            <ImageView
+                android:id="@+id/captureImageOriginal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:contentDescription="@string/app_name"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -36,7 +36,7 @@ public class DocumentViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_document_view);
-        setContentView(R.layout.activity_capture_image);
+        setContentView(R.layout.fragment_scan);
         imageSmall = findViewById(R.id.captureImageSmall);
         imageOriginal = findViewById(R.id.captureImageOriginal);
 

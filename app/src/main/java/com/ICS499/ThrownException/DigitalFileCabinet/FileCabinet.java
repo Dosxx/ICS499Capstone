@@ -64,4 +64,19 @@ public class FileCabinet extends Application {
     public EditAccount getEditAccount() {
         return editAccount;
     }
+
+    public EditDocument getEditDocument() {
+        return editDocument;
+    }
+    public void setEditDocument(EditDocument editDocument) {
+        this.editDocument = editDocument;
+    }
+
+    public FileBrowser getFileBrowser(){
+    	return fileBrowser;
+    }
+    public void setFileBrowser(FileBrowser fileBrowser){
+    	this.fileBrowser = fileBrowser;
+    }
+
 }
