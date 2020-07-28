@@ -14,11 +14,11 @@
     <string name="prompt_lastName">Last Name</string>
     <string name="prompt_confirm_password">Confirm password</string>
     <string name="password_mismatch">Password do not match</string>
-    <string name="action_sign_up">Create Account</string>
+    <string name="action_sign_up">SIGN UP</string>
     <string name="welcome">"Welcome !"</string>
     <string name="action_Cancel">Cancel</string>
     <string name="Cancel_button">Cancel</string>
-    <string name="sign_up_button">Create Account</string>
+    <string name="sign_up_button">SIGN UP</string>
     <string name="invalid_name">Not a valid name</string>
     <string name="invalid_email">Not a valid email</string>
 
@@ -36,16 +36,16 @@
     <string name="document_folder">Folder</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="sign_up">SIGN UP</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="create_account">Create Account</string>
+    <string name="create_account">SIGN UP</string>
     <string name="profile_view">User Name</string>
     <string name="content_description_search">Search</string>
     <string name="content_description_login">Login</string>
     <string name="content_description_logout">Logout</string>
     <string name="content_description_signUp">Sign up</string>
     <string name="page_title_home">Home Page</string>
-    <string name="page_title_sign_in">Sign in</string>
+    <string name="page_title_sign_in">SIGN IN</string>
     <string name="page_title_create">Create Account</string>
     <string name="page_title">test tittle</string>
     <string name="page_title_document_view">Document View</string>
@@ -70,6 +70,12 @@
     <string name="edit_fragment_Import_xml_to_change_the_appearance">Edit fragment_Import.xml to change the appearance</string>
     <string name="edit_fragment_logout_xml_to_change_the_appearance">Edit fragment_logout.xml to change the appearance</string>
     <string name="edit_fragment_Scan_xml_to_change_the_appearance">Edit fragment_Scan.xml to change the appearance</string>
+    <string name="goodbye">Goodbye</string>
+    <string name="loading">Loading...</string>
+    <string name="folder_image">folder_image</string>
+    <string name="delete_user">"Delete "</string>
+    <string name="deleteAccountDialog_title">Delete Account</string>
+    <string name="deleteAcountDialog">Delete Account</string>
 
 
     <string-array name="navigation_drawer_items_array">

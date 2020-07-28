@@ -1,5 +1,8 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,6 +26,7 @@ import androidx.fragment.app.FragmentManager;
 public class DFCHomeActivity extends AppCompatActivity {
     private FileCabinet cabinet;
     private User accountUser = null;
+    private EditAccount account;
     public static final String TAG = "DFCHomeActivity";
     private Toolbar toolbar;
     private String[] navigationDrawerItemTitles;
@@ -39,6 +43,8 @@ public class DFCHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         cabinet = FileCabinet.getInstance(getApplication());
         accountUser = cabinet.getUser();
+        account = cabinet.getEditAccount();
+
 
         title = drawerTitle = getTitle();
         navigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
@@ -74,6 +80,8 @@ public class DFCHomeActivity extends AppCompatActivity {
         final TextView userName = findViewById(R.id.profile_name_textView);
         final TextView userProfile = findViewById(R.id.profileDetailTextView);
         final Button profileButton = findViewById(R.id.profile_button);
+        final Button deleteAccount = findViewById(R.id.deleteUserButton);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         /*show the logged in user name */
         if (accountUser != null) {
@@ -85,9 +93,42 @@ public class DFCHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(accountUser != null) {
                     userProfile.setText(accountUser.toString());
+                    if(userProfile.getVisibility() == TextView.VISIBLE) {
+                        deleteAccount.setVisibility(Button.INVISIBLE);
+                        userProfile.setVisibility(TextView.INVISIBLE);
+                    }else {
+                        deleteAccount.setVisibility(Button.VISIBLE);
+                        userProfile.setVisibility(TextView.VISIBLE);
+                    }
                 }else {
                     Toast.makeText(cabinet.getContext(),"Profile Not Available",
                             Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*confirm this action first*/
+                try{
+                    builder.setTitle("Delete Account")
+                            .setMessage("Are you sure you want to delete the account?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    boolean yes = account.deleteAccount(cabinet.getDfcHelper());
+                                    Intent intent = new Intent(getApplication(), MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //  Action for 'NO' Button
+                                    dialog.cancel();
+                                }
+                            }).create().show();
+                }catch (Exception e){
+                    Toast.makeText(cabinet.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -111,7 +152,6 @@ public class DFCHomeActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
-
     }
 
     private void selectItem(int position) {
@@ -178,9 +218,5 @@ public class DFCHomeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-
-//    Intent homeActivityIntent = new Intent(myContext, DocumentViewActivity.class);
-//    Intent loginIntent = getIntent();
-//        Deneme dene = (Deneme)i.getSerializableExtra("sampleObject");
 
 }

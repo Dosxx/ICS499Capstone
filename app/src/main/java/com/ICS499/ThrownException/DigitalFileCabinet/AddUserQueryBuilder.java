@@ -45,4 +45,10 @@ public class AddUserQueryBuilder extends QueryBuilder{
        /* Will not be used*/
         return null;
     }
+
+    @Override
+    Object deleteQuery() {
+        /* Will not be used */
+        return null;
+    }
 }

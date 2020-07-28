@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -36,6 +38,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         final EditText emailEditText = findViewById(R.id.email_input);
         final EditText passwordEditText = findViewById(R.id.password_input);
         final EditText password2EditText = findViewById(R.id.confirm_password_input);
+        final ProgressBar loadingProgressBar = findViewById(R.id.create_loading);
+
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +62,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void onClick(View v) {
             /* instantiate a user with the provided input */
             Log.d(TAG,"Creating a user ");
+            loadingProgressBar.setVisibility(View.GONE);
             try {
                 if(createModel.isValid()) {
                     /* Create a user with valid input only */
@@ -70,7 +75,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     account.createAccount(dbHelper, cabinet.getUser());
                     Log.d(TAG, account.isActive()+"");
                     while(!account.isActive()){
-
+                        loadingProgressBar.setVisibility(View.VISIBLE);
                     }
                     Toast.makeText(myContext, "Account created successfully", Toast.LENGTH_LONG).show();
                     Toast.makeText(getApplicationContext(), "Welcome "+

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DFCAccountDBHelper(this);
         myContext = this;
         cabinet = FileCabinet.getInstance(myContext);
+        cabinet.setDfcHelper(dbHelper);
         account = new EditAccount();
         Log.d(TAG, "onCreate: Started.");
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView forgotPasswordLabel = findViewById(R.id.forgotPasswordTextView);
         final EditText emailEditText = findViewById(R.id.email_input);
         final EditText passwordEditText = findViewById(R.id.password_input);
+        final ProgressBar loadingProgressBar = findViewById(R.id.progressBar);
 
         /* Show create content view on the click of create account button*/
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (model.isValid()) {
                     if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
+                        loadingProgressBar.setVisibility(View.VISIBLE);
+//                        while(!account.isActive()){
+//                            loadingProgressBar.setVisibility(View.GONE);
+//                        }
                         cabinet.setUser(account.getAcctUser());
                         cabinet.setEditAccount(account);
                         Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
@@ -98,12 +105,20 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+
+        if (getIntent().getBooleanExtra("EXIT", false))
+        {
+            finish();
+        }
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         dbHelper.close();
     }
-
-//    homeActivityIntent.putExtra("authenticatedUser", )
+    @Override
+    public void onBackPressed()
+    {
+        moveTaskToBack(true);
+    }
 }

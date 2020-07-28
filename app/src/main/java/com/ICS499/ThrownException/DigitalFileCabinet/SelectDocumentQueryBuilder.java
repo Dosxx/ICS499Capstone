@@ -65,7 +65,6 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         );
 
         /* retrieve the data from the cursor */
-        Document result = null;
         while(cursor.moveToNext()) {
             String document_Id = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry._ID));
@@ -82,5 +81,11 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         }
         cursor.close();
         return queryResultList;
+    }
+
+    @Override
+    Object deleteQuery() {
+        // Will not be user
+        return null;
     }
 }
