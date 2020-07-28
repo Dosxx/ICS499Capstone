@@ -42,11 +42,15 @@ public class EditAccount {
         return (int) DatabaseUtils.queryNumEntries(db, UserReaderContract.UserEntry.TABLE_NAME);
     }
 
-    public boolean deleteAccount() {
+    public boolean deleteAccount(DFCAccountDBHelper dbHelper) {
         /* Delete the user and account from database */
+        sqlContext = new QueryContext();
+        sqlBuilder = new DeleteUserQueryBuilder(dbHelper, acctUser);
+        sqlContext.setQueryBuilder(sqlBuilder);
         // TODO: remove the account data from the database
+        int result = ((Integer) sqlContext.makeQuery()).intValue();
         setActive(false);
-        return isActive;
+        return result != 0;
     }
 
     public boolean isActive() {

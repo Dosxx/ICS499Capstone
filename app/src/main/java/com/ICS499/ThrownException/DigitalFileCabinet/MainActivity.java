@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DFCAccountDBHelper(this);
         myContext = this;
         cabinet = FileCabinet.getInstance(myContext);
+        cabinet.setDfcHelper(dbHelper);
         account = new EditAccount();
         Log.d(TAG, "onCreate: Started.");
 
@@ -71,12 +72,13 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                while(!model.isValid()){
-                    loadingProgressBar.setVisibility(View.GONE);
-                }
+
                 if (model.isValid()) {
                     if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
+                        loadingProgressBar.setVisibility(View.VISIBLE);
+//                        while(!account.isActive()){
+//                            loadingProgressBar.setVisibility(View.GONE);
+//                        }
                         cabinet.setUser(account.getAcctUser());
                         cabinet.setEditAccount(account);
                         Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
@@ -103,10 +105,20 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+
+        if (getIntent().getBooleanExtra("EXIT", false))
+        {
+            finish();
+        }
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         dbHelper.close();
+    }
+    @Override
+    public void onBackPressed()
+    {
+        moveTaskToBack(true);
     }
 }

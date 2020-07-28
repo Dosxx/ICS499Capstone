@@ -53,6 +53,7 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="25dp"
                     android:text="@string/profile_view"
+                    android:textColor="#000000"
                     android:textSize="24sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -71,11 +72,24 @@
                     android:visibility="invisible"
                     android:paddingRight="10dp"
                     android:paddingBottom="10dp"
+                    android:textSize="15sp"
+                    android:textColor="#000000"
                     android:text="@string/profile_detail" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </FrameLayout>
+
+        <Button
+            android:id="@+id/deleteUserButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_user"
+            android:visibility="invisible"
+            android:background="@drawable/button_round"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -84,7 +98,7 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#423E3E"
+        android:background="#FFFFFF"
         android:choiceMode="singleChoice"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />

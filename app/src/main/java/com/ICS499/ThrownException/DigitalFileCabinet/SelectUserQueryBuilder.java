@@ -43,27 +43,27 @@ public class SelectUserQueryBuilder extends QueryBuilder{
                 UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD
         };
 
-        // Filter results WHERE "email" = 'email' and "Password" = 'password'
-//        String selection = UserReaderContract.UserEntry.COLUMN_NAME_EMAIL + " = ?";
-//        String[] selectionArgs = {email};
+        // Filter results WHERE "email" = email
+        String selection = UserReaderContract.UserEntry.COLUMN_NAME_EMAIL + " = ?";
+        String[] selectionArgs = {email};
 
         // How you want the results sorted in the resulting Cursor
-        String sortOrder =
-                UserReaderContract.UserEntry._ID+ " DESC";
+        String sortOrder = UserReaderContract.UserEntry._ID+ " DESC";
+
+/**        Cursor cursor = db.query(
+                UserReaderContract.UserEntry.TABLE_NAME,   // The table to query
+               projection,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,          // don't group the rows
+                null,           // don't filter by row groups
+                sortOrder              // The sort order
+        );
+**/
 
         Cursor cursor = db.rawQuery("SELECT * FROM "+
-                UserReaderContract.UserEntry.TABLE_NAME,
+                        UserReaderContract.UserEntry.TABLE_NAME,
                 null);
-
-//        Cursor cursor = db.query(
-//                UserReaderContract.UserEntry.TABLE_NAME,   // The table to query
-//                projection,             // The array of columns to return (pass null to get all)
-//                null,              // The columns for the WHERE clause
-//                null,          // The values for the WHERE clause
-//                null,          // don't group the rows
-//                null,           // don't filter by row groups
-//                sortOrder              // The sort order
-//        );
 
         /* retrieve the data from the cursor */
         if(cursor.getCount() < 1){
@@ -87,5 +87,11 @@ public class SelectUserQueryBuilder extends QueryBuilder{
             /* Return the first user in the database */
             return foundUser;
         }
+    }
+
+    @Override
+    Object deleteQuery() {
+        // Will not be use
+        return null;
     }
 }

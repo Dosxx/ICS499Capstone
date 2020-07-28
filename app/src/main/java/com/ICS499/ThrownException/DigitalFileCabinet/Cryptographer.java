@@ -7,10 +7,12 @@ public class Cryptographer extends Application {
 
 
     public String encrypt(Document document) {
+
         return "cipherText";
     }
 
     public String decrypt(Document document) {
+
         return "cipherText";
     }
 

@@ -1,5 +1,6 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,10 +14,11 @@ public class LogoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /* Logout of the application */
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), MainActivity.class);
-        getActivity().startActivity(intent);
-
+        Activity thisActivity = getActivity();
+        if (thisActivity != null) {
+            startActivity(new Intent(thisActivity, MainActivity.class));
+            thisActivity.finishAffinity();
+        }
         /* Inflate the layout for this fragment */
         return inflater.inflate(R.layout.fragment_logout, container, false);
     }

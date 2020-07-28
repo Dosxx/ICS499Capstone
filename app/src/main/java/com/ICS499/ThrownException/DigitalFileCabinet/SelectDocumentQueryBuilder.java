@@ -82,4 +82,10 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         cursor.close();
         return queryResultList;
     }
+
+    @Override
+    Object deleteQuery() {
+        // Will not be user
+        return null;
+    }
 }
