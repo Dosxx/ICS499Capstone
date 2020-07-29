@@ -16,10 +16,10 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     public static final String TAG = "CreateAccountActivity";
     private Context myContext;
-    private User dfcUser;
-    private FileCabinet cabinet;
+    private User dfcUser = null;
+    private FileCabinet cabinet = null;
     private DFCAccountDBHelper dbHelper;
-    private EditAccount account;
+    private EditAccount account = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +61,15 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             /* instantiate a user with the provided input */
-            Log.d(TAG,"Creating a user ");
+            Log.d(TAG,"Creating a user: "+createModel.getFirst()+" "+
+                                            createModel.getLast());
             loadingProgressBar.setVisibility(View.GONE);
             try {
                 if(createModel.isValid()) {
                     /* Create a user with valid input only */
                     dfcUser = createModel.createUser(myContext);
                     cabinet.setUser(dfcUser);
-                    Log.d(TAG, "User created");
+                    Log.d(TAG, "User "+dfcUser+" created");
 
                     EditAccount account = cabinet.getEditAccount();
                     account.createAccount(dbHelper, cabinet.getUser());
