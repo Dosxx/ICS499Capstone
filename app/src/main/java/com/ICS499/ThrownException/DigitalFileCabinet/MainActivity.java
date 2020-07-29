@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /* Check if the database has a user store, if so disable this activity */
                 if(account.isUserRegistered(dbHelper)) {
-                    Toast.makeText(myContext, "Please sign in An account is registered",
+                    Toast.makeText(myContext, "Please sign in! An account is registered",
                             Toast.LENGTH_LONG).show();
                 }else {
                     /* Switch the context to the create activity view */
@@ -76,16 +76,15 @@ public class MainActivity extends AppCompatActivity {
                 if (model.isValid()) {
                     if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
                         loadingProgressBar.setVisibility(View.VISIBLE);
-//                        while(!account.isActive()){
-//                            loadingProgressBar.setVisibility(View.GONE);
-//                        }
+
                         cabinet.setUser(account.getAcctUser());
                         cabinet.setEditAccount(account);
                         Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
                         startActivity(homeActivityIntent);
                         Toast.makeText(myContext, "Welcome!", Toast.LENGTH_SHORT).show();
                     }else {
-                        passwordEditText.setError("Wrong password or email!");
+                        emailEditText.setError("Wrong Email");
+                        passwordEditText.setError("Wrong email!");
                         passwordEditText.setText("");
                         Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
                     }
@@ -111,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -121,4 +121,5 @@ public class MainActivity extends AppCompatActivity {
     {
         moveTaskToBack(true);
     }
+
 }

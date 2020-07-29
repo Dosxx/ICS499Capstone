@@ -69,8 +69,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     dfcUser = createModel.createUser(myContext);
                     cabinet.setUser(dfcUser);
                     Log.d(TAG, "User created");
-                    Log.d(TAG, cabinet.getUser().toString());
-                    Log.d(TAG, cabinet.getEditAccount().isActive()+"");
+
                     EditAccount account = cabinet.getEditAccount();
                     account.createAccount(dbHelper, cabinet.getUser());
                     Log.d(TAG, account.isActive()+"");
@@ -95,5 +94,10 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
