@@ -40,41 +40,11 @@ public class DFCHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_home);
         cabinet = FileCabinet.getInstance(getApplication());
         accountUser = cabinet.getUser();
         account = cabinet.getEditAccount();
-
-
-        title = drawerTitle = getTitle();
-        navigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        drawerList = findViewById(R.id.left_drawer);
-
-        /* set up the navigation many items*/
-        setupToolbar();
-        NavigationDataModel[] drawerItem = new NavigationDataModel[7];
-
-        drawerItem[0] = new NavigationDataModel(R.drawable.ic_scanner_24, "Scan");
-        drawerItem[1] = new NavigationDataModel(R.drawable.ic_import_export_24, "import");
-        drawerItem[2] = new NavigationDataModel(R.drawable.ic_encrypt_24, "Encrypt");
-        drawerItem[3] = new NavigationDataModel(R.drawable.ic_decrypt_24, "Decrypt");
-        drawerItem[4] = new NavigationDataModel(R.drawable.ic_browse_24, "Browse");
-        drawerItem[5] = new NavigationDataModel(R.drawable.ic_edit_24, "Edit");
-        drawerItem[6] = new NavigationDataModel(R.drawable.ic_logout_24, "Logout");
-
-        try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }catch (Exception e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-        getSupportActionBar().setHomeButtonEnabled(true);
-        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.navigation_list_view, drawerItem);
-        drawerList.setAdapter(adapter);
-        drawerList.setOnItemClickListener(new DrawerItemClickListener());
-        drawerLayout = findViewById(R.id.drawer_layout);
-        drawerLayout.addDrawerListener(drawerToggle);
-        setupDrawerToggle();
 
 
         final TextView userName = findViewById(R.id.profile_name_textView);
@@ -82,6 +52,7 @@ public class DFCHomeActivity extends AppCompatActivity {
         final Button profileButton = findViewById(R.id.profile_button);
         final Button deleteAccount = findViewById(R.id.deleteUserButton);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
 
         /*show the logged in user name */
         if (accountUser != null) {
@@ -117,8 +88,12 @@ public class DFCHomeActivity extends AppCompatActivity {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     boolean yes = account.deleteAccount(cabinet.getDfcHelper());
-                                    Intent intent = new Intent(getApplication(), MainActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("EXIT", true);
                                     startActivity(intent);
+                                   startActivity(intent);
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -132,7 +107,98 @@ public class DFCHomeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /**
+         * Fragment view set up
+         */
+        title = drawerTitle = getTitle();
+        navigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerList = findViewById(R.id.left_drawer);
+
+        /* set up the navigation many items*/
+        setupToolbar();
+        NavigationDataModel[] drawerItem = new NavigationDataModel[7];
+
+        drawerItem[0] = new NavigationDataModel(R.drawable.ic_scanner_24, "Scan");
+        drawerItem[1] = new NavigationDataModel(R.drawable.ic_import_export_24, "import");
+        drawerItem[2] = new NavigationDataModel(R.drawable.ic_encrypt_24, "Encrypt");
+        drawerItem[3] = new NavigationDataModel(R.drawable.ic_decrypt_24, "Decrypt");
+        drawerItem[4] = new NavigationDataModel(R.drawable.ic_browse_24, "Browse");
+        drawerItem[5] = new NavigationDataModel(R.drawable.ic_edit_24, "Edit");
+        drawerItem[6] = new NavigationDataModel(R.drawable.ic_logout_24, "Logout");
+
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        getSupportActionBar().setHomeButtonEnabled(true);
+        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.navigation_list_view, drawerItem);
+        drawerList.setAdapter(adapter);
+        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.addDrawerListener(drawerToggle);
+        setupDrawerToggle();
     }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_dfc_menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle item selection
+//        switch (item.getItemId()) {
+//            case R.id.edit:
+//                //TODO
+//                Toast.makeText(cabinet.getContext(), "you click edit", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.encrypt:
+//                //TODO
+//                Toast.makeText(cabinet.getContext(), "you click encrypt", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.scan:
+//                //TODO
+//                Toast.makeText(cabinet.getContext(), "you click scan", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.decrypt:
+//                //TODO
+//                Toast.makeText(cabinet.getContext(), "you click decrypt", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.delete:
+//                //TODO
+//                Toast.makeText(cabinet.getContext(), "you click delete", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.browse:
+//                //TODO
+//                Toast.makeText(cabinet.getContext(), "you click browse", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R.id.logout:
+//                finishActivity(0);
+////                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+////                startActivity(intent);
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        moveTaskToBack(true);
+    }
+
+
+/** above goes in the onCreate method**/
 
     private void setupToolbar()throws NullPointerException {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -212,11 +278,6 @@ public class DFCHomeActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
 }

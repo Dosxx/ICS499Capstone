@@ -41,8 +41,7 @@
     <string name="create_account">SIGN UP</string>
     <string name="profile_view">User Name</string>
     <string name="content_description_search">Search</string>
-    <string name="content_description_login">Login</string>
-    <string name="content_description_logout">Logout</string>
+
     <string name="content_description_signUp">Sign up</string>
     <string name="page_title_home">Home Page</string>
     <string name="page_title_sign_in">SIGN IN</string>
@@ -75,7 +74,10 @@
     <string name="folder_image">folder_image</string>
     <string name="delete_user">"Delete "</string>
     <string name="deleteAccountDialog_title">Delete Account</string>
-    <string name="deleteAcountDialog">Delete Account</string>
+    <string name="deleteAccountDialog">Delete Account</string>
+    <string name="delete">Delete</string>
+    <string name="document">Document View</string>
+    <string name="documentName">Document Name</string>
 
 
     <string-array name="navigation_drawer_items_array">
@@ -87,5 +89,8 @@
         <item>Edit</item>
         <item>Logout</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button">Back</string>
 
 </resources>
