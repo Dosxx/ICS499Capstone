@@ -11,7 +11,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class EditAccount {
     private boolean isActive = false;
-    private User acctUser;
+    private User acctUser = null;
     private QueryContext sqlContext;
     private QueryBuilder sqlBuilder;
 

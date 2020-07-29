@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     private Context myContext;
-    private FileCabinet cabinet;
+    private FileCabinet cabinet = null;
     private DFCAccountDBHelper dbHelper;
     private EditAccount account;
 
