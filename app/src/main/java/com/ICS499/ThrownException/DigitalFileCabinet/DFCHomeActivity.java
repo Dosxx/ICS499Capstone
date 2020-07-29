@@ -89,11 +89,10 @@ public class DFCHomeActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     boolean yes = account.deleteAccount(cabinet.getDfcHelper());
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("EXIT", true);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
-                                   startActivity(intent);
+                                    finishAffinity();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {

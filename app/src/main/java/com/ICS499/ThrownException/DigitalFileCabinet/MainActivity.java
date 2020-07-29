@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
                     cabinet.setEditAccount(account);
                     startActivity(createAccountIntent);
-                    Log.i(TAG, "moving now");
+                    Log.i(TAG, "create activity initiated");
                 }
             }
         });
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (model.isValid()) {
-                    if (account.login(dbHelper, model.getEmail(),model.getPwd())) {
+                    if (account.login(dbHelper, model.getEmail(),model.getPwd(), emailEditText, passwordEditText)) {
                         loadingProgressBar.setVisibility(View.VISIBLE);
 
                         cabinet.setUser(account.getAcctUser());
@@ -83,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(homeActivityIntent);
                         Toast.makeText(myContext, "Welcome!", Toast.LENGTH_SHORT).show();
                     }else {
-                        emailEditText.setError("Wrong Email");
-                        passwordEditText.setError("Wrong email!");
                         passwordEditText.setText("");
                         Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
                     }
@@ -105,10 +103,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (getIntent().getBooleanExtra("EXIT", false))
-        {
-            finish();
-        }
     }
 
     @Override

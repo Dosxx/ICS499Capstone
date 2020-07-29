@@ -68,7 +68,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                     /* Create a user with valid input only */
                     dfcUser = createModel.createUser(myContext);
                     cabinet.setUser(dfcUser);
-                    Log.d(TAG, "User created");
 
                     EditAccount account = cabinet.getEditAccount();
                     account.createAccount(dbHelper, cabinet.getUser());

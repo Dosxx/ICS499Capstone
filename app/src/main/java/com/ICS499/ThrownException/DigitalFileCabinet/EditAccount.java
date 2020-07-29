@@ -6,6 +6,7 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.EditText;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -60,7 +61,7 @@ public class EditAccount {
         return acctUser;
     }
 
-    public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd) {
+    public boolean login(DFCAccountDBHelper dbHelper, String email, String pwd, final EditText emailInput, final EditText pass1) {
         sqlContext = new QueryContext();
         /*find user in the database */
         sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
@@ -75,9 +76,16 @@ public class EditAccount {
             pwdRetrieved = acctUser.getPassword();
             if (email.equals(emailRetrieved) && verifyHashPassword(pwd, pwdRetrieved)) {
                 return true;
+            }else if(!email.equals(emailRetrieved)){
+                emailInput.setError("Wrong Email!");
+            }else {
+                pass1.setError("Wong Password!");
             }
+            return false;
+        }else{
+            emailInput.setError("This Email is not registered!");
+            return false;
         }
-        return false;
     }
 
     /* Verify the password match */

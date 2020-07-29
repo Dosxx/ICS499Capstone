@@ -27,7 +27,12 @@ public class CreateAccountValidator extends ViewModel {
     /* Create account function*/
     public User createUser(Context context) {
         /* Create a user with valid input only */
-        return User.getUserInstance(first, last, email, pwd1);
+        User user = User.getUserInstance(first, last, email, pwd1);
+        user.setFirstName(first);
+        user.setLastName(last);
+        user.setEmail(email);
+        user.setPassword(pwd1);
+        return user;
     }
 
     public String getFirst() {
