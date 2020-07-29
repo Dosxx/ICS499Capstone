@@ -16,7 +16,10 @@ public class LogoutFragment extends Fragment {
         /* Logout of the application */
         Activity thisActivity = getActivity();
         if (thisActivity != null) {
-            startActivity(new Intent(thisActivity, MainActivity.class));
+            Intent logoutIntent = new Intent(thisActivity, MainActivity.class);
+            logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            logoutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(logoutIntent);
             thisActivity.finishAffinity();
         }
         /* Inflate the layout for this fragment */
