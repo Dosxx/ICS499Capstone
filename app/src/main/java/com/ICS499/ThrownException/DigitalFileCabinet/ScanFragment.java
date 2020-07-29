@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 public class ScanFragment extends Fragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -17,6 +18,7 @@ public class ScanFragment extends Fragment {
         intent.setClass(getActivity(), DocumentScanActivity.class);
         getActivity().startActivity(intent);
         return inflater.inflate(R.layout.fragment_scan, container, false);
+//        return inflater.inflate(R.layout.activity_capture_image, container, false);
     }
 }
 

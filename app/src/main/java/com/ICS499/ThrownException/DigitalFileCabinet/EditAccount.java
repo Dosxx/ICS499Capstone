@@ -30,7 +30,7 @@ public class EditAccount {
     }
 
     public boolean isUserRegistered(DFCAccountDBHelper dbHelper){
-        if(numberOfRowsInDB(dbHelper) > 1){
+        if(numberOfRowsInDB(dbHelper) == 1){
             return true;
         }else {
             return false;
@@ -42,11 +42,14 @@ public class EditAccount {
         return (int) DatabaseUtils.queryNumEntries(db, UserReaderContract.UserEntry.TABLE_NAME);
     }
 
-    public boolean deleteAccount() {
+    public boolean deleteAccount(DFCAccountDBHelper dbHelper) {
         /* Delete the user and account from database */
-        // TODO: remove the account data from the database
+        sqlContext = new QueryContext();
+        sqlBuilder = new DeleteUserQueryBuilder(dbHelper, acctUser);
+        sqlContext.setQueryBuilder(sqlBuilder);
+        int result = ((Integer) sqlContext.makeQuery()).intValue();
         setActive(false);
-        return isActive;
+        return result != 0;
     }
 
     public boolean isActive() {

@@ -29,4 +29,12 @@
         android:text="@string/edit_fragment_encrypt_xml_to_change_the_appearance"
         android:id="@+id/textView2" />
 
+    <Button
+        android:id="@+id/encryptButton"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_round"
+        android:layout_centerInParent="true"
+        android:text="@string/encrypt" />
+
 </RelativeLayout>

@@ -38,8 +38,8 @@ public class DocumentScanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_document_view);
-        setContentView(R.layout.fragment_scan);
+        setContentView(R.layout.activity_capture_image);
+
         imageSmall = findViewById(R.id.captureImageSmall);
         imageOriginal = findViewById(R.id.captureImageOriginal);
 
@@ -63,6 +63,7 @@ public class DocumentScanActivity extends AppCompatActivity {
                     );
                 } else {
                     dispatchCaptureImageIntent();
+                    //TODO figure out how to get document name from user here
                 }
             }
         });
@@ -90,7 +91,7 @@ public class DocumentScanActivity extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
-        String fileName = "IMAGE_" + new SimpleDateFormat(
+        String fileName =  "IMAGE_" + new SimpleDateFormat(
                             "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
         ).format(new Date());
         File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -124,6 +125,8 @@ public class DocumentScanActivity extends AppCompatActivity {
                 imageOriginal.setImageBitmap(BitmapFactory.decodeFile(currentImagePath));
                 // Following is the captured image file
                 // TODO : to be save on the database.
+                //TODO : dialog to request a document name
+                //TODO : create a document with the file below for saving
                 File capturedImageFile = new File(currentImagePath);
             }catch (Exception exception) {
                 Toast.makeText(this, exception.getMessage(),
@@ -147,4 +150,10 @@ public class DocumentScanActivity extends AppCompatActivity {
         options.inPurgeable = true;
         return BitmapFactory.decodeFile(currentImagePath, options);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
 }

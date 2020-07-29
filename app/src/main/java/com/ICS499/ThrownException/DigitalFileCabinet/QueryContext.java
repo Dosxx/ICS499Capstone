@@ -24,6 +24,8 @@ public class QueryContext {
         }else if(sqlBuilder instanceof SelectDocumentQueryBuilder) {
             queryResultList = (ArrayList) sqlBuilder.selectQuery();
             return queryResultList;
+        }else if(sqlBuilder instanceof DeleteUserQueryBuilder){
+            return (Integer) sqlBuilder.deleteQuery();
         }else return null;
     }
     public void setQueryBuilder(QueryBuilder sqlBuilder){

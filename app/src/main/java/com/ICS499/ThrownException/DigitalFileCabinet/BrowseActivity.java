@@ -1,16 +1,13 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +45,11 @@ public class BrowseActivity extends AppCompatActivity {
         list.add("Test13");
         list.add("Test14");
 
+        final RecyclerView fileListView = findViewById(R.id.listRecycleListView);
         adapter = new ArrayAdapter(myContext, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
 
         Log.d(TAG, "Currently Browsing");
+
     }
 }

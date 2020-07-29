@@ -22,6 +22,8 @@ public class FileCabinet extends Application {
     private EditAccount editAccount;
     private EditDocument editDocument;
     private FileBrowser fileBrowser;
+    private DFCAccountDBHelper dfcHelper;
+
 
     private FileCabinet(Context context) {
         this.context = context.getApplicationContext();
@@ -79,4 +81,10 @@ public class FileCabinet extends Application {
     	this.fileBrowser = fileBrowser;
     }
 
+    public DFCAccountDBHelper getDfcHelper() {
+        return dfcHelper;
+    }
+    public void setDfcHelper(DFCAccountDBHelper dfcHelper) {
+        this.dfcHelper = dfcHelper;
+    }
 }
