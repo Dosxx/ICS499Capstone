@@ -61,7 +61,7 @@
     <string name="decrypt">Decrypt</string>
     <string name="edit_fragment_decrypt_xml_to_change_the_appearance">Edit fragment_decrypt.xml to change the appearance</string>
     <string name="edit_fragment_browse_xml_to_change_the_appearance">Edit fragment_decrypt.xml to change the appearance</string>
-    <string name="browse">Browse file DB</string>
+    <string name="browse">Browse file Database</string>
     <string name="edit_fragment_edit_xml_to_change_the_appearance">Edit fragment_decrypt.xml to change the appearance</string>
     <string name="edit">edit</string>
     <string name="encrypt">encrypt</string>

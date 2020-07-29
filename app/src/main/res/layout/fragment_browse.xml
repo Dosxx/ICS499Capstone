@@ -7,16 +7,18 @@
     android:orientation="vertical"
     tools:context=".BrowseActivity">
 
-    <TextView
-        android:id="@+id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_width="fill_parent"
+
+    <Button
+        android:id="@+id/browse"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="45sp"
-        android:text="@string/browse"
-        android:textStyle="bold"/>
+        android:text="@string/capture_image"
+        android:background="@drawable/button_round"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
     <LinearLayout
 
