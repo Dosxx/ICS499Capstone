@@ -1,6 +1,5 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,6 @@ public class BrowseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), BrowseActivity.class);
-        getActivity().startActivity(intent);
         return inflater.inflate(R.layout.fragment_browse, container, false);
     }
 }

@@ -40,10 +40,11 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/imageCaptureView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="center"
+            android:orientation="vertical"
             android:padding="10dp">
 
             <TextView
@@ -52,14 +53,14 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/small_scaled_image"
                 android:textColor="@color/colorButton"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/captureImageSmall"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:contentDescription="@string/app_name"
-                android:adjustViewBounds="false"/>
+                android:adjustViewBounds="false"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,20 +68,17 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/original_image"
                 android:textColor="@color/colorButton"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <ImageView
                 android:id="@+id/captureImageOriginal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:contentDescription="@string/app_name"/>
+                android:contentDescription="@string/app_name" />
 
         </LinearLayout>
 
-
-
     </ScrollView>
-
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>

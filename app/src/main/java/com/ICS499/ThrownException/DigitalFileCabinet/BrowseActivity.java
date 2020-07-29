@@ -50,5 +50,6 @@ public class BrowseActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         Log.d(TAG, "Currently Browsing");
+
     }
 }

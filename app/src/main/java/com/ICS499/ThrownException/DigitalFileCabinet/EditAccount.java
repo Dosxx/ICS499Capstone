@@ -30,7 +30,7 @@ public class EditAccount {
     }
 
     public boolean isUserRegistered(DFCAccountDBHelper dbHelper){
-        if(numberOfRowsInDB(dbHelper) > 1){
+        if(numberOfRowsInDB(dbHelper) == 1){
             return true;
         }else {
             return false;
@@ -47,7 +47,6 @@ public class EditAccount {
         sqlContext = new QueryContext();
         sqlBuilder = new DeleteUserQueryBuilder(dbHelper, acctUser);
         sqlContext.setQueryBuilder(sqlBuilder);
-        // TODO: remove the account data from the database
         int result = ((Integer) sqlContext.makeQuery()).intValue();
         setActive(false);
         return result != 0;

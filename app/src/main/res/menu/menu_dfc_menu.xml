@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/ic_edit_24"
+        android:title="@string/edit"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/encrypt"
+        android:title="@string/encrypt"
+        android:icon="@drawable/ic_encrypt_24"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/scan"
+        android:title="@string/Scan"
+        android:icon="@drawable/ic_scanner_24"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/decrypt"
+        android:title="@string/decrypt"
+        android:icon="@drawable/ic_decrypt_24"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delete"
+        android:title="@string/delete"
+        android:icon="@drawable/ic_delete_24"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/browse"
+        android:title="@string/browse"
+        android:icon="@drawable/ic_browse_24"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"
+        android:icon="@drawable/ic_logout_24"
+        app:showAsAction="never" />
+
+</menu>
