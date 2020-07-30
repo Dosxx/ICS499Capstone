@@ -77,30 +77,43 @@
 
         <Button
             android:id="@+id/deleteUserButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="23dp"
+            android:layout_width="62dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="75dp"
             android:layout_marginEnd="300dp"
-            android:background="@drawable/button_round"
-            android:text="@string/delete_user"
+            android:background="@drawable/ic_delete_24"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/profileDetailTextView" />
 
+        <Button
+            android:id="@+id/ScanDocumentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="135dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="97dp"
+            android:background="@drawable/ic_scanner_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/deleteUserButton"
+            app:layout_constraintTop_toBottomOf="@+id/profileDetailTextView" />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/documentListView"
             android:layout_width="410dp"
             android:layout_height="337dp"
             android:layout_marginTop="45dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:paddingLeft="25dp"
+            android:paddingTop="25dp"
+            android:paddingRight="25dp"
+            android:paddingBottom="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deleteUserButton" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
