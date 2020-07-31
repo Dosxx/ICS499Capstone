@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class BrowseActivity extends AppCompatActivity {
         myContext = getApplicationContext();
         cabinet = FileCabinet.getInstance(myContext);
         listView = findViewById(R.id.docList);
-        list = cabinet.getFileBrowser().getList();
+//        list = cabinet.getFileBrowser().getList();
         list.add("Test1");
         list.add("Test2");
         list.add("Test3");
@@ -45,7 +44,7 @@ public class BrowseActivity extends AppCompatActivity {
         list.add("Test13");
         list.add("Test14");
 
-        final RecyclerView fileListView = findViewById(R.id.listRecycleListView);
+//        final RecyclerView fileListView = findViewById(R.id.listRecycleListView);
         adapter = new ArrayAdapter(myContext, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
 

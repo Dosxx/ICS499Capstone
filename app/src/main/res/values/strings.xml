@@ -77,7 +77,7 @@
     <string name="deleteAccountDialog">Delete Account</string>
     <string name="delete">Delete</string>
     <string name="document">Document View</string>
-    <string name="documentName">Document Name</string>
+    <string name="document_name">Document Name</string>
 
 
     <string-array name="navigation_drawer_items_array">
@@ -92,5 +92,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="button">Back</string>
+    <string name="name_document">Name your Document</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

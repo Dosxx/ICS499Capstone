@@ -4,43 +4,27 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.content.Context;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileBrowser {
     QueryContext sqlContext;
     QueryBuilder query;
-    FileCabinet cabinet = FileCabinet.getInstance(null);
-    EditDocument docSelector = cabinet.getEditDocument();
+    FileCabinet cabinet;
     Document doc;
     DFCAccountDBHelper dbHelper = new DFCAccountDBHelper(cabinet.getApplicationContext());
-    List photoDisplay = new ArrayList<Document>();
-    private boolean isBrowsing = true;
-    public void browse() {
-        long fileCount = dbHelper.getDocumentsCount();
-        for(long index = 0; index < fileCount; index++){
-            doc = makeQuery();
+    ArrayList<Document> photoDisplay = new ArrayList<Document>();
 
-        }
-        // TODO implement browsing functionality here
+    public FileBrowser(FileCabinet cabinet) {
+        this.cabinet = cabinet;
     }
 
-    public Document makeQuery() {
-        //TODO implement querying to facilitate browsing.
-//            docSelector.makeQuery(null, fetchDoc);
+    public ArrayList<Document> makeQuery() {
 
-
+        query = new SelectDocumentQueryBuilder(cabinet.getDfcHelper());
         sqlContext.setQueryBuilder(query);
         /*add user data into the database */
-        sqlContext.makeQuery();
-        return null;
+        photoDisplay = (ArrayList<Document>)sqlContext.makeQuery();
+        return photoDisplay;
     }
 
-    public void setIsBrowsing(Boolean isBrowsing){this.isBrowsing = isBrowsing;}
-    public Boolean getIsBrowsing(){return isBrowsing;}
-
-    public void setList(ArrayList list){this.photoDisplay = list;}
-    public List getList() {return photoDisplay;}
 }

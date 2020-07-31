@@ -4,12 +4,8 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,8 +16,8 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
     private DFCAccountDBHelper dbHelper;
     private ArrayList<Document> queryResultList = new ArrayList<>();
 
-    public SelectDocumentQueryBuilder(Context appContext){
-        dbHelper = new DFCAccountDBHelper(appContext);
+    public SelectDocumentQueryBuilder(DFCAccountDBHelper dbHelper){
+        this.dbHelper = dbHelper;
     }
 
     @Override
@@ -30,7 +26,7 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+//    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public List<Document> selectQuery() {
         /* Make a query to the database to get the document data */
