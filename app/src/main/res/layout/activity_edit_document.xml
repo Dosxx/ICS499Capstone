@@ -24,7 +24,7 @@
             app:titleTextColor="@color/colorTitleWhite" />
 
         <ImageView
-            android:id="@+id/documentImageView"
+            android:id="@+id/documentIconImageView"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginTop="0dp"
@@ -43,8 +43,8 @@
             android:ems="10"
             android:background="@drawable/edit_round"
             android:inputType="textPersonName"
-            android:text="@string/documentName"
-            android:autofillHints="@string/documentName" />
+            android:text="@string/document_name"
+            android:autofillHints="@string/document_name" />
 
     </LinearLayout>
 

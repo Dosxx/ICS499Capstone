@@ -5,14 +5,10 @@
 
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Locale;
 
 public class Document implements Serializable {
@@ -24,18 +20,15 @@ public class Document implements Serializable {
     private String fileExtension = "JPEG";
     private String filePath;
     private File file;
-    private QueryContext sqlContext;
-    private QueryBuilder selectQuery;
-    private QueryBuilder addQuery;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public Document(String documentName, String filePath, File file){
         this.documentName = documentName;
         this.filePath = filePath;
         this.file = file;
-        createdDate = new SimpleDateFormat("yyyy_MM_ddd_HH_mm_ss", Locale.getDefault())
-                .format(LocalDateTime.now());
+        createdDate = new SimpleDateFormat(
+                "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
+        ).format(new Date());
         lastEditDate = createdDate;
     }
 
@@ -47,12 +40,21 @@ public class Document implements Serializable {
         return documentName;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
     public void setDocumentName(String documentName) {
         this.documentName = documentName;
-        lastEditDate = new SimpleDateFormat("yyyy_MM_ddd_HH_mm_ss", Locale.getDefault())
-                .format(LocalDateTime.now());
+        lastEditDate = new SimpleDateFormat(
+                "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
+        ).format(new Date());
     }
+
     public String getFileExtension() {
         return fileExtension;
     }
@@ -87,11 +89,10 @@ public class Document implements Serializable {
 
 
     public String toString() {
-        return String.format("Name: %s\nCreate date: %s\nLast edited: %s\nFilePath: %s",
+        return String.format("Name: %s\nCreate date: %s\nLast edited: %s",
                 this.documentName,
                 this.createdDate,
-                this.lastEditDate,
-                this.filePath);
+                this.lastEditDate);
     }
 
     public void setDocumentID(long documentID) {this.documentID = documentID;}

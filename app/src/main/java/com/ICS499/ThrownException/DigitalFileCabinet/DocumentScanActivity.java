@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+//public class DocumentScanActivity extends FragmentActivity implements NameDocumentDialogFragment.NoticeDialogListener{
 public class DocumentScanActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 2;
@@ -38,6 +39,8 @@ public class DocumentScanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        LayoutInflater inflater = getLayoutInflater();
+//        inflater.inflate(R.layout.activity_capture_image, ViewGroup viewgroug, false);
         setContentView(R.layout.activity_capture_image);
 
         imageSmall = findViewById(R.id.captureImageSmall);
@@ -91,10 +94,12 @@ public class DocumentScanActivity extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
+
         String fileName =  "IMAGE_" + new SimpleDateFormat(
                             "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
         ).format(new Date());
         File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File directory = new File("/data/data/com.ICS499.ThrownException.DigitalFileCabinet/databases/DFCAccount.db");
         File imageFile = File.createTempFile(
                 fileName,"jpg", directory);
         currentImagePath = imageFile.getAbsolutePath();

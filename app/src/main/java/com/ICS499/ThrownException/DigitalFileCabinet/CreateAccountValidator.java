@@ -22,7 +22,8 @@ public class CreateAccountValidator extends ViewModel {
     private String email = null;
     private String pwd1 = null;
     private String pwd2 = null;
-    private boolean isValid = false;
+    private boolean valid = false;
+
 
     /* Create account function*/
     public User createUser(Context context) {
@@ -59,14 +60,14 @@ public class CreateAccountValidator extends ViewModel {
     private boolean isValidName(String name) {
         Pattern pattern = Pattern.compile("[^a-zA-Z]");
         if(name == null){
-            return true;
+            return false;
         }else {
             Matcher matcher = pattern.matcher(name);
             if (name.length() == 0) {
-                return true;
+                return false;
             } else if (name.length() > 20) {
-                return true;
-            } else return matcher.find();
+                return false;
+            } else return !matcher.find();
         }
     }
 
@@ -105,16 +106,19 @@ public class CreateAccountValidator extends ViewModel {
 
     /* Validate input */
     public void inputValidation(final EditText fName, final EditText lName,
-                                final EditText emailInput, final EditText pass1,
-                                final EditText pass2){
+                                   final EditText emailInput, final EditText pass1,
+                                   final EditText pass2){
         fName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
                     if(isValidName(fName.getText().toString())) {
+                        first = fName.getText().toString();
+                        System.out.println("FIST SET");
+                    }else {
                         fName.setError(NAME_ERROR);
+                        System.out.println("FIST NOT SET");
                     }
-                    first = fName.getText().toString();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -125,9 +129,12 @@ public class CreateAccountValidator extends ViewModel {
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
                     if(isValidName(lName.getText().toString())) {
+                        last = lName.getText().toString();
+                        System.out.println("LAST SET");
+                    }else {
                         lName.setError(NAME_ERROR);
+                        System.out.println("LAST NOT SET");
                     }
-                    last = lName.getText().toString();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -138,11 +145,13 @@ public class CreateAccountValidator extends ViewModel {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
-                    if(!isEmailValid(emailInput.getText().toString())) {
+                    if(isEmailValid(emailInput.getText().toString())) {
+                        email = emailInput.getText().toString();
+                        System.out.println("EMAIL SET");
+                    } else {
                         emailInput.setError(EMAIL_ERROR);
+                        System.out.println("EMAIL NOT SET");
                     }
-                    email = emailInput.getText().toString();
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -153,11 +162,13 @@ public class CreateAccountValidator extends ViewModel {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
-                    if(!isPasswordValid(pass1.getText().toString())) {
+                    if(isPasswordValid(pass1.getText().toString())) {
+                        pwd1 = hashPassword(pass1.getText().toString());
+                        System.out.println("PASS1 SET");
+                    }else{
                         pass1.setError(PASSWORD_ERROR);
+                        System.out.println("PASS1 NOT SET");
                     }
-                    pwd1 = hashPassword(pass1.getText().toString());
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -168,10 +179,13 @@ public class CreateAccountValidator extends ViewModel {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
-                    if(!pass1.getText().toString().equals(pass2.getText().toString())) {
+                    if(pass1.getText().toString().equals(pass2.getText().toString())) {
+                        pwd2 = pwd1;
+                        System.out.println("PASS2 SET");
+                    }else {
                         pass2.setError(MISMATCH_ERROR);
+                        System.out.println("PASS2 NOT SET");
                     }
-                    pwd2 = pwd1;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -179,10 +193,7 @@ public class CreateAccountValidator extends ViewModel {
         });
     }
 
-    public boolean isValid() {
-        if(first != null && last != null && email != null && pwd1 != null & pwd2 != null){
-            isValid = true;
-        }
-        return isValid;
+    public boolean getIsValid() {
+        return valid = first != null && last != null && email != null && pwd1 != null & pwd2 != null;
     }
 }
