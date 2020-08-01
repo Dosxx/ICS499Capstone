@@ -10,8 +10,6 @@ public class FileBrowser {
     QueryContext sqlContext;
     QueryBuilder query;
     FileCabinet cabinet;
-    Document doc;
-    DFCAccountDBHelper dbHelper = new DFCAccountDBHelper(cabinet.getApplicationContext());
     ArrayList<Document> photoDisplay = new ArrayList<Document>();
 
     public FileBrowser(FileCabinet cabinet) {
@@ -19,12 +17,12 @@ public class FileBrowser {
     }
 
     public ArrayList<Document> makeQuery() {
-
+        sqlContext = new QueryContext();
         query = new SelectDocumentQueryBuilder(cabinet.getDfcHelper());
         sqlContext.setQueryBuilder(query);
+
         /*add user data into the database */
         photoDisplay = (ArrayList<Document>)sqlContext.makeQuery();
         return photoDisplay;
     }
-
 }

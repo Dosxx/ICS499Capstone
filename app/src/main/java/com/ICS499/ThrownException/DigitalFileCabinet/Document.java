@@ -22,13 +22,10 @@ public class Document implements Serializable {
     private File file;
 
 
-//    @RequiresApi(api = Build.VERSION_CODES.O)
     public Document(String documentName, String filePath, File file){
         this.documentName = documentName;
         this.filePath = filePath;
         this.file = file;
-//        createdDate = new SimpleDateFormat("yyyy_MM_ddd_HH_mm_ss", Locale.getDefault())
-//                .format(LocalDateTime.now());
         createdDate = new SimpleDateFormat(
                 "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
         ).format(new Date());
@@ -51,15 +48,13 @@ public class Document implements Serializable {
         this.file = file;
     }
 
-    //    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setDocumentName(String documentName) {
         this.documentName = documentName;
-//        lastEditDate = new SimpleDateFormat("yyyy_MM_ddd_HH_mm_ss", Locale.getDefault())
-//                .format(LocalDateTime.now());
         lastEditDate = new SimpleDateFormat(
                 "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
         ).format(new Date());
     }
+
     public String getFileExtension() {
         return fileExtension;
     }
@@ -94,11 +89,10 @@ public class Document implements Serializable {
 
 
     public String toString() {
-        return String.format("Name: %s\nCreate date: %s\nLast edited: %s\nFilePath: %s",
+        return String.format("Name: %s\nCreate date: %s\nLast edited: %s",
                 this.documentName,
                 this.createdDate,
-                this.lastEditDate,
-                this.filePath);
+                this.lastEditDate);
     }
 
     public void setDocumentID(long documentID) {this.documentID = documentID;}

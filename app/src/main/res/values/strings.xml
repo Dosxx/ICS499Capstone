@@ -95,5 +95,8 @@
     <string name="name_document">Name your Document</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
+    <string name="emptyDocumentList">Empty File Cabinet</string>
+    <string name="docCreateDate">Create Date</string>
+    <string name="docEditDate">Edited Date</string>
 
 </resources>

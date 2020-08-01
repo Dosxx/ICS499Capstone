@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,21 +24,17 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
     private FileCabinet cabinet;
     private User accountUser = null;
     private EditAccount account;
-    private FileBrowser myBrowser;
-    private  DocumentListAdapter adapter;
-
-
+    private FileBrowser dfcBrowser;
+    private DocumentListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
         cabinet = FileCabinet.getInstance(getApplication());
         accountUser = cabinet.getUser();
         account = cabinet.getEditAccount();
-//        myBrowser = new FileBrowser(cabinet);
-
+        dfcBrowser = new FileBrowser(cabinet);
 
 
         final TextView userName = findViewById(R.id.profile_name_textView);
@@ -47,43 +44,49 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         final Button logoutButton = findViewById(R.id.logoutButton);
         final Button scanButton = findViewById(R.id.ScanDocumentButton);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final RecyclerView documentListView = findViewById(R.id.rvAnimals);
+        final RecyclerView documentListView = findViewById(R.id.documentRecyclerView);
+        final ImageView emptyDocImageView = findViewById(R.id.emptyFileImageView);
+        final TextView emptyDocTextView = findViewById(R.id.emptyDocTextView);
 
 
-        /* Set up the document view */
-//        final DocumentListAdapter adapter = new DocumentListAdapter(this, R.layout.activity_main, myBrowser.makeQuery());
-//        documentListView.setAdapter(adapter);
+        /* Set up the document recycler view */
+        ArrayList<Document> docList = dfcBrowser.makeQuery();
+        if(docList.isEmpty()){
+            emptyDocImageView.setVisibility(ImageView.VISIBLE);
+            emptyDocTextView.setVisibility(TextView.VISIBLE);
+        }
+        final DocumentListAdapter adapter = new DocumentListAdapter(this, docList);
+        documentListView.setLayoutManager(new LinearLayoutManager(this));
+        adapter.setClickListener(this);
+        documentListView.setAdapter(adapter);
 
-        ArrayList<String> list = new ArrayList<>();
+//        ArrayList<String> list = new ArrayList<>();
 
-        final RecyclerView listView;
+//        final RecyclerView listView;
 //        listView = findViewById(R.id.documentListView);
 //        list = myBrowser.makeQuery();
-        list.add("Test1");
-        list.add("Test2");
-        list.add("Test3");
-        list.add("Test4");
-        list.add("Test5");
-        list.add("Test6");
-        list.add("Test7");
-        list.add("Test8");
-        list.add("Test9");
-        list.add("Test10");
-        list.add("Test11");
-        list.add("Test12");
-        list.add("Test13");
-        list.add("Test14");
+//        list.add("Test1");
+//        list.add("Test2");
+//        list.add("Test3");
+//        list.add("Test4");
+//        list.add("Test5");
+//        list.add("Test6");
+//        list.add("Test7");
+//        list.add("Test8");
+//        list.add("Test9");
+//        list.add("Test10");
+//        list.add("Test11");
+//        list.add("Test12");
+//        list.add("Test13");
+//        list.add("Test14");
 
-        // set up the RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.rvAnimals);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new DocumentListAdapter(this, list);
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
+        //set up the RecyclerView
+//        RecyclerView recyclerView = findViewById(R.id.documentRecyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        adapter = new DocumentListAdapter(this, list);
+//        adapter.setClickListener(this);
+//        recyclerView.setAdapter(adapter);
 
-
-//        adapter = new ArrayAdapter(cabinet.getContext(), R.layout.activity_main, list);
-//        listView.setAdapter(adapter);
 
         /*show the logged in user name */
         if (accountUser != null) {
@@ -160,7 +163,6 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
                 startActivity(scanIntent);
             }
         });
-
     }
 
     @Override
@@ -176,6 +178,8 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
     @Override
     public void onItemClick(View view, int position) {
+        //TODO on the document view activity to show the document
+
         Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
     }
 }
