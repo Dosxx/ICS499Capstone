@@ -17,12 +17,12 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "DFCAccount.db";
     private final Context context;
     SQLiteDatabase DFCDatabase;
-    private final String TAG = "Database Initialization";
+    private final String TAG = "Database";
 
     public DFCAccountDBHelper (Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
-        Log.d("Database Operations", "Database created");
+        Log.d(TAG, " created");
     }
 
     @Override
@@ -36,11 +36,10 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         /* Simply discard the data and start over on upgrade */
-//        db.execSQL(AccountReaderContract.DROP_TABLE);
-//        db.execSQL(UserReaderContract.DROP_TABLE);
-//        db.execSQL(DocumentReaderContract.DROP_TABLE);
-//        Log.d("Database Operations", "All tables are deleted");
-//        onCreate(db);
+        db.execSQL(UserReaderContract.DROP_TABLE);
+        db.execSQL(DocumentReaderContract.DROP_TABLE);
+        Log.d("Database Operations", "All tables are deleted");
+        onCreate(db);
     }
 
     @Override

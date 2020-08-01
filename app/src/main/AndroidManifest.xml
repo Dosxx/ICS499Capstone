@@ -8,10 +8,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-<!--    <uses-feature-->
-<!--        android:name="android.hardware.Camera"-->
-<!--        android:required="true" />-->
-
     <application
         android:allowBackup="true"
         android:fullBackupContent="false"
@@ -19,8 +15,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:windowSoftInputMode="stateHidden">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".DocumentNamingActivity"
+            android:theme="@android:style/Theme.Holo.Dialog"/>
         <activity android:name=".DFCHomeActivity" />
         <activity android:name=".EditDocumentActivity" />
         <activity android:name=".DocumentScanActivity" />

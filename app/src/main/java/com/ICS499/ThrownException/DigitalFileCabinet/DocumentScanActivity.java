@@ -1,7 +1,6 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,32 +23,37 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
-//public class DocumentScanActivity extends FragmentActivity implements NameDocumentDialogFragment.NoticeDialogListener{
-public class DocumentScanActivity extends AppCompatActivity {
+public class DocumentScanActivity extends AppCompatActivity implements DocumentNamingActivity.DocumentNameListener {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 2;
     private String currentImagePath;
     private ImageView imageSmall, imageOriginal;
+    private TextView documentNameTextView;
+    private EditDocument docEditor;
+    private DFCAccountDBHelper dbHelper;
     private Document document;
-    private Context myContext;
+    private FileCabinet cabinet;
+    private String docName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        LayoutInflater inflater = getLayoutInflater();
-//        inflater.inflate(R.layout.activity_capture_image, ViewGroup viewgroug, false);
         setContentView(R.layout.activity_capture_image);
+
+        cabinet = FileCabinet.getInstance(getApplicationContext());
+        dbHelper = new DFCAccountDBHelper(getApplicationContext());
+        cabinet.setDfcHelper(dbHelper);
+        docEditor = new EditDocument();
 
         imageSmall = findViewById(R.id.captureImageSmall);
         imageOriginal = findViewById(R.id.captureImageOriginal);
+        documentNameTextView = findViewById(R.id.originalImageTextView);
 
         findViewById(R.id.ScanDocumentButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(ContextCompat.checkSelfPermission(
                         getApplicationContext(), Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
@@ -65,6 +70,9 @@ public class DocumentScanActivity extends AppCompatActivity {
                             REQUEST_CODE_PERMISSIONS
                     );
                 } else {
+                    if(docName == null) {
+                        openDialog();
+                    }
                     dispatchCaptureImageIntent();
                     //TODO figure out how to get document name from user here
                 }
@@ -95,9 +103,11 @@ public class DocumentScanActivity extends AppCompatActivity {
 
     private File createImageFile() throws IOException {
 
-        String fileName =  "IMAGE_" + new SimpleDateFormat(
-                            "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
-        ).format(new Date());
+//        String fileName =  docName +"_" + new SimpleDateFormat(
+//                            "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
+//        ).format(new Date());
+        String fileName = docName;
+        System.out.println("THE DOCUMENT NAME IS :"+ fileName);
         File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 //        File directory = new File("/data/data/com.ICS499.ThrownException.DigitalFileCabinet/databases/DFCAccount.db");
         File imageFile = File.createTempFile(
@@ -161,4 +171,14 @@ public class DocumentScanActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void openDialog() {
+        DocumentNamingActivity namingDialog = new DocumentNamingActivity();
+        namingDialog.show(getSupportFragmentManager(), "DocumentNamingActivity");
+    }
+
+    @Override
+    public void applyName(String documentName) {
+        docName = documentName;
+        documentNameTextView.setText(documentName);
+    }
 }

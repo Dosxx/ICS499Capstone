@@ -16,8 +16,11 @@ class EditDocument {
         return null;
     }
 
-    public void saveDoc() {
-        // TODO : implementation goes here
+    public void saveDoc(DFCAccountDBHelper dbHelper, Document document) {
+        sqlContext = new QueryContext();
+        sqlBuilder = new AddDocumentQueryBuilder(dbHelper, document);
+        sqlContext.setQueryBuilder(sqlBuilder);
+        this.document = (Document) sqlContext.makeQuery();
     }
 
     public Document createDoc() {
