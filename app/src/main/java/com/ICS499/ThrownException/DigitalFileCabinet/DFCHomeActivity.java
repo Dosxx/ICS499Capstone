@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 public class DFCHomeActivity extends AppCompatActivity implements DocumentListAdapter.ItemClickListener {
     public static final String TAG = "DFCHomeActivity";
     private FileCabinet cabinet;
+    private DFCAccountDBHelper dbHelper;
     private User accountUser = null;
     private EditAccount account;
     private FileBrowser dfcBrowser;
@@ -31,12 +33,14 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        cabinet = FileCabinet.getInstance(getApplication());
+        cabinet = FileCabinet.getInstance(getApplicationContext());
+        dbHelper = new DFCAccountDBHelper(getApplicationContext());
+        cabinet.setDfcHelper(dbHelper);
         accountUser = cabinet.getUser();
         account = cabinet.getEditAccount();
         dfcBrowser = new FileBrowser(cabinet);
 
-
+        Log.d(TAG, cabinet.getDfcHelper().toString());
         final TextView userName = findViewById(R.id.profile_name_textView);
         final TextView userProfile = findViewById(R.id.profileDetailTextView);
         final Button profileButton = findViewById(R.id.profile_button);
@@ -55,7 +59,7 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
             emptyDocImageView.setVisibility(ImageView.VISIBLE);
             emptyDocTextView.setVisibility(TextView.VISIBLE);
         }
-        final DocumentListAdapter adapter = new DocumentListAdapter(this, docList);
+        adapter = new DocumentListAdapter(this, docList);
         documentListView.setLayoutManager(new LinearLayoutManager(this));
         adapter.setClickListener(this);
         documentListView.setAdapter(adapter);

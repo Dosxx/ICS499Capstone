@@ -6,6 +6,10 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +30,7 @@ public class Document implements Serializable {
         this.documentName = documentName;
         this.filePath = filePath;
         this.file = file;
+        System.out.println("FILE SIZE ID "+file.length()+"");
         createdDate = new SimpleDateFormat(
                 "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
         ).format(new Date());
@@ -40,8 +45,28 @@ public class Document implements Serializable {
         return documentName;
     }
 
-    public File getFile() {
-        return file;
+    public byte[] getFileToByte() {
+        byte[] fileByteArray = new byte[(int) file.length()];
+        try{
+            FileInputStream inputStream = new FileInputStream(file);
+            inputStream.read(fileByteArray);
+            inputStream.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return fileByteArray;
+    }
+
+    public void setByteToFile(byte[] bytes) {
+        try {
+            OutputStream outputStreams = new FileOutputStream(file);
+            // Starts writing the bytes in it
+            outputStreams.write(bytes);
+            // Close the file
+            outputStreams.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setFile(File file) {

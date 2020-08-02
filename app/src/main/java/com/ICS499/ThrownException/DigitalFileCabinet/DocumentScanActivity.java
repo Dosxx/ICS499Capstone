@@ -1,7 +1,6 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,7 +10,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,51 +24,41 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
-//public class DocumentScanActivity extends FragmentActivity implements NameDocumentDialogFragment.NoticeDialogListener{
-public class DocumentScanActivity extends AppCompatActivity {
+public class DocumentScanActivity extends AppCompatActivity implements DocumentNamingActivity.DocumentNameListener {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 2;
+
     private String currentImagePath;
-    private ImageView imageSmall, imageOriginal;
+    private ImageView imageOriginal;
+    private TextView documentNameTextView;
+    private File capturedImageFile;
+    private Button scanDocumentButton;
+    private EditDocument docEditor;
+    private DFCAccountDBHelper dbHelper;
     private Document document;
-    private Context myContext;
+    private FileCabinet cabinet;
+    private String docName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        LayoutInflater inflater = getLayoutInflater();
-//        inflater.inflate(R.layout.activity_capture_image, ViewGroup viewgroug, false);
         setContentView(R.layout.activity_capture_image);
 
-        imageSmall = findViewById(R.id.captureImageSmall);
-        imageOriginal = findViewById(R.id.captureImageOriginal);
+        cabinet = FileCabinet.getInstance(getApplicationContext());
+        dbHelper = new DFCAccountDBHelper(getApplicationContext());
+        cabinet.setDfcHelper(dbHelper);
+        docEditor = new EditDocument();
 
-        findViewById(R.id.ScanDocumentButton).setOnClickListener(new View.OnClickListener() {
+        imageOriginal = findViewById(R.id.captureImageOriginal);
+        documentNameTextView = findViewById(R.id.originalImageTextView);
+        scanDocumentButton = findViewById(R.id.ScanDocumentButton);
+
+
+        scanDocumentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ContextCompat.checkSelfPermission(
-                        getApplicationContext(), Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                                getApplicationContext(),
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    ActivityCompat.requestPermissions(
-                            DocumentScanActivity.this,
-                            new String[]{
-                                    Manifest.permission.CAMERA,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                            },
-                            REQUEST_CODE_PERMISSIONS
-                    );
-                } else {
-                    dispatchCaptureImageIntent();
-                    //TODO figure out how to get document name from user here
-                }
+                openDialog();
             }
         });
     }
@@ -95,13 +86,9 @@ public class DocumentScanActivity extends AppCompatActivity {
 
     private File createImageFile() throws IOException {
 
-        String fileName =  "IMAGE_" + new SimpleDateFormat(
-                            "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
-        ).format(new Date());
         File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        File directory = new File("/data/data/com.ICS499.ThrownException.DigitalFileCabinet/databases/DFCAccount.db");
         File imageFile = File.createTempFile(
-                fileName,"jpg", directory);
+                docName,"jpg", directory);
         currentImagePath = imageFile.getAbsolutePath();
         return imageFile;
     }
@@ -125,14 +112,15 @@ public class DocumentScanActivity extends AppCompatActivity {
         if(requestCode == REQUEST_CODE_CAPTURE_IMAGE && resultCode == RESULT_OK) {
             try{
                 // Display small image
-                imageSmall.setImageBitmap(getScaledBitmap(imageSmall));
+//                imageSmall.setImageBitmap(getScaledBitmap(imageSmall));
                 // Display original image
                 imageOriginal.setImageBitmap(BitmapFactory.decodeFile(currentImagePath));
                 // Following is the captured image file
-                // TODO : to be save on the database.
-                //TODO : dialog to request a document name
-                //TODO : create a document with the file below for saving
-                File capturedImageFile = new File(currentImagePath);
+                capturedImageFile = new File(currentImagePath);
+                /* create a document here with the image file created */
+                document = new Document(docName, currentImagePath , capturedImageFile);
+                docEditor.saveDoc(dbHelper, document);
+
             }catch (Exception exception) {
                 Toast.makeText(this, exception.getMessage(),
                         Toast.LENGTH_SHORT).show();
@@ -161,4 +149,33 @@ public class DocumentScanActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void openDialog() {
+        DocumentNamingActivity namingDialog = new DocumentNamingActivity();
+        namingDialog.show(getSupportFragmentManager(), "DocumentNamingActivity");
+    }
+
+    @Override
+    public void applyName(String documentName) {
+        docName = documentName;
+        documentNameTextView.setText(documentName);
+        if(ContextCompat.checkSelfPermission(
+                getApplicationContext(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                getApplicationContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(
+                    DocumentScanActivity.this,
+                    new String[]{
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
+                    REQUEST_CODE_PERMISSIONS
+            );
+        } else {
+            dispatchCaptureImageIntent();
+
+        }
+    }
 }
