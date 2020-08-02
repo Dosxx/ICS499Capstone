@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,14 +28,17 @@ import java.io.IOException;
 public class DocumentScanActivity extends AppCompatActivity implements DocumentNamingActivity.DocumentNameListener {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 2;
+
     private String currentImagePath;
-    private ImageView imageSmall, imageOriginal;
+    private ImageView imageOriginal;
     private TextView documentNameTextView;
+    private File capturedImageFile;
+    private Button scanDocumentButton;
     private EditDocument docEditor;
     private DFCAccountDBHelper dbHelper;
     private Document document;
     private FileCabinet cabinet;
-    private String docName;
+    private String docName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,36 +50,15 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         cabinet.setDfcHelper(dbHelper);
         docEditor = new EditDocument();
 
-        imageSmall = findViewById(R.id.captureImageSmall);
         imageOriginal = findViewById(R.id.captureImageOriginal);
         documentNameTextView = findViewById(R.id.originalImageTextView);
+        scanDocumentButton = findViewById(R.id.ScanDocumentButton);
 
-        findViewById(R.id.ScanDocumentButton).setOnClickListener(new View.OnClickListener() {
+
+        scanDocumentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(ContextCompat.checkSelfPermission(
-                        getApplicationContext(), Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                                getApplicationContext(),
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    ActivityCompat.requestPermissions(
-                            DocumentScanActivity.this,
-                            new String[]{
-                                    Manifest.permission.CAMERA,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                            },
-                            REQUEST_CODE_PERMISSIONS
-                    );
-                } else {
-                    if(docName == null) {
-                        openDialog();
-                    }
-                    dispatchCaptureImageIntent();
-                    //TODO figure out how to get document name from user here
-                }
+                openDialog();
             }
         });
     }
@@ -103,15 +86,9 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
 
     private File createImageFile() throws IOException {
 
-//        String fileName =  docName +"_" + new SimpleDateFormat(
-//                            "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
-//        ).format(new Date());
-        String fileName = docName;
-        System.out.println("THE DOCUMENT NAME IS :"+ fileName);
         File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        File directory = new File("/data/data/com.ICS499.ThrownException.DigitalFileCabinet/databases/DFCAccount.db");
         File imageFile = File.createTempFile(
-                fileName,"jpg", directory);
+                docName,"jpg", directory);
         currentImagePath = imageFile.getAbsolutePath();
         return imageFile;
     }
@@ -135,14 +112,15 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         if(requestCode == REQUEST_CODE_CAPTURE_IMAGE && resultCode == RESULT_OK) {
             try{
                 // Display small image
-                imageSmall.setImageBitmap(getScaledBitmap(imageSmall));
+//                imageSmall.setImageBitmap(getScaledBitmap(imageSmall));
                 // Display original image
                 imageOriginal.setImageBitmap(BitmapFactory.decodeFile(currentImagePath));
                 // Following is the captured image file
-                // TODO : to be save on the database.
-                //TODO : dialog to request a document name
-                //TODO : create a document with the file below for saving
-                File capturedImageFile = new File(currentImagePath);
+                capturedImageFile = new File(currentImagePath);
+                /* create a document here with the image file created */
+                document = new Document(docName, currentImagePath , capturedImageFile);
+                docEditor.saveDoc(dbHelper, document);
+
             }catch (Exception exception) {
                 Toast.makeText(this, exception.getMessage(),
                         Toast.LENGTH_SHORT).show();
@@ -180,5 +158,24 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
     public void applyName(String documentName) {
         docName = documentName;
         documentNameTextView.setText(documentName);
+        if(ContextCompat.checkSelfPermission(
+                getApplicationContext(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                getApplicationContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(
+                    DocumentScanActivity.this,
+                    new String[]{
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
+                    REQUEST_CODE_PERMISSIONS
+            );
+        } else {
+            dispatchCaptureImageIntent();
+
+        }
     }
 }

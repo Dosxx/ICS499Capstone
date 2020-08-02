@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -34,15 +33,15 @@ public class DocumentNamingActivity extends AppCompatDialogFragment {
                         if (name.equals("")) {
                             fileName.setError("Must provide a name!");
                         } else {
-                            dialog.dismiss();
                             listener.applyName(String.valueOf(fileName.getText()));
+                            dialog.dismiss();
                         }
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(), "Please prove a document name!", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
                     }
                 });
 

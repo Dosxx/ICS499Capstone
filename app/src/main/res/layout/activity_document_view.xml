@@ -19,7 +19,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/page_title_document_view"
-        android:textAlignment="center"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
         app:titleTextColor="@color/colorTitleWhite" />
 
     <LinearLayout
@@ -56,17 +57,16 @@
         </ScrollView>
 
         <LinearLayout
-            android:layout_width="402dp"
-            android:layout_height="165dp"
+            android:id="@+id/documentViewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
-            <EditText
-                android:id="@+id/document_name_editText"
+            <TextView
+                android:id="@+id/document_name_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_round"
-                android:inputType="text"
                 android:padding="5dp"
                 android:paddingLeft="15dp"
                 android:labelFor="@+id/documentName"
@@ -87,7 +87,6 @@
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:background="@drawable/edit_round"
                 android:text="@string/docCreateDate"/>
 
             <TextView
@@ -100,8 +99,36 @@
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:background="@drawable/edit_round"
                 android:text="@string/docEditDate"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/editDocumentButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_edit_24"
+                    android:layout_marginStart="95dp"
+                    tools:ignore="ButtonStyle" />
+                <Button
+                    android:id="@+id/deleteDocumentButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_delete_24"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/closeDocumentButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_close_24"
+                    tools:ignore="ButtonStyle" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 

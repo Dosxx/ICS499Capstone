@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".EditDocumentActivity">
+    tools:context=".DocumentScanActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/DFCToolbar"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="@string/page_title_save_document"
+        app:title="@string/capture_image"
         app:titleMarginStart="70dp"
         app:titleTextColor="@color/colorTitleWhite" />
 
@@ -46,23 +46,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/smallImageTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/small_scaled_image"
-                android:textColor="@color/colorButton"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/captureImageSmall"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:adjustViewBounds="false"
-                android:contentDescription="@string/app_name" />
+            android:padding="10dp"
+            tools:ignore="UseCompoundDrawables">
 
             <TextView
                 android:id="@+id/originalImageTextView"
