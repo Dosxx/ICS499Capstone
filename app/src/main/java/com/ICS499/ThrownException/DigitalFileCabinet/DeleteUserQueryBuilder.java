@@ -34,6 +34,8 @@ public class DeleteUserQueryBuilder extends QueryBuilder {
         String[] selectionArgs = { user.getFirstName() };
 
         // Issue SQL statement.
+        //Upon deletion of an account all documents will be deleted as well
+        db.delete(DocumentReaderContract.DocumentEntry.TABLE_NAME,null, null);
         return db.delete(UserReaderContract.UserEntry.TABLE_NAME, selection, selectionArgs);
     }
 }

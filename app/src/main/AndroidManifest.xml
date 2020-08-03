@@ -16,11 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".DocumentNamingActivity"
-            android:theme="@android:style/Theme.Holo.Dialog"/>
         <activity android:name=".DFCHomeActivity" />
-        <activity android:name=".EditDocumentActivity" />
-        <activity android:name=".DocumentScanActivity" />
+        <activity android:name=".EditDocumentActivity"
+            android:parentActivityName=".DFCHomeActivity" />
+        <activity android:name=".DocumentScanActivity"
+            android:parentActivityName=".DFCHomeActivity" />
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

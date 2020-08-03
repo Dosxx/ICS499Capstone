@@ -39,7 +39,7 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
 //        String document = testList.get(position);
         Document document = docList.get(position);
-        holder.documentName.setText(document.getDocumentName());
+//        holder.documentName.setText(document.getDocumentName());
         holder.documentDescription.setText(document.toString());
     }
 
@@ -58,11 +58,12 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        final TextView documentName, documentDescription;
+//        final TextView documentName;
+        final TextView documentDescription;
 
         ViewHolder(View itemView) {
             super(itemView);
-            documentName = itemView.findViewById(R.id.documentNameTextView);
+//            documentName = itemView.findViewById(R.id.documentNameTextView);
             documentDescription = itemView.findViewById(R.id.doc_description);
             itemView.setOnClickListener(this);
         }
