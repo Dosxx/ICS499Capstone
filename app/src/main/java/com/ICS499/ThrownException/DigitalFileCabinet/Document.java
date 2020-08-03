@@ -30,7 +30,6 @@ public class Document implements Serializable {
         this.documentName = documentName;
         this.filePath = filePath;
         this.file = file;
-        System.out.println("FILE SIZE ID "+file.length()+"");
         createdDate = new SimpleDateFormat(
                 "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
         ).format(new Date());

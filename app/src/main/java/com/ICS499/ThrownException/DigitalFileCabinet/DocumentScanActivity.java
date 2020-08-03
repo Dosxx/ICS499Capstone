@@ -54,13 +54,15 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         documentNameTextView = findViewById(R.id.originalImageTextView);
         scanDocumentButton = findViewById(R.id.ScanDocumentButton);
 
-
         scanDocumentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDialog();
             }
         });
+
+        /*enable back Button */
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     private void dispatchCaptureImageIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -92,6 +94,19 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         currentImagePath = imageFile.getAbsolutePath();
         return imageFile;
     }
+
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if(item.getItemId() == android.R.id.home){
+//            onBackPressed();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -175,6 +190,7 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
             );
         } else {
             dispatchCaptureImageIntent();
+
 
         }
     }
