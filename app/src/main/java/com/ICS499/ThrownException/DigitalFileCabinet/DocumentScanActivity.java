@@ -1,6 +1,7 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +26,9 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class DocumentScanActivity extends AppCompatActivity implements DocumentNamingActivity.DocumentNameListener {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
@@ -32,13 +37,13 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
     private String currentImagePath;
     private ImageView imageOriginal;
     private TextView documentNameTextView;
-    private File capturedImageFile;
-    private Button scanDocumentButton;
     private EditDocument docEditor;
     private DFCAccountDBHelper dbHelper;
-    private Document document;
     private FileCabinet cabinet;
     private String docName = null;
+    private android.app.AlertDialog.Builder builder;
+    private final String TAG = "DocumentScanActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +55,11 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         cabinet.setDfcHelper(dbHelper);
         docEditor = new EditDocument();
 
+        builder = new android.app.AlertDialog.Builder(this);
+
         imageOriginal = findViewById(R.id.captureImageOriginal);
         documentNameTextView = findViewById(R.id.originalImageTextView);
-        scanDocumentButton = findViewById(R.id.ScanDocumentButton);
+        final Button scanDocumentButton = findViewById(R.id.ScanDocumentButton);
 
         scanDocumentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +68,7 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
             }
         });
 
-        /*enable back Button */
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
     private void dispatchCaptureImageIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -92,21 +98,10 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         File imageFile = File.createTempFile(
                 docName,"jpg", directory);
         currentImagePath = imageFile.getAbsolutePath();
+        Log.d(TAG, currentImagePath);
         return imageFile;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if(item.getItemId() == android.R.id.home){
-//            onBackPressed();
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -126,19 +121,42 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_CODE_CAPTURE_IMAGE && resultCode == RESULT_OK) {
             try{
-                // Display small image
-//                imageSmall.setImageBitmap(getScaledBitmap(imageSmall));
                 // Display original image
                 imageOriginal.setImageBitmap(BitmapFactory.decodeFile(currentImagePath));
                 // Following is the captured image file
-                capturedImageFile = new File(currentImagePath);
+                File capturedImageFile = new File(currentImagePath);
                 /* create a document here with the image file created */
-                document = new Document(docName, currentImagePath , capturedImageFile);
+                String today = new SimpleDateFormat(
+                        "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
+                ).format(new Date());
+                Document document = new Document.Builder(docName)
+                        .setCreatedDate(today)
+                        .setLastEditedDate(today)
+                        .setFilePath(currentImagePath)
+                        .setFile(capturedImageFile)
+                        .build();
                 docEditor.saveDoc(dbHelper, document);
+                /* Ask user to return home */
+                builder.setTitle("Confirm Action")
+                        .setMessage("Return Home?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(cabinet.getContext(), DFCHomeActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                Intent intent = new Intent(cabinet.getContext(), DocumentScanActivity.class);
+                                startActivity(intent);
+                                dialog.cancel();
+                            }
+                        }).create().show();
 
             }catch (Exception exception) {
-                Toast.makeText(this, exception.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(cabinet.getContext(), exception.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,8 +208,6 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
             );
         } else {
             dispatchCaptureImageIntent();
-
-
         }
     }
 }

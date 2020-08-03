@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -64,34 +65,6 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         adapter.setClickListener(this);
         documentListView.setAdapter(adapter);
 
-//        ArrayList<String> list = new ArrayList<>();
-
-//        final RecyclerView listView;
-//        listView = findViewById(R.id.documentListView);
-//        list = myBrowser.makeQuery();
-//        list.add("Test1");
-//        list.add("Test2");
-//        list.add("Test3");
-//        list.add("Test4");
-//        list.add("Test5");
-//        list.add("Test6");
-//        list.add("Test7");
-//        list.add("Test8");
-//        list.add("Test9");
-//        list.add("Test10");
-//        list.add("Test11");
-//        list.add("Test12");
-//        list.add("Test13");
-//        list.add("Test14");
-
-        //set up the RecyclerView
-//        RecyclerView recyclerView = findViewById(R.id.documentRecyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        adapter = new DocumentListAdapter(this, list);
-//        adapter.setClickListener(this);
-//        recyclerView.setAdapter(adapter);
-
-
         /*show the logged in user name */
         if (accountUser != null) {
             userName.setText(String.format("%s %s", accountUser.getFirstName(),
@@ -123,7 +96,6 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
             public void onClick(View v) {
                 /*confirm this action first*/
                 try {
-//                builder.setView(R.id.dialogLayout);
                     builder.setTitle("Delete Account")
                             .setMessage("Are you sure you want to delete the account?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -182,8 +154,10 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
     @Override
     public void onItemClick(View view, int position) {
-        //TODO on the document view activity to show the document
-
-        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+        Intent documentViewIntent = new Intent(getApplicationContext(), EditDocumentActivity.class);
+        documentViewIntent.putExtra("Document", (Serializable)adapter.getItem(position));
+        startActivity(documentViewIntent);
+        Log.d(TAG, adapter.getItem(position).getFilePath());
+//        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
     }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,15 +23,15 @@ public class DocumentNamingActivity extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_naming_doc, null);
-
+        fileName = view.findViewById(R.id.documentName);
         builder.setView(view)
                 .setCancelable(false)
                 .setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String name = fileName.getText().toString();
-                        if (name.equals("")) {
+                        String name = String.valueOf(fileName.getText());
+                        if (name == null || name.equals("")) {
                             fileName.setError("Must provide a name!");
                         } else {
                             listener.applyName(String.valueOf(fileName.getText()));
@@ -41,11 +42,11 @@ public class DocumentNamingActivity extends AppCompatDialogFragment {
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Intent homeIntent = new Intent(getContext(), DFCHomeActivity.class);
                         dialog.cancel();
+                        startActivity(homeIntent);
                     }
                 });
-
-        fileName = view.findViewById(R.id.documentName);
 
         return builder.create();
     }
@@ -65,6 +66,4 @@ public class DocumentNamingActivity extends AppCompatDialogFragment {
     public interface DocumentNameListener {
         void applyName(String documentName);
     }
-
-
 }

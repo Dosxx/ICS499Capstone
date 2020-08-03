@@ -66,13 +66,22 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry._ID));
             String document_name = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_NAME));
+            byte[] document_file = cursor.getBlob(
+                    cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_NAME));
             String createDate = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_CREATE_DATE));
             String editDate = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LAST_MODIFIED));
             String location = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LOCATION));
-            Document result = new Document(document_name, location, new File(location));
+            Document result = new Document.Builder(document_name)
+                    .setDocumentId(Long.parseLong(document_Id))
+                    .setCreatedDate(createDate)
+                    .setLastEditedDate(editDate)
+                    .setFile(new File(location))
+                    .setFilePath(location)
+                    .build();
+
             queryResultList.add(result);
         }
         cursor.close();
