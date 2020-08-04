@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="5dp">
                     <TextView
                         android:id="@+id/nameLabel"
                         android:layout_width="wrap_content"
@@ -74,12 +74,12 @@
                         android:hint="@string/document_name"
                         android:labelFor="@+id/documentName"
                         android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:padding="5dp"
+                        android:textSize="15sp"
+                        android:padding="3dp"
                         android:paddingLeft="15dp"
-                        android:paddingTop="5dp"
+                        android:paddingTop="3dp"
                         android:paddingRight="15dp"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="3dp"
                         android:text="@string/document_name" />
 
                 </LinearLayout>
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="5dp">
 
                     <TextView
                         android:id="@+id/createDateLabel"
@@ -102,11 +102,11 @@
                         android:id="@+id/document_createdDate_TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="5dp"
+                        android:padding="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="3dp"
                         android:textSize="14sp"
                         android:text="@string/docCreateDate" />
 
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="5dp">
 
                     <TextView
                         android:id="@+id/editedDateLabel"
@@ -130,11 +130,11 @@
                         android:id="@+id/document_editDate_TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="5dp"
+                        android:padding="3dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="3dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="3dp"
                         android:textSize="14sp"
                         android:text="@string/docEditDate" />
                 </LinearLayout>

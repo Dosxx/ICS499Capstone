@@ -67,8 +67,6 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
                 openDialog();
             }
         });
-
-
     }
     private void dispatchCaptureImageIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -123,6 +121,7 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
             try{
                 // Display original image
                 imageOriginal.setImageBitmap(BitmapFactory.decodeFile(currentImagePath));
+                documentNameTextView.setText(docName);
                 // Following is the captured image file
                 File capturedImageFile = new File(currentImagePath);
                 /* create a document here with the image file created */
@@ -139,6 +138,7 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
                 /* Ask user to return home */
                 builder.setTitle("Confirm Action")
                         .setMessage("Return Home?")
+                        .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent intent = new Intent(cabinet.getContext(), DFCHomeActivity.class);
@@ -150,7 +150,6 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
                                 //  Action for 'NO' Button
                                 Intent intent = new Intent(cabinet.getContext(), DocumentScanActivity.class);
                                 startActivity(intent);
-                                dialog.cancel();
                             }
                         }).create().show();
 
@@ -184,13 +183,12 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
 
     public void openDialog() {
         DocumentNamingActivity namingDialog = new DocumentNamingActivity();
-        namingDialog.show(getSupportFragmentManager(), "DocumentNamingActivity");
+        namingDialog.show(getSupportFragmentManager(), TAG);
     }
 
     @Override
     public void applyName(String documentName) {
         docName = documentName.trim().toUpperCase();
-        documentNameTextView.setText(docName);
         if(ContextCompat.checkSelfPermission(
                 getApplicationContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(

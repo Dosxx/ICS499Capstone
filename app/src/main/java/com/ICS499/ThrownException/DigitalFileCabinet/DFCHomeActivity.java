@@ -79,10 +79,12 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
                         deleteAccount.setVisibility(Button.INVISIBLE);
                         userProfile.setVisibility(TextView.INVISIBLE);
                         logoutButton.setVisibility(Button.INVISIBLE);
+                        scanButton.setVisibility(Button.VISIBLE);
                     } else {
                         deleteAccount.setVisibility(Button.VISIBLE);
                         logoutButton.setVisibility(Button.VISIBLE);
                         userProfile.setVisibility(TextView.VISIBLE);
+                        scanButton.setVisibility(Button.INVISIBLE);
                     }
                 } else {
                     Toast.makeText(cabinet.getContext(), "Profile Not Available",
