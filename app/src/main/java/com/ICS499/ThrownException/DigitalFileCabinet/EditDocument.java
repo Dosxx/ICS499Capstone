@@ -33,11 +33,12 @@ class EditDocument {
         return null;
     }
 
-    public void deleteDoc() {
-        // TODO : implementation goes here
-    }
-
-    public Document makeQuery(Document document, String action) {
-        return null;
+    public boolean deleteDoc(DFCAccountDBHelper dbHelper, Document document) {
+        sqlContext = new QueryContext();
+        sqlBuilder = new DeleteDocumentQueryBuilder(dbHelper, document);
+        sqlContext.setQueryBuilder(sqlBuilder);
+        int result = ((Integer)sqlContext.makeQuery()).intValue();
+        // result should be a positive integer greater than 0 on success
+        return result > 0;
     }
 }

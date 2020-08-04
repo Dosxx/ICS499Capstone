@@ -51,4 +51,10 @@ public class AddDocumentQueryBuilder extends QueryBuilder{
         /* Will not be used */
         return null;
     }
+
+    @Override
+    Object updateQuery() {
+        //Will not be used
+        return null;
+    }
 }

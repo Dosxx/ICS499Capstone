@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,8 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document_view);
+
+        final DFCAccountDBHelper dbHelper = new DFCAccountDBHelper(getApplicationContext());
 
         final Button editDocumentName = findViewById(R.id.editDocumentButton);
         final Button closeDocumentName = findViewById(R.id.closeDocumentButton);
@@ -65,8 +68,13 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
         deleteDocumentName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: implement delete single document query
-
+                EditDocument documentEditor = new EditDocument();
+                boolean deleted = documentEditor.deleteDoc(dbHelper, document);
+                if(deleted) {
+                    Toast.makeText(getApplicationContext(), document.getDocumentName()+" deleted", Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Deletion failed!", Toast.LENGTH_LONG).show();
+                }
                 /*return to the home page */
                 returnToHomeActivity();
             }

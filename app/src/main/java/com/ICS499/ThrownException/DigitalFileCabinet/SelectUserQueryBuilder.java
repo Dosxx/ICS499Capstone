@@ -94,4 +94,10 @@ public class SelectUserQueryBuilder extends QueryBuilder{
         // Will not be use
         return null;
     }
+
+    @Override
+    Object updateQuery() {
+        // Will not be used
+        return null;
+    }
 }

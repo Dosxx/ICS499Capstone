@@ -25,7 +25,7 @@ public class DeleteUserQueryBuilder extends QueryBuilder {
     }
 
     @Override
-    Object deleteQuery() {
+    public Object deleteQuery() {
         SQLiteDatabase db = DFCDatabase.getWritableDatabase();
         // Define 'where' part of query.
         String selection = UserReaderContract.UserEntry.COLUMN_NAME_FIRST_NAME + " LIKE ?";
@@ -37,5 +37,11 @@ public class DeleteUserQueryBuilder extends QueryBuilder {
         //Upon deletion of an account all documents will be deleted as well
         db.delete(DocumentReaderContract.DocumentEntry.TABLE_NAME,null, null);
         return db.delete(UserReaderContract.UserEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
+    @Override
+    public Object updateQuery() {
+        //Will not be used
+        return null;
     }
 }
