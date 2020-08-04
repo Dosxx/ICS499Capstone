@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private FileCabinet cabinet = null;
     private DFCAccountDBHelper dbHelper;
     private EditAccount account;
+    public static final String EMAIL_ERROR = "Invalid Email!";
+    public static final String PASSWORD_ERROR = "Invalid Password!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,19 @@ public class MainActivity extends AppCompatActivity {
         emailEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                model.inputValidation(emailEditText,passwordEditText);
+                /* Check that the email is a valid email*/
+                emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                    try {
+                        if(!model.validateEmailField(emailEditText.getText().toString())) {
+                            emailEditText.setError(EMAIL_ERROR);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    }
+                });
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -81,10 +95,24 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
+                emailEditText.requestFocus();
             }
         });
 
+        /* check that the password is at least 8 characters long*/
+        passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+            try {
+                if(!model.validatePwdField(passwordEditText.getText().toString())) {
+                    passwordEditText.setError(PASSWORD_ERROR);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            }
+        });
+        /* Enter key press event handler */
         passwordEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -94,13 +122,16 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
         /* Defines the action listener on sign in button click */
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (model.isValid()) {
-                    if (account.login(dbHelper, model.getEmail(),model.getPwd(), emailEditText, passwordEditText)) {
+                if (model.validateEmailField(emailEditText.getText().toString()) &&
+                        model.validatePwdField(passwordEditText.getText().toString())) {
+                    if (account.login(dbHelper, emailEditText.getText().toString(),
+                            passwordEditText.getText().toString(), emailEditText, passwordEditText)) {
                         loadingProgressBar.setVisibility(View.VISIBLE);
 
                         cabinet.setUser(account.getAcctUser());
