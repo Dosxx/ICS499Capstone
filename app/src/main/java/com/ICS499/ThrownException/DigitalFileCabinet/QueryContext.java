@@ -28,6 +28,8 @@ public class QueryContext {
             return (Integer) sqlBuilder.deleteQuery();
         }else if(sqlBuilder instanceof DeleteDocumentQueryBuilder){
             return (Integer) sqlBuilder.deleteQuery();
+        }else if(sqlBuilder instanceof UpdateDocumentQueryBuilder){
+            return (Integer) sqlBuilder.updateQuery();
         }else return null;
     }
     public void setQueryBuilder(QueryBuilder sqlBuilder){

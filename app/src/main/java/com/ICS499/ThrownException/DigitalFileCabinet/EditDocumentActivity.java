@@ -18,13 +18,15 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
     private String currentImagePath;
     private TextView documentNameTextView;
     private TextView documentLastEditTextView;
+    private EditDocument documentEditor;
+    private DFCAccountDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document_view);
 
-        final DFCAccountDBHelper dbHelper = new DFCAccountDBHelper(getApplicationContext());
+        dbHelper = new DFCAccountDBHelper(getApplicationContext());
 
         final Button editDocumentName = findViewById(R.id.editDocumentButton);
         final Button closeDocumentName = findViewById(R.id.closeDocumentButton);
@@ -33,6 +35,7 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
         final ImageView documentImageView = findViewById(R.id.captureImageOriginal);
         documentNameTextView = findViewById(R.id.document_name_TextView);
         documentLastEditTextView = findViewById(R.id.document_editDate_TextView);
+        documentEditor = new EditDocument();
 
         /* Set up the document view with description*/
         Intent documentIntent = getIntent();
@@ -54,7 +57,6 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
             @Override
             public void onClick(View v) {
                 openDialog();
-                //TODO: update database with new document name
             }
         });
 
@@ -68,7 +70,6 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
         deleteDocumentName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditDocument documentEditor = new EditDocument();
                 boolean deleted = documentEditor.deleteDoc(dbHelper, document);
                 if(deleted) {
                     Toast.makeText(getApplicationContext(), document.getDocumentName()+" deleted", Toast.LENGTH_LONG).show();
@@ -93,14 +94,20 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
 
     @Override
     public void applyName(String documentName) {
-        document.setDocumentName(documentName);
-        documentNameTextView.setText(documentName);
+        String newName = documentName.trim().toUpperCase();
+        document.setDocumentName(newName);
+        documentNameTextView.setText(newName);
         documentLastEditTextView.setText(document.getLastEditDate());
+        boolean updated = documentEditor.updateDoc(dbHelper,document);
+        if(updated) {
+            Toast.makeText(getApplicationContext(), document.getDocumentName()+" updated", Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(getApplicationContext(), "Update failed!", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void returnToHomeActivity() {
         Intent homeIntent = new Intent(getApplicationContext(), DFCHomeActivity.class);
         startActivity(homeIntent);
-        finish();
     }
 }
