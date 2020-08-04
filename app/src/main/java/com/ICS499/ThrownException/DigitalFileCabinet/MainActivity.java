@@ -98,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
         forgotPasswordLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if () {
+//                    account.resetPwd(dbHelper, emailEditText.getText().toString());
+//                } else {
+//                }
                 Toast.makeText(myContext, "Sorry! Feature under construction",
                         Toast.LENGTH_LONG).show();
             }
