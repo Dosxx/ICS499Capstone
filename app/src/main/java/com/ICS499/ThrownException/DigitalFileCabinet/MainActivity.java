@@ -7,7 +7,10 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,8 +69,31 @@ public class MainActivity extends AppCompatActivity {
 
         /*validate input */
         final LoginValidator model = new LoginValidator();
-        model.inputValidation(emailEditText,passwordEditText);
 
+        emailEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                model.inputValidation(emailEditText,passwordEditText);
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        passwordEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                   return signInButton.requestFocus();
+                }
+                return false;
+            }
+        });
         /* Defines the action listener on sign in button click */
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
         forgotPasswordLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if () {
+//                    account.resetPwd(dbHelper, emailEditText.getText().toString());
+//                } else {
+//                }
                 Toast.makeText(myContext, "Sorry! Feature under construction",
                         Toast.LENGTH_LONG).show();
             }
@@ -111,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.close();
     }
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         moveTaskToBack(true);
     }
 

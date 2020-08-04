@@ -108,6 +108,7 @@
             android:layout_marginStart="145dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="50dp"
+            android:visibility="visible"
             android:background="@drawable/ic_scanner_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/deleteUserButton"

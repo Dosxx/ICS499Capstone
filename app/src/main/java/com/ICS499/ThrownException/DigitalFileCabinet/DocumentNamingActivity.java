@@ -9,14 +9,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class DocumentNamingActivity extends AppCompatDialogFragment {
     private final String TAG = "DocumentNamingActivity";
     private EditText fileName;
     private DocumentNameListener listener;
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceStates) {
@@ -32,10 +35,10 @@ public class DocumentNamingActivity extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String name = String.valueOf(fileName.getText());
                         if (name == null || name.equals("")) {
-                            fileName.setError("Must provide a name!");
+                            Toast.makeText(getContext(), "Must provide a name!", Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
                         } else {
                             listener.applyName(String.valueOf(fileName.getText()));
-                            dialog.dismiss();
                         }
                     }
                 })
@@ -43,11 +46,9 @@ public class DocumentNamingActivity extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent homeIntent = new Intent(getContext(), DFCHomeActivity.class);
-                        dialog.cancel();
                         startActivity(homeIntent);
                     }
                 });
-
         return builder.create();
     }
 

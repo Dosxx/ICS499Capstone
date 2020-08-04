@@ -53,6 +53,18 @@ public class EditAccount {
         return result != 0;
     }
 
+    public boolean resetPwd(DFCAccountDBHelper dbHelper, String email) {
+        if(isUserRegistered(dbHelper)) {
+            sqlContext = new QueryContext();
+            sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
+            sqlContext.setQueryBuilder(sqlBuilder);
+            /**/
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public boolean isActive() {
         return isActive;
     }
