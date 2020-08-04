@@ -1,11 +1,13 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class ResetUserQueryBuilder extends QueryBuilder {
     private DFCAccountDBHelper dbHelper;
     private String email;
+    private User regUser = null;
 
     public ResetUserQueryBuilder(DFCAccountDBHelper dbHelper, String email) {
         this.dbHelper = dbHelper;
@@ -19,7 +21,6 @@ public class ResetUserQueryBuilder extends QueryBuilder {
 
     @Override
     public Object selectQuery() {
-        User acctUser = null;
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         // Filter results WHERE "email" = email
 
@@ -54,17 +55,16 @@ public class ResetUserQueryBuilder extends QueryBuilder {
                 String email = cursor.getString(
                         cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_EMAIL));
 
-                acctUser = User.getUserInstance(null, null, null, null);
-                acctUser.setUser_id(userID);
-                acctUser.setFirstName(firstName);
-                acctUser.setLastName(lastName);
-                acctUser.setEmail(email);
+                regUser = User.getUserInstance(null, null, null, null);
+                regUser.setUser_id(userID);
+                regUser.setFirstName(firstName);
+                regUser.setLastName(lastName);
+                regUser.setEmail(email);
                 break;
             }
             cursor.close();
             /* Return the first user in the database */
-            return acctUser;
-            //TODO : to be continued...
+            return regUser;
         }
     }
 
@@ -77,7 +77,22 @@ public class ResetUserQueryBuilder extends QueryBuilder {
     @Override
     Object updateQuery() {
         /*Update the user pwd when and only when email, first and last names match */
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        return null;
+        // New value for one column
+        ContentValues values = new ContentValues();
+
+        String newPassword = regUser.getPassword();
+        values.put(UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD, newPassword);
+
+        // Which row to update, based on the title
+        String selection = UserReaderContract.UserEntry._ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(regUser.getUser_id()) };
+
+        return db.update(
+                UserReaderContract.UserEntry.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
     }
 }

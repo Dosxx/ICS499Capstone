@@ -59,6 +59,7 @@ public class EditAccount {
             sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
             sqlContext.setQueryBuilder(sqlBuilder);
             /**/
+//            if((User)sqlContext.makeQuery() != null && )
             return true;
         }else{
             return false;
