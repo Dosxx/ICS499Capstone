@@ -107,7 +107,6 @@ public class Document implements Serializable {
         return documentID;
     }
 
-
     public static class Builder {
         // implemented a builder pattern for the document class
         private long documentID;  //set the document is written to the database

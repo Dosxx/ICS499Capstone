@@ -8,4 +8,5 @@ public abstract class QueryBuilder {
     abstract Object addQuery();
     abstract Object selectQuery();
     abstract Object deleteQuery();
+    abstract Object updateQuery();
 }

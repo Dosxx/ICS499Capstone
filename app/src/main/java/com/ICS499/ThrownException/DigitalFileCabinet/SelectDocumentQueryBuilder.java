@@ -93,4 +93,10 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         // Will not be user
         return null;
     }
+
+    @Override
+    Object updateQuery() {
+        // Will not be used
+        return null;
+    }
 }

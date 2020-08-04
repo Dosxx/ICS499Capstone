@@ -189,8 +189,8 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
 
     @Override
     public void applyName(String documentName) {
-        docName = documentName;
-        documentNameTextView.setText(documentName);
+        docName = documentName.trim().toUpperCase();
+        documentNameTextView.setText(docName);
         if(ContextCompat.checkSelfPermission(
                 getApplicationContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(

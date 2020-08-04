@@ -100,5 +100,8 @@
     <string name="docEditDate">Date Edited</string>
     <string name="apply_document_name">Apply</string>
     <string name="document_name_error">Must provide a filename</string>
+    <string name="nameLabel">"Name: "</string>
+    <string name="createDateLabel">Create on:</string>
+    <string name="editedDateLabel">"Last edited on: "</string>
 
 </resources>

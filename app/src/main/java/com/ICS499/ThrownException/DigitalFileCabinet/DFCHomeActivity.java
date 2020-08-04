@@ -157,7 +157,7 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         Intent documentViewIntent = new Intent(getApplicationContext(), EditDocumentActivity.class);
         documentViewIntent.putExtra("Document", (Serializable)adapter.getItem(position));
         startActivity(documentViewIntent);
-        Log.d(TAG, adapter.getItem(position).getFilePath());
+        Log.d(TAG, adapter.getItem(position).getDocumentID()+"");
 //        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
     }
 }
