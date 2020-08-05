@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EditDocumentActivity extends AppCompatActivity implements DocumentNamingActivity.DocumentNameListener {
+public class EditDocumentActivity extends AppCompatActivity implements DocumentNamingDialogFragment.DocumentNameListener {
     private Document document;
     private final String TAG = "EditDocumentActivity";
     private String currentImagePath;
@@ -88,7 +88,7 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
     }
 
     public void openDialog() {
-        DocumentNamingActivity namingDialog = new DocumentNamingActivity();
+        DocumentNamingDialogFragment namingDialog = new DocumentNamingDialogFragment();
         namingDialog.show(getSupportFragmentManager(), "DocumentNamingActivity");
     }
 

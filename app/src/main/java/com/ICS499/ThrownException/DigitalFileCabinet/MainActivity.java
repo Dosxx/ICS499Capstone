@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         cabinet.setEditAccount(account);
                         Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
                         startActivity(homeActivityIntent);
-                        Toast.makeText(myContext, "Welcome!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(myContext, "Welcome!", Toast.LENGTH_LONG).show();
                     }else {
                         passwordEditText.setText("");
                         Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     emailEditText.setError("Required!");
                     passwordEditText.setError("Required!");
-                    Toast.makeText(myContext, "Please Provide inputs", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(myContext, "Please Provide inputs", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -159,6 +159,9 @@ public class MainActivity extends AppCompatActivity {
 //                    account.resetPwd(dbHelper, emailEditText.getText().toString());
 //                } else {
 //                }
+                Intent resetPasswordIntent = new Intent(cabinet.getContext(), ResetPasswordActivity.class);
+                resetPasswordIntent.putExtra("email", String.valueOf(emailEditText.getText()));
+                startActivity(resetPasswordIntent);
                 Toast.makeText(myContext, "Sorry! Feature under construction",
                         Toast.LENGTH_LONG).show();
             }

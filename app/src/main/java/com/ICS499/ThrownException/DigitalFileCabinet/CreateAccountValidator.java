@@ -1,9 +1,6 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.content.Context;
 import android.util.Patterns;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.lifecycle.ViewModel;
 
@@ -13,51 +10,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateAccountValidator extends ViewModel {
-    public static final String PASSWORD_ERROR = "Password must be >= 8 and contains alpha-numeric characters and symbols";
-    public static final String EMAIL_ERROR = "Not a valid email";
-    public static final String NAME_ERROR = "Not a valid Name";
-    public static final String MISMATCH_ERROR = "Password do not match";
-    private String first = null;
-    private String last = null;
-    private String email = null;
-    private String pwd1 = null;
-    private String pwd2 = null;
-    private boolean valid = false;
-
-
-    /* Create account function*/
-    public User createUser(Context context) {
-        /* Create a user with valid input only */
-        User user = User.getUserInstance(first, last, email, pwd1);
-        user.setFirstName(first);
-        user.setLastName(last);
-        user.setEmail(email);
-        user.setPassword(pwd1);
-        return user;
-    }
-
-    public String getFirst() {
-        return first;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getLast() {
-        return last;
-    }
-
-    public String getPwd1() {
-        return pwd1;
-    }
-
-    public String getPwd2() {
-        return pwd2;
-    }
 
     /* validation name field */
-    private boolean isValidName(String name) {
+    private boolean isNameValid(String name) {
         Pattern pattern = Pattern.compile("[^a-zA-Z]");
         if(name == null){
             return false;
@@ -100,100 +55,19 @@ public class CreateAccountValidator extends ViewModel {
     }
 
     /* Definition of a method to hash and salt the password*/
-    private String hashPassword(String password){
+    public String hashPassword(String password){
         return BCrypt.hashpw(password, BCrypt.gensalt(13));
     }
 
-    /* Validate input */
-    public void inputValidation(final EditText fName, final EditText lName,
-                                   final EditText emailInput, final EditText pass1,
-                                   final EditText pass2){
-        fName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(isValidName(fName.getText().toString())) {
-                        first = fName.getText().toString();
-                        System.out.println("FIST SET");
-                    }else {
-                        fName.setError(NAME_ERROR);
-                        System.out.println("FIST NOT SET");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        lName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(isValidName(lName.getText().toString())) {
-                        last = lName.getText().toString();
-                        System.out.println("LAST SET");
-                    }else {
-                        lName.setError(NAME_ERROR);
-                        System.out.println("LAST NOT SET");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        /* Check that the email is a valid email*/
-        emailInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(isEmailValid(emailInput.getText().toString())) {
-                        email = emailInput.getText().toString();
-                        System.out.println("EMAIL SET");
-                    } else {
-                        emailInput.setError(EMAIL_ERROR);
-                        System.out.println("EMAIL NOT SET");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        /* check that the password is at least 8 characters long*/
-        pass1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(isPasswordValid(pass1.getText().toString())) {
-                        pwd1 = hashPassword(pass1.getText().toString());
-                        System.out.println("PASS1 SET");
-                    }else{
-                        pass1.setError(PASSWORD_ERROR);
-                        System.out.println("PASS1 NOT SET");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        /* check that both provided password match*/
-        pass2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(pass1.getText().toString().equals(pass2.getText().toString())) {
-                        pwd2 = pwd1;
-                        System.out.println("PASS2 SET");
-                    }else {
-                        pass2.setError(MISMATCH_ERROR);
-                        System.out.println("PASS2 NOT SET");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    public boolean validateNameField(String input) {
+        return isNameValid(input);
     }
 
-    public boolean getIsValid() {
-        return valid = first != null && last != null && email != null && pwd1 != null & pwd2 != null;
+    public boolean validateEmailField(String input) {
+        return isEmailValid(input);
+    }
+
+    public boolean validatePwdField(String input) {
+        return isPasswordValid(input);
     }
 }

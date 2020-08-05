@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DocumentScanActivity extends AppCompatActivity implements DocumentNamingActivity.DocumentNameListener {
+public class DocumentScanActivity extends AppCompatActivity implements DocumentNamingDialogFragment.DocumentNameListener {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 2;
 
@@ -182,7 +182,7 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
     }
 
     public void openDialog() {
-        DocumentNamingActivity namingDialog = new DocumentNamingActivity();
+        DocumentNamingDialogFragment namingDialog = new DocumentNamingDialogFragment();
         namingDialog.show(getSupportFragmentManager(), TAG);
     }
 

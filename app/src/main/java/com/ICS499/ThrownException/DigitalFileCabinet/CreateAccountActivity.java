@@ -20,6 +20,12 @@ public class CreateAccountActivity extends AppCompatActivity {
     private FileCabinet cabinet;
     private DFCAccountDBHelper dbHelper;
     private EditAccount account;
+    private CreateAccountValidator createModel;
+    private EditText firstNameEditText;
+    private EditText lastNameEditText;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private EditText password2EditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +39,11 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         final Button createAccountButton = findViewById(R.id.create_account_button);
         final Button cancelButton = findViewById(R.id.cancel_button);
-        final EditText firstNameEditText = findViewById(R.id.fName_input);
-        final EditText lastNameEditText = findViewById(R.id.lName_input);
-        final EditText emailEditText = findViewById(R.id.email_input);
-        final EditText passwordEditText = findViewById(R.id.password_input);
-        final EditText password2EditText = findViewById(R.id.confirm_password_input);
+        firstNameEditText = findViewById(R.id.fName_input);
+        lastNameEditText = findViewById(R.id.lName_input);
+        emailEditText = findViewById(R.id.email_input);
+        passwordEditText = findViewById(R.id.password_input);
+        password2EditText = findViewById(R.id.confirm_password_input);
         final ProgressBar loadingProgressBar = findViewById(R.id.create_loading);
 
 
@@ -54,13 +60,73 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
 
         /* Validate input */
-        final CreateAccountValidator createModel = new CreateAccountValidator();
-        createModel.inputValidation(firstNameEditText,
-                                    lastNameEditText,
-                                    emailEditText,
-                                    passwordEditText,
-                                    password2EditText);
+        createModel = new CreateAccountValidator();
 
+        /* Validate first name input */
+        firstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                try {
+                    if(!createModel.validateNameField(String.valueOf(firstNameEditText.getText()))) {
+                        firstNameEditText.setError(getText(R.string.invalid_name));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        /* Validate last name input */
+        lastNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                try {
+                    if(!createModel.validateNameField(String.valueOf(lastNameEditText.getText()))) {
+                        lastNameEditText.setError(getText(R.string.invalid_name));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        /* Check that the email is a valid email*/
+        emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                try {
+                    if(!createModel.validateEmailField(String.valueOf(emailEditText.getText()))) {
+                        emailEditText.setError(getText(R.string.invalid_email));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        /* check that the password is at least 8 characters long*/
+        passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                try {
+                    if(!createModel.validatePwdField(String.valueOf(passwordEditText.getText()))) {
+                        passwordEditText.setError(getText(R.string.invalid_password));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        /* check that both provided password match*/
+        password2EditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                try {
+                    if(!String.valueOf(password2EditText.getText()).equals(String.valueOf(passwordEditText.getText()))) {
+                       password2EditText.setError(getText(R.string.password_mismatch));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,14 +135,17 @@ public class CreateAccountActivity extends AppCompatActivity {
             Log.d(TAG,"Creating a user ");
             loadingProgressBar.setVisibility(View.GONE);
             try {
-                if(createModel.getIsValid()) {
+                if(isValidInputs()) {
                     /* Create a user with valid input only */
-                    dfcUser = createModel.createUser(myContext);
+                    account = cabinet.getEditAccount();
+                    dfcUser = account.createUser(String.valueOf(firstNameEditText.getText()),
+                            String.valueOf(lastNameEditText.getText()),
+                            String.valueOf(emailEditText.getText()),
+                            createModel.hashPassword(String.valueOf(passwordEditText.getText())));
                     cabinet.setUser(dfcUser);
 
-                    EditAccount account = cabinet.getEditAccount();
                     account.createAccount(dbHelper, cabinet.getUser());
-                    Log.d(TAG, account.isActive()+"");
+                    Log.d(TAG, dfcUser.toString());
                     while(!account.isActive()){
                         loadingProgressBar.setVisibility(View.VISIBLE);
                     }
@@ -98,6 +167,14 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
             }
         });
+    }
+
+    private boolean isValidInputs() {
+        return createModel.validateNameField(String.valueOf(firstNameEditText.getText())) &&
+                createModel.validateNameField(String.valueOf(lastNameEditText.getText())) &&
+                createModel.validateEmailField(String.valueOf(emailEditText.getText())) &&
+                createModel.validatePwdField(String.valueOf(passwordEditText.getText())) &&
+                String.valueOf(password2EditText.getText()).equals(String.valueOf(passwordEditText.getText()));
     }
 
     @Override
