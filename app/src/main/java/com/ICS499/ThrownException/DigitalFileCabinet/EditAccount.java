@@ -12,10 +12,21 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class EditAccount {
     private boolean isActive = false;
-    private User acctUser = null;
+    private User acctUser;
     private QueryContext sqlContext;
     private QueryBuilder sqlBuilder;
 
+
+    /* Create account function*/
+    public User createUser(String fName, String lName, String email, String password) {
+        /* Create a user with valid input only */
+        acctUser = User.getUserInstance(null, null, null, null);
+        acctUser.setFirstName(fName);
+        acctUser.setLastName(lName);
+        acctUser.setEmail(email);
+        acctUser.setPassword(password);
+        return acctUser;
+    }
 
     public boolean createAccount(DFCAccountDBHelper dbHelper, User user) throws InterruptedException {
     /* Write user data in sql database and set the account to active */
@@ -87,6 +98,7 @@ public class EditAccount {
         if (acctUser != null) {
             emailRetrieved = acctUser.getEmail();
             pwdRetrieved = acctUser.getPassword();
+            System.out.println(String.format("NEW: %S SAVED: %S", email, emailRetrieved));
             if (email.equals(emailRetrieved) && verifyHashPassword(pwd, pwdRetrieved)) {
                 return true;
             }else if(!email.equals(emailRetrieved)){

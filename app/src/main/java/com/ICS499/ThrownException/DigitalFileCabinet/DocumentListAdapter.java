@@ -8,18 +8,18 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapter.ViewHolder> {
 
     private static final String TAG = "DocumentListAdapter";
-    private ArrayList<Document> docList;
+    private HashMap<String, Document> docList;
     private LayoutInflater inflater;
 //    private List<String> testList = new ArrayList<>();
     private ItemClickListener documentClickListener;
 
 
-    public DocumentListAdapter(Context context, ArrayList<Document> docList) {
+    public DocumentListAdapter(Context context, HashMap<String, Document> docList) {
         inflater = LayoutInflater.from(context);
         this.docList = docList;
     }
