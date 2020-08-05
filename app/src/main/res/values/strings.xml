@@ -6,7 +6,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be 8 characters long</string>
+    <string name="invalid_password">Password must be >= 8 and contains alpha-numeric characters and symbols</string>
     <string name="login_failed">"Login failed"</string>
 
     <!-- Strings related to create account -->
@@ -82,5 +82,6 @@
     <string name="nameLabel">"Name: "</string>
     <string name="createDateLabel">Create on:</string>
     <string name="editedDateLabel">"Last edited on: "</string>
+    <string name="prompt_password_confirmation">Confirm Password</string>
 
 </resources>

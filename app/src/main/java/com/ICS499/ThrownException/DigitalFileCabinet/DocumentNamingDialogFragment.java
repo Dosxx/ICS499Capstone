@@ -15,9 +15,8 @@ import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class DocumentNamingActivity extends AppCompatDialogFragment {
-    private final String TAG = "DocumentNamingActivity";
-    private EditText fileName;
+public class DocumentNamingDialogFragment extends AppCompatDialogFragment {
+    private final String TAG = "DocumentNamingDialogFragment";
     private DocumentNameListener listener;
 
 
@@ -26,7 +25,7 @@ public class DocumentNamingActivity extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_naming_doc, null);
-        fileName = view.findViewById(R.id.documentName);
+        final EditText fileName = view.findViewById(R.id.documentName);
         builder.setView(view)
                 .setCancelable(false)
                 .setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
@@ -34,7 +33,7 @@ public class DocumentNamingActivity extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = String.valueOf(fileName.getText());
-                        if (name == null || name.equals("")) {
+                        if (name.isEmpty()) {
                             Toast.makeText(getContext(), "Must provide a name!", Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         } else {
