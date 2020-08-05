@@ -1,8 +1,6 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.util.Patterns;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.lifecycle.ViewModel;
 
@@ -10,12 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginValidator extends ViewModel {
-    private String email = null;
-    private String pwd = null;
-    private boolean isValid = false;
-    public static final String PASSWORD_ERROR = "Incorrect Password";
-    public static final String EMAIL_ERROR = "Not a valid email";
-
 
     /* Validate password field */
     private boolean isPasswordValid(String password) {
@@ -45,53 +37,11 @@ public class LoginValidator extends ViewModel {
         }
     }
 
-    /* Validate input */
-    public void inputValidation(final EditText emailInput, final EditText pass1){
-
-        /* Check that the email is a valid email*/
-        emailInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(!isEmailValid(emailInput.getText().toString())) {
-                        emailInput.setError(EMAIL_ERROR);
-                    }
-                    email = emailInput.getText().toString();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        /* check that the password is at least 8 characters long*/
-        pass1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(!isPasswordValid(pass1.getText().toString())) {
-                        pass1.setError(PASSWORD_ERROR);
-                    }
-                    pwd = pass1.getText().toString();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    public boolean validateEmailField(String input) {
+        return isEmailValid(input);
     }
 
-    public boolean isValid() {
-        if(email != null && pwd != null){
-            isValid = true;
-        }
-        return isValid;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPwd() {
-        return pwd;
+    public boolean validatePwdField(String input) {
+        return isPasswordValid(input);
     }
 }

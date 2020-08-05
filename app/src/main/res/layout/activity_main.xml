@@ -77,31 +77,96 @@
 
         <Button
             android:id="@+id/deleteUserButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="23dp"
-            android:layout_marginTop="75dp"
+            android:layout_width="62dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="300dp"
-            android:background="@drawable/button_round"
-            android:text="@string/delete_user"
+            android:background="@drawable/ic_delete_24"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/profileDetailTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/profileDetailTextView" />
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="64dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/ic_logout_24"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/ScanDocumentButton"
+            app:layout_constraintStart_toEndOf="@+id/deleteUserButton"
+            app:layout_constraintTop_toBottomOf="@+id/profileDetailTextView" />
+
+        <Button
+            android:id="@+id/ScanDocumentButton"
+            android:layout_width="65dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="145dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="50dp"
+            android:visibility="visible"
+            android:background="@drawable/ic_scanner_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/deleteUserButton"
+            app:layout_constraintTop_toBottomOf="@+id/profileDetailTextView" />
+
+        <ImageView
+            android:id="@+id/emptyFileImageView"
+            android:layout_width="115dp"
+            android:layout_height="85dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginEnd="150dp"
+            android:visibility="gone"
+            android:background="@drawable/ic_folder_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logoutButton"
+            app:layout_constraintVertical_bias="0.235"
+            android:contentDescription="@string/emptyDocumentList" />
+
+        <TextView
+            android:id="@+id/emptyDocTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/emptyDocumentList"
+            android:textSize="25sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emptyFileImageView" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="410dp"
-            android:layout_height="337dp"
-            android:layout_marginTop="45dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:id="@+id/documentRecyclerView"
+            android:layout_width="400dp"
+            android:layout_height="365dp"
+            android:layout_marginTop="15dp"
+            android:contentDescription="@string/emptyDocumentList"
+            android:paddingLeft="25dp"
+            android:paddingTop="10dp"
+            android:paddingRight="25dp"
+            android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deleteUserButton" />
 
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
 </androidx.core.widget.NestedScrollView>
+    <!--android:id="@+id/documentListView"-->

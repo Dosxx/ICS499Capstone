@@ -55,7 +55,12 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         /* Validate input */
         final CreateAccountValidator createModel = new CreateAccountValidator();
-        createModel.inputValidation(firstNameEditText,lastNameEditText, emailEditText, passwordEditText, password2EditText);
+        createModel.inputValidation(firstNameEditText,
+                                    lastNameEditText,
+                                    emailEditText,
+                                    passwordEditText,
+                                    password2EditText);
+
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,11 +69,10 @@ public class CreateAccountActivity extends AppCompatActivity {
             Log.d(TAG,"Creating a user ");
             loadingProgressBar.setVisibility(View.GONE);
             try {
-                if(createModel.isValid()) {
+                if(createModel.getIsValid()) {
                     /* Create a user with valid input only */
                     dfcUser = createModel.createUser(myContext);
                     cabinet.setUser(dfcUser);
-                    Log.d(TAG, "User created");
 
                     EditAccount account = cabinet.getEditAccount();
                     account.createAccount(dbHelper, cabinet.getUser());
@@ -84,7 +88,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
                     startActivity(homeActivityIntent);
                 }else {
-                    Toast.makeText(getApplicationContext(), "Please provide valid input only",
+                    Toast.makeText(getApplicationContext(), "Please provide valid input only!",
                             Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {

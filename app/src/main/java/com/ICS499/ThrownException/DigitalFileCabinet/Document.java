@@ -5,14 +5,12 @@
 
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Locale;
 
 public class Document implements Serializable {
@@ -24,20 +22,10 @@ public class Document implements Serializable {
     private String fileExtension = "JPEG";
     private String filePath;
     private File file;
-    private QueryContext sqlContext;
-    private QueryBuilder selectQuery;
-    private QueryBuilder addQuery;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public Document(String documentName, String filePath, File file){
-        this.documentName = documentName;
-        this.filePath = filePath;
-        this.file = file;
-        createdDate = new SimpleDateFormat("yyyy_MM_ddd_HH_mm_ss", Locale.getDefault())
-                .format(LocalDateTime.now());
-        lastEditDate = createdDate;
-    }
+    // use this constructor to retrieve document from db
+    private Document(){}
 
     public Document getDocument(){
         return this;
@@ -47,12 +35,29 @@ public class Document implements Serializable {
         return documentName;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    public byte[] getFileToByte() {
+        byte[] fileByteArray = new byte[(int) file.length()];
+        try{
+            FileInputStream inputStream = new FileInputStream(file);
+            inputStream.read(fileByteArray);
+            inputStream.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return fileByteArray;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
     public void setDocumentName(String documentName) {
         this.documentName = documentName;
-        lastEditDate = new SimpleDateFormat("yyyy_MM_ddd_HH_mm_ss", Locale.getDefault())
-                .format(LocalDateTime.now());
+        lastEditDate = new SimpleDateFormat(
+                "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
+        ).format(new Date());
     }
+
     public String getFileExtension() {
         return fileExtension;
     }
@@ -77,6 +82,10 @@ public class Document implements Serializable {
         this.lastEditDate = lastEditDate;
     }
 
+    public File getFile() {
+        return file;
+    }
+
     public String getFilePath() {
         return filePath;
     }
@@ -85,18 +94,60 @@ public class Document implements Serializable {
         this.filePath = filePath;
     }
 
-
     public String toString() {
-        return String.format("Name: %s\nCreate date: %s\nLast edited: %s\nFilePath: %s",
+        return String.format("Name: %s\nCreate date: %s\nLast edited: %s",
                 this.documentName,
                 this.createdDate,
-                this.lastEditDate,
-                this.filePath);
+                this.lastEditDate);
     }
 
     public void setDocumentID(long documentID) {this.documentID = documentID;}
 
     public long getDocumentID() {
         return documentID;
+    }
+
+    public static class Builder {
+        // implemented a builder pattern for the document class
+        private long documentID;  //set the document is written to the database
+        private String documentName;
+        private String createdDate;
+        private String lastEditDate;
+        private String filePath;
+        private File file;
+        public Builder(String documentName) {
+            this.documentName = documentName;
+        }
+
+        public Builder setDocumentId(long documentID){
+            this.documentID = documentID;
+            return this;
+        }
+        public Builder setCreatedDate(String createdDate){
+            this.createdDate = createdDate;
+            return this;
+        }
+        public Builder setLastEditedDate(String lastEditDate){
+            this.lastEditDate = lastEditDate;
+            return this;
+        }
+        public Builder setFile(File file){
+            this.file = file;
+            return this;
+        }
+        public Builder setFilePath(String filePath){
+            this.filePath = filePath;
+            return this;
+        }
+        public Document build(){
+            Document document = new Document();
+            document.documentName = this.documentName;
+            document.documentID = this.documentID;
+            document.createdDate = this.createdDate;
+            document.lastEditDate = this.lastEditDate;
+            document.file = this.file;
+            document.filePath = this.filePath;
+            return document;
+        }
     }
 }

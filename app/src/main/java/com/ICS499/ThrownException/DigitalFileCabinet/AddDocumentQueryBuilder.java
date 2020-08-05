@@ -32,7 +32,7 @@ public class AddDocumentQueryBuilder extends QueryBuilder{
         values.put(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_NAME, document.getDocumentName());
         values.put(DocumentReaderContract.DocumentEntry.COLUMN_NAME_CREATE_DATE, document.getCreatedDate());
         values.put(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LAST_MODIFIED, document.getLastEditDate());
-        values.put(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_OBJECT, "");
+        values.put(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_OBJECT, document.getFileToByte());
         values.put(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LOCATION, document.getFilePath());
 
         /* Insert the new row, returning the primary key value of the new row */
@@ -49,6 +49,12 @@ public class AddDocumentQueryBuilder extends QueryBuilder{
     @Override
     Object deleteQuery() {
         /* Will not be used */
+        return null;
+    }
+
+    @Override
+    Object updateQuery() {
+        //Will not be used
         return null;
     }
 }

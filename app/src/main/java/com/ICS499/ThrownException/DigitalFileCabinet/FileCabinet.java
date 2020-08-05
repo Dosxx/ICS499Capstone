@@ -7,6 +7,8 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 import android.app.Application;
 import android.content.Context;
 
+import java.util.ArrayList;
+
 /*
  * FileCabinet Class works as the context class for the state pattern
  */
@@ -14,7 +16,7 @@ public class FileCabinet extends Application {
     /* Instance variables */
     private static FileCabinet cabinet;
     private User dfcUser;
-    private Document document;
+    private ArrayList<Document> document;
     private Context context;
 
     /* The instances of each state the file cabinet can be in */
@@ -45,11 +47,12 @@ public class FileCabinet extends Application {
         return dfcUser;
     }
 
-    public Document getDocument() {
+    public ArrayList<Document> getDocument() {
+
         return document;
     }
 
-    public void setDocument(Document document) {
+    public void setDocument(ArrayList<Document> document) {
         this.document = document;
     }
 

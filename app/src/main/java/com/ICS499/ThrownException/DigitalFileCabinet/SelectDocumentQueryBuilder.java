@@ -4,12 +4,8 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,8 +16,8 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
     private DFCAccountDBHelper dbHelper;
     private ArrayList<Document> queryResultList = new ArrayList<>();
 
-    public SelectDocumentQueryBuilder(Context appContext){
-        dbHelper = new DFCAccountDBHelper(appContext);
+    public SelectDocumentQueryBuilder(DFCAccountDBHelper dbHelper){
+        this.dbHelper = dbHelper;
     }
 
     @Override
@@ -30,7 +26,7 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+//    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public List<Document> selectQuery() {
         /* Make a query to the database to get the document data */
@@ -70,13 +66,22 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry._ID));
             String document_name = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_NAME));
+            byte[] document_file = cursor.getBlob(
+                    cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_DOCUMENT_NAME));
             String createDate = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_CREATE_DATE));
             String editDate = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LAST_MODIFIED));
             String location = cursor.getString(
                     cursor.getColumnIndexOrThrow(DocumentReaderContract.DocumentEntry.COLUMN_NAME_LOCATION));
-            Document result = new Document(document_name, location, new File(location));
+            Document result = new Document.Builder(document_name)
+                    .setDocumentId(Long.parseLong(document_Id))
+                    .setCreatedDate(createDate)
+                    .setLastEditedDate(editDate)
+                    .setFile(new File(location))
+                    .setFilePath(location)
+                    .build();
+
             queryResultList.add(result);
         }
         cursor.close();
@@ -86,6 +91,12 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
     @Override
     Object deleteQuery() {
         // Will not be user
+        return null;
+    }
+
+    @Override
+    Object updateQuery() {
+        // Will not be used
         return null;
     }
 }

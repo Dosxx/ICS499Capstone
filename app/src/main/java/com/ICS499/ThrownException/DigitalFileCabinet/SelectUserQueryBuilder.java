@@ -33,34 +33,6 @@ public class SelectUserQueryBuilder extends QueryBuilder{
     public Object selectQuery() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                UserReaderContract.UserEntry._ID,
-                UserReaderContract.UserEntry.COLUMN_NAME_FIRST_NAME,
-                UserReaderContract.UserEntry.COLUMN_NAME_LAST_NAME,
-                UserReaderContract.UserEntry.COLUMN_NAME_EMAIL,
-                UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD
-        };
-
-        // Filter results WHERE "email" = email
-        String selection = UserReaderContract.UserEntry.COLUMN_NAME_EMAIL + " = ?";
-        String[] selectionArgs = {email};
-
-        // How you want the results sorted in the resulting Cursor
-        String sortOrder = UserReaderContract.UserEntry._ID+ " DESC";
-
-/**        Cursor cursor = db.query(
-                UserReaderContract.UserEntry.TABLE_NAME,   // The table to query
-               projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,          // don't group the rows
-                null,           // don't filter by row groups
-                sortOrder              // The sort order
-        );
-**/
-
         Cursor cursor = db.rawQuery("SELECT * FROM "+
                         UserReaderContract.UserEntry.TABLE_NAME,
                 null);
@@ -92,6 +64,12 @@ public class SelectUserQueryBuilder extends QueryBuilder{
     @Override
     Object deleteQuery() {
         // Will not be use
+        return null;
+    }
+
+    @Override
+    Object updateQuery() {
+        // Will not be used
         return null;
     }
 }
