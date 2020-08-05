@@ -93,12 +93,9 @@ public class EditAccount {
         acctUser = (User) sqlContext.makeQuery();
 
         /* Authenticate the login request */
-        String emailRetrieved = null;
-        String pwdRetrieved = null;
         if (acctUser != null) {
-            emailRetrieved = acctUser.getEmail();
-            pwdRetrieved = acctUser.getPassword();
-            System.out.println(String.format("NEW: %S SAVED: %S", email, emailRetrieved));
+            String emailRetrieved = acctUser.getEmail();
+            String pwdRetrieved = acctUser.getPassword();
             if (email.equals(emailRetrieved) && verifyHashPassword(pwd, pwdRetrieved)) {
                 return true;
             }else if(!email.equals(emailRetrieved)){
