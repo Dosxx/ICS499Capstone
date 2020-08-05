@@ -105,6 +105,4 @@ public class ResetPasswordDialogFragment extends AppCompatDialogFragment impleme
     public interface ResetDataListener {
         void applyName(String input1, String input2);
     }
-
-
 }
