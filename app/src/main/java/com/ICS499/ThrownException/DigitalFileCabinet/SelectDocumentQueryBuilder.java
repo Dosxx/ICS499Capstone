@@ -8,13 +8,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class SelectDocumentQueryBuilder extends QueryBuilder {
 
     private DFCAccountDBHelper dbHelper;
-    private ArrayList<Document> queryResultList = new ArrayList<>();
+    private HashMap<String, Document> queryResultList = new HashMap<String, Document>();
 
     public SelectDocumentQueryBuilder(DFCAccountDBHelper dbHelper){
         this.dbHelper = dbHelper;
@@ -28,7 +27,7 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
 
 //    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public List<Document> selectQuery() {
+    public HashMap<String, Document> selectQuery() {
         /* Make a query to the database to get the document data */
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         // Define a projection that specifies which columns from the database
@@ -82,7 +81,7 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
                     .setFilePath(location)
                     .build();
 
-            queryResultList.add(result);
+            queryResultList.put(document_Id, result);
         }
         cursor.close();
         return queryResultList;
