@@ -72,6 +72,8 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
         public void onClick(View view) {
             if (documentClickListener != null) documentClickListener.onItemClick(view, getAdapterPosition());
         }
+
+
     }
 
     // allows clicks events to be caught

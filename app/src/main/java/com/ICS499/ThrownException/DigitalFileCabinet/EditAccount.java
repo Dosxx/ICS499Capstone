@@ -70,8 +70,13 @@ public class EditAccount {
             sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
             sqlContext.setQueryBuilder(sqlBuilder);
             /**/
-//            if((User)sqlContext.makeQuery() != null && )
-            return true;
+            acctUser = (User)sqlContext.makeQuery();
+            /**
+             * checking that account user is set properly
+             */
+            System.out.println(acctUser.toString());
+            // email doesn't match, can't reset password
+            return acctUser != null && email.equals(acctUser.getEmail());
         }else{
             return false;
         }

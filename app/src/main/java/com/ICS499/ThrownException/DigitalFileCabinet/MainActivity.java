@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.Serializable;
+
 /**
  * The digital file cabinet start here at the login UI
  */
@@ -55,17 +57,17 @@ public class MainActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* Check if the database has a user store, if so disable this activity */
-                if(account.isUserRegistered(dbHelper)) {
-                    Toast.makeText(myContext, "Please sign in! An account is registered",
-                            Toast.LENGTH_LONG).show();
-                }else {
-                    /* Switch the context to the create activity view */
-                    Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
-                    cabinet.setEditAccount(account);
-                    startActivity(createAccountIntent);
-                    Log.i(TAG, "create activity initiated");
-                }
+            /* Check if the database has a user store, if so disable this activity */
+            if(account.isUserRegistered(dbHelper)) {
+                Toast.makeText(myContext, "Please sign in! An account is registered",
+                        Toast.LENGTH_LONG).show();
+            }else {
+                /* Switch the context to the create activity view */
+                Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
+                cabinet.setEditAccount(account);
+                startActivity(createAccountIntent);
+                Log.i(TAG, "create activity initiated");
+            }
             }
         });
 
@@ -128,42 +130,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (model.validateEmailField(emailEditText.getText().toString()) &&
-                        model.validatePwdField(passwordEditText.getText().toString())) {
-                    if (account.login(dbHelper, emailEditText.getText().toString(),
-                            passwordEditText.getText().toString(), emailEditText, passwordEditText)) {
-                        loadingProgressBar.setVisibility(View.VISIBLE);
+            if (model.validateEmailField(emailEditText.getText().toString()) &&
+                    model.validatePwdField(passwordEditText.getText().toString())) {
+                if (account.login(dbHelper, emailEditText.getText().toString(),
+                        passwordEditText.getText().toString(), emailEditText, passwordEditText)) {
+                    loadingProgressBar.setVisibility(View.VISIBLE);
 
-                        cabinet.setUser(account.getAcctUser());
-                        cabinet.setEditAccount(account);
-                        Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
-                        startActivity(homeActivityIntent);
-                        Toast.makeText(myContext, "Welcome!", Toast.LENGTH_LONG).show();
-                    }else {
-                        passwordEditText.setText("");
-                        Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
-                    }
+                    cabinet.setUser(account.getAcctUser());
+                    cabinet.setEditAccount(account);
+                    Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
+                    startActivity(homeActivityIntent);
+                    Toast.makeText(myContext, "Welcome!", Toast.LENGTH_LONG).show();
                 }else {
-                    emailEditText.setError("Required!");
-                    passwordEditText.setError("Required!");
-                    Toast.makeText(myContext, "Please Provide inputs", Toast.LENGTH_LONG).show();
+                    passwordEditText.setText("");
+                    Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
                 }
-
+            }else {
+                emailEditText.setError("Required!");
+                passwordEditText.setError("Required!");
+                Toast.makeText(myContext, "Please Provide inputs", Toast.LENGTH_LONG).show();
+            }
             }
         });
 
         forgotPasswordLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if () {
-//                    account.resetPwd(dbHelper, emailEditText.getText().toString());
-//                } else {
-//                }
-                Intent resetPasswordIntent = new Intent(cabinet.getContext(), ResetPasswordActivity.class);
-                resetPasswordIntent.putExtra("email", String.valueOf(emailEditText.getText()));
-                startActivity(resetPasswordIntent);
-                Toast.makeText(myContext, "Sorry! Feature under construction",
-                        Toast.LENGTH_LONG).show();
+            if (!model.validateEmailField(String.valueOf(emailEditText.getText()))) {
+                if(account.resetPwd(dbHelper, String.valueOf(emailEditText.getText()))) {
+                    //go to reset activity
+                    Intent resetPasswordIntent = new Intent(cabinet.getContext(), ResetPasswordActivity.class);
+                    resetPasswordIntent.putExtra("acctUser", (Serializable)account.getAcctUser());
+                    startActivity(resetPasswordIntent);
+                }else {
+                    Toast.makeText(cabinet.getContext(), "No account is registered/ Email does not match", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(cabinet.getContext(), R.string.invalid_email, Toast.LENGTH_LONG).show();
+            }
             }
         });
 
