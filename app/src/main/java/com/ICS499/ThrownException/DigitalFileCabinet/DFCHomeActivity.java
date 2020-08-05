@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * UI class and home of the digital file cabinet
@@ -55,7 +55,7 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
 
         /* Set up the document recycler view */
-        ArrayList<Document> docList = dfcBrowser.makeQuery();
+        HashMap<String, Document> docList = dfcBrowser.makeQuery();
         if(docList.isEmpty()){
             emptyDocImageView.setVisibility(ImageView.VISIBLE);
             emptyDocTextView.setVisibility(TextView.VISIBLE);
