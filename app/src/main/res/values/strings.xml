@@ -83,5 +83,6 @@
     <string name="createDateLabel">Create on:</string>
     <string name="editedDateLabel">"Last edited on: "</string>
     <string name="prompt_password_confirmation">Confirm Password</string>
+    <string name="reset">RESET</string>
 
 </resources>

@@ -70,8 +70,13 @@ public class EditAccount {
             sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
             sqlContext.setQueryBuilder(sqlBuilder);
             /**/
-//            if((User)sqlContext.makeQuery() != null && )
-            return true;
+            acctUser = (User)sqlContext.makeQuery();
+            /**
+             * checking that account user is set properly
+             */
+            System.out.println(acctUser.toString());
+            // email doesn't match, can't reset password
+            return acctUser != null && email.equals(acctUser.getEmail());
         }else{
             return false;
         }
@@ -93,12 +98,9 @@ public class EditAccount {
         acctUser = (User) sqlContext.makeQuery();
 
         /* Authenticate the login request */
-        String emailRetrieved = null;
-        String pwdRetrieved = null;
         if (acctUser != null) {
-            emailRetrieved = acctUser.getEmail();
-            pwdRetrieved = acctUser.getPassword();
-            System.out.println(String.format("NEW: %S SAVED: %S", email, emailRetrieved));
+            String emailRetrieved = acctUser.getEmail();
+            String pwdRetrieved = acctUser.getPassword();
             if (email.equals(emailRetrieved) && verifyHashPassword(pwd, pwdRetrieved)) {
                 return true;
             }else if(!email.equals(emailRetrieved)){
