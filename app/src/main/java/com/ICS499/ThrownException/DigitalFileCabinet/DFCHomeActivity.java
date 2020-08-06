@@ -67,8 +67,10 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
         /*show the logged in user name */
         if (accountUser != null) {
-            userName.setText(String.format("%s %s", accountUser.getFirstName(),
-                    accountUser.getLastName()));
+            String first = accountUser.getFirstName().toLowerCase();
+            String last = accountUser.getLastName().toLowerCase();
+            userName.setText(String.format("%s %s",first.substring(0, 1).toUpperCase()+first.substring(1),
+                    last.substring(0, 1).toUpperCase()+last.substring(1)));
         }
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +162,5 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         documentViewIntent.putExtra("Document", (Serializable)adapter.getItem(position));
         startActivity(documentViewIntent);
         Log.d(TAG, adapter.getItem(position).getDocumentID()+"");
-//        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
     }
 }

@@ -29,21 +29,20 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     private Context myContext;
-    private FileCabinet cabinet = null;
+    private FileCabinet cabinet;
     private DFCAccountDBHelper dbHelper;
     private EditAccount account;
-    public static final String EMAIL_ERROR = "Invalid Email!";
-    public static final String PASSWORD_ERROR = "Invalid Password!";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        dbHelper = new DFCAccountDBHelper(this);
         myContext = this;
         cabinet = FileCabinet.getInstance(myContext);
-        cabinet.setDfcHelper(dbHelper);
+        dbHelper = cabinet.getDfcHelper();
         account = new EditAccount();
+        cabinet.setEditAccount(account);
         Log.d(TAG, "onCreate: Started.");
 
         final Button signUpButton = findViewById(R.id.sign_up_button);
@@ -58,13 +57,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
             /* Check if the database has a user store, if so disable this activity */
-            if(account.isUserRegistered(dbHelper)) {
+            if(cabinet.getEditAccount().isUserRegistered(dbHelper)) {
                 Toast.makeText(myContext, "Please sign in! An account is registered",
                         Toast.LENGTH_LONG).show();
             }else {
                 /* Switch the context to the create activity view */
                 Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
-                cabinet.setEditAccount(account);
+//                cabinet.setEditAccount(account);
                 startActivity(createAccountIntent);
                 Log.i(TAG, "create activity initiated");
             }
@@ -74,22 +73,14 @@ public class MainActivity extends AppCompatActivity {
         /*validate input */
         final LoginValidator model = new LoginValidator();
 
+        /* Check that the email is a valid email*/
+        emailFocusChanged(emailEditText, model);
+
         emailEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 /* Check that the email is a valid email*/
-                emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                    try {
-                        if(!model.validateEmailField(emailEditText.getText().toString())) {
-                            emailEditText.setError(EMAIL_ERROR);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    }
-                });
+                emailFocusChanged(emailEditText, model);
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -102,18 +93,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /* check that the password is at least 8 characters long*/
-        passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-            try {
-                if(!model.validatePwdField(passwordEditText.getText().toString())) {
-                    passwordEditText.setError(PASSWORD_ERROR);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            }
-        });
+        passwordFocusChanged(passwordEditText, model);
+
         /* Enter key press event handler */
         passwordEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -132,23 +113,22 @@ public class MainActivity extends AppCompatActivity {
 
             if (model.validateEmailField(emailEditText.getText().toString()) &&
                     model.validatePwdField(passwordEditText.getText().toString())) {
-                if (account.login(dbHelper, emailEditText.getText().toString(),
+                if (cabinet.getEditAccount().login(dbHelper, emailEditText.getText().toString(),
                         passwordEditText.getText().toString(), emailEditText, passwordEditText)) {
                     loadingProgressBar.setVisibility(View.VISIBLE);
 
-                    cabinet.setUser(account.getAcctUser());
-                    cabinet.setEditAccount(account);
+                    cabinet.setUser(cabinet.getEditAccount().getAcctUser());
                     Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
                     startActivity(homeActivityIntent);
-                    Toast.makeText(myContext, "Welcome!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(cabinet.getContext(), "Welcome!", Toast.LENGTH_LONG).show();
                 }else {
                     passwordEditText.setText("");
-                    Toast.makeText(myContext, "Login Fail! Please try again", Toast.LENGTH_LONG).show();
+                    Toast.makeText(cabinet.getContext(), "Login Fail! Please try again", Toast.LENGTH_LONG).show();
                 }
             }else {
                 emailEditText.setError("Required!");
                 passwordEditText.setError("Required!");
-                Toast.makeText(myContext, "Please Provide inputs", Toast.LENGTH_LONG).show();
+                Toast.makeText(cabinet.getContext(), "Please Provide inputs", Toast.LENGTH_LONG).show();
             }
             }
         });
@@ -157,9 +137,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             if (model.validateEmailField(String.valueOf(emailEditText.getText()))) {
-                if(account.resetPwd(dbHelper, String.valueOf(emailEditText.getText()))) {
+                if(cabinet.getEditAccount().resetPwd(dbHelper, String.valueOf(emailEditText.getText()))) {
                     //go to reset activity
                     Intent resetPasswordIntent = new Intent(cabinet.getContext(), ResetPasswordActivity.class);
+                    cabinet.setUser(cabinet.getEditAccount().getAcctUser());
                     resetPasswordIntent.putExtra("acctUser", (Serializable)account.getAcctUser());
                     startActivity(resetPasswordIntent);
                 }else {
@@ -184,4 +165,32 @@ public class MainActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
+    private void emailFocusChanged(final EditText editText, final LoginValidator validator) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                try {
+                    if(!validator.validateEmailField(editText.getText().toString())) {
+                        editText.setError(getText(R.string.invalid_email));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    private void passwordFocusChanged(final EditText editText, final LoginValidator validator) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                try {
+                    if(!validator.validatePwdField(editText.getText().toString())) {
+                        editText.setError(getText(R.string.invalid_password));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }

@@ -145,7 +145,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void onClick(View v) {
             /* instantiate a user with the provided input */
             Log.d(TAG,"Creating a user ");
-            loadingProgressBar.setVisibility(View.GONE);
+            loadingProgressBar.setVisibility(View.VISIBLE);
             try {
                 if(isValidInputs()) {
                     /* Create a user with valid input only */

@@ -38,14 +38,15 @@ public class ResetPasswordDialogFragment extends AppCompatDialogFragment impleme
                     public void onClick(DialogInterface dialog, int which) {
                         onFocusChange(resetView, true);
                         if (!model.validatePwdField(String.valueOf(password.getText()))) {
-                            Toast.makeText(getContext(), R.string.invalid_password, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), R.string.invalid_password,
+                                    Toast.LENGTH_LONG).show();
                             password.setError(getText(R.string.invalid_password));
                             password.requestFocus();
                         } else if (!String.valueOf(password.getText()).equals(String.valueOf(passwordConf.getText()))) {
                             Toast.makeText(getContext(), R.string.password_mismatch, Toast.LENGTH_LONG).show();
                         } else {
-                            listener.applyName(String.valueOf(password.getText()), String.valueOf(passwordConf.getText()));
-                            dialog.dismiss();
+                            listener.applyName(String.valueOf(password.getText()));
+//                            dialog.dismiss();
                         }
                     }
                 })
@@ -103,6 +104,6 @@ public class ResetPasswordDialogFragment extends AppCompatDialogFragment impleme
     }
 
     public interface ResetDataListener {
-        void applyName(String input1, String input2);
+        void applyName(String input);
     }
 }
