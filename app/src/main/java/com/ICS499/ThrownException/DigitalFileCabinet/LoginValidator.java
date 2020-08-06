@@ -14,7 +14,7 @@ public class LoginValidator extends ViewModel {
         Pattern pattern1 = Pattern.compile("[\\W]");
         Pattern pattern2 = Pattern.compile("[0-9]");
         Pattern pattern3 = Pattern.compile("[a-zA-Z]");
-        if(password != null){
+        if(!password.isEmpty()){
             Matcher matcher1 = pattern1.matcher(password);
             Matcher matcher2 = pattern2.matcher(password);
             Matcher matcher3 = pattern3.matcher(password);
@@ -27,7 +27,7 @@ public class LoginValidator extends ViewModel {
 
     /* Validate email field */
     private boolean isEmailValid(String emailInput) {
-        if(emailInput == null) {
+        if(emailInput.isEmpty()) {
             return false;
         }
         else if(emailInput.contains("@")) {

@@ -74,12 +74,21 @@ public class EditAccount {
             /**
              * checking that account user is set properly
              */
-            System.out.println(acctUser.toString());
+            System.out.println(acctUser.getUser_id());
             // email doesn't match, can't reset password
             return acctUser != null && email.equals(acctUser.getEmail());
         }else{
             return false;
         }
+    }
+
+    public boolean updatePassword(DFCAccountDBHelper dbHelper, User user) {
+        sqlContext = new QueryContext();
+        sqlBuilder = new UpdateUserQueryBuilder(dbHelper, user);
+        sqlContext.setQueryBuilder(sqlBuilder);
+        int result = ((Integer) sqlContext.makeQuery()).intValue();
+        setActive(false);
+        return result != 0;
     }
 
     public boolean isActive() {

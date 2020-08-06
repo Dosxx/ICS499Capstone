@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         forgotPasswordLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if (!model.validateEmailField(String.valueOf(emailEditText.getText()))) {
+            if (model.validateEmailField(String.valueOf(emailEditText.getText()))) {
                 if(account.resetPwd(dbHelper, String.valueOf(emailEditText.getText()))) {
                     //go to reset activity
                     Intent resetPasswordIntent = new Intent(cabinet.getContext(), ResetPasswordActivity.class);
