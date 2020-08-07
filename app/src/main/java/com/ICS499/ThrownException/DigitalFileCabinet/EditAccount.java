@@ -65,7 +65,7 @@ public class EditAccount {
     }
 
     public boolean resetPwd(DFCAccountDBHelper dbHelper, String email) {
-        if(isUserRegistered(dbHelper)) {
+        if(isUserRegistered(dbHelper) && !email.isEmpty()) {
             sqlContext = new QueryContext();
             sqlBuilder = new SelectUserQueryBuilder(dbHelper, email);
             sqlContext.setQueryBuilder(sqlBuilder);
