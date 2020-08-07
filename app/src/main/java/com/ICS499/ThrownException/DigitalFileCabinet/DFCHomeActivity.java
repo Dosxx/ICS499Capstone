@@ -5,9 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +60,8 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
 
         /* Set up the document recycler view */
-        ArrayList<Document> docList = dfcBrowser.makeQuery();
+//        ArrayList<Document> docList = dfcBrowser.makeQuery();
+        ArrayList<Document> docList = new ArrayList<>(dfcBrowser.makeQuery());
         if(docList.isEmpty()){
             emptyDocImageView.setVisibility(ImageView.VISIBLE);
             emptyDocTextView.setVisibility(TextView.VISIBLE);
@@ -67,8 +73,10 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
         /*show the logged in user name */
         if (accountUser != null) {
-            userName.setText(String.format("%s %s", accountUser.getFirstName(),
-                    accountUser.getLastName()));
+            String first = accountUser.getFirstName().toLowerCase();
+            String last = accountUser.getLastName().toLowerCase();
+            userName.setText(String.format("%s %s",first.substring(0, 1).toUpperCase()+first.substring(1),
+                    last.substring(0, 1).toUpperCase()+last.substring(1)));
         }
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +168,29 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         documentViewIntent.putExtra("Document", (Serializable)adapter.getItem(position));
         startActivity(documentViewIntent);
         Log.d(TAG, adapter.getItem(position).getDocumentID()+"");
-//        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+
+        MenuItem searchItem = findViewById(R.id.app_bar_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Log.d(TAG,"IN THE QUERY TEXT");
+                adapter.getFilter().filter(s);
+                return true;
+            }
+        });
+        return true;
     }
 }

@@ -79,8 +79,8 @@ public class User extends Application implements Serializable {
 
     public String toString() {
         return String.format("First Name: %s\nLast Name: %s\nEmail address: %s",
-                this.firstName,
-                this.lastName,
+                this.firstName.substring(0, 1).toUpperCase()+firstName.substring(1),
+                this.lastName.substring(0, 1).toUpperCase()+lastName.substring(1),
                 this.email);
     }
 }

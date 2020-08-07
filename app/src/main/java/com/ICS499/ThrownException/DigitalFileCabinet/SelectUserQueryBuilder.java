@@ -19,29 +19,35 @@ public class SelectUserQueryBuilder extends QueryBuilder{
         this.email = email;
     }
 
-    public User getFoundUser() {
-        return foundUser;
-    }
-
-    @Override
-    public Object addQuery() {
-        /* Will not be used */
-        return null;
-    }
-
     @Override
     public Object selectQuery() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        // Filter results WHERE "email" = email
 
-        Cursor cursor = db.rawQuery("SELECT * FROM "+
-                        UserReaderContract.UserEntry.TABLE_NAME,
-                null);
+        String[] projection = {
+                UserReaderContract.UserEntry._ID,
+                UserReaderContract.UserEntry.COLUMN_NAME_FIRST_NAME,
+                UserReaderContract.UserEntry.COLUMN_NAME_LAST_NAME,
+                UserReaderContract.UserEntry.COLUMN_NAME_EMAIL,
+                UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD};
 
-        /* retrieve the data from the cursor */
+        String selection = UserReaderContract.UserEntry.COLUMN_NAME_EMAIL + " LIKE ?";
+        String[] selectionArgs = {email};
+
+        Cursor cursor = db.query(
+                UserReaderContract.UserEntry.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,          // don't group the rows
+                null,           // don't filter by row groups
+                null           // The sort order
+        );
         if(cursor.getCount() < 1){
+            /*no matching email found exit the reset process */
             return null;
         }else {
-            while(cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
                 long userID = cursor.getLong(cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry._ID));
                 String firstName = cursor.getString(
                         cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_FIRST_NAME));
@@ -51,8 +57,13 @@ public class SelectUserQueryBuilder extends QueryBuilder{
                         cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_EMAIL));
                 String password = cursor.getString(
                         cursor.getColumnIndexOrThrow(UserReaderContract.UserEntry.COLUMN_NAME_PASSWORD));
-                foundUser = User.getUserInstance(firstName, lastName, email, password);
+
+                foundUser = User.getUserInstance(null, null, null, null);
                 foundUser.setUser_id(userID);
+                foundUser.setFirstName(firstName);
+                foundUser.setLastName(lastName);
+                foundUser.setEmail(email);
+                foundUser.setPassword(password);
                 break;
             }
             cursor.close();
@@ -70,6 +81,12 @@ public class SelectUserQueryBuilder extends QueryBuilder{
     @Override
     Object updateQuery() {
         // Will not be used
+        return null;
+    }
+
+    @Override
+    public Object addQuery() {
+        /* Will not be used */
         return null;
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public class SelectDocumentQueryBuilder extends QueryBuilder {
 
     private DFCAccountDBHelper dbHelper;
-    private ArrayList<Document> queryResultList = new ArrayList<>();
+    private List<Document> queryResultList = new ArrayList<>();
 
     public SelectDocumentQueryBuilder(DFCAccountDBHelper dbHelper){
         this.dbHelper = dbHelper;

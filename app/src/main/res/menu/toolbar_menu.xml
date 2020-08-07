@@ -6,12 +6,6 @@
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/Search_bar"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom|collapseActionView" />
 
-    <item
-        android:id="@+id/app_bar_scan"
-        android:icon="@android:drawable/ic_menu_camera"
-        android:title="@string/Search_bar"
-        app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="never" />
 </menu>

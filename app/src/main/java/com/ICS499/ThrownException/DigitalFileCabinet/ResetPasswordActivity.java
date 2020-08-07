@@ -2,117 +2,106 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ResetPasswordActivity extends AppCompatActivity {
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class ResetPasswordActivity extends AppCompatActivity implements ResetPasswordDialogFragment.ResetDataListener{
     private final String TAG = "ResetPasswordActivity";
-    private EditText resetFirstNameInput;
-    private EditText resetLastNameInput;
-    private EditText resetPasswordInput;
-    private EditText resetPassword2Input;
-    private Button resetButton;
     private CreateAccountValidator validator;
+    private FileCabinet cabinet;
     private User acctUser;
-    private boolean isValidUser;
+    private AtomicInteger count = new AtomicInteger(3);
     private EditAccount account;
+    private DFCAccountDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
-        validator = new CreateAccountValidator();
 
+        validator = new CreateAccountValidator();
+        cabinet = FileCabinet.getInstance(getApplication());
         /* retrieved fund user in the database */
         Intent userIntent = getIntent();
+        account = cabinet.getEditAccount();
+        dbHelper = cabinet.getDfcHelper();
         acctUser = (User)userIntent.getSerializableExtra("acctUser");
 
+        final EditText resetFirstNameInput = findViewById(R.id.restFirstNameEditText);
+        final EditText resetLastNameInput = findViewById(R.id.restLastNameEditText);
+        final Button nextButton = findViewById(R.id.nextButton);
 
-        resetFirstNameInput = findViewById(R.id.restFirstNameEditText);
-        resetLastNameInput = findViewById(R.id.restLastNameEditText);
-        resetPasswordInput = findViewById(R.id.resetPasswordEditText);
-        resetPassword2Input = findViewById(R.id.resetPasswordConfEditText);
-        resetButton = findViewById(R.id.resetButton);
-
-        /* Validate first name input */
-        resetFirstNameInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(!validator.validateNameField(String.valueOf(resetFirstNameInput.getText()))) {
-                        resetFirstNameInput.setError(getText(R.string.invalid_name));
-                        isValidUser = showPasswordInputField();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        /* Validate last name input */
-        resetLastNameInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(!validator.validateNameField(String.valueOf(resetLastNameInput.getText()))) {
-                        resetLastNameInput.setError(getText(R.string.invalid_name));
-                        isValidUser = showPasswordInputField();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        /* Check that the email is a valid email*/
-        resetPasswordInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(!validator.validateEmailField(String.valueOf(resetPasswordInput.getText()))) {
-                        resetPasswordInput.setError(getText(R.string.invalid_email));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-
-        /* check that both provided password match*/
-        resetPassword2Input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                try {
-                    if(!String.valueOf(resetPassword2Input.getText()).equals(String.valueOf(resetPasswordInput.getText()))) {
-                        resetPassword2Input.setError(getText(R.string.password_mismatch));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        resetButton.setOnClickListener(new View.OnClickListener() {
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isValidUser && validator.validatePwdField(String.valueOf(resetPasswordInput.getText())) &&
-                        String.valueOf(resetPassword2Input.getText()).equals(String.valueOf(resetPasswordInput.getText()))) {
-                    //TODO:
+                if(!acctUser.getFirstName().equals(String.valueOf(resetFirstNameInput.getText())) ||
+                        !acctUser.getLastName().equals(String.valueOf(resetLastNameInput.getText()))) {
+                    resetFirstNameInput.setError(getText(R.string.incorrect_firstName));
+                    resetLastNameInput.setError(getText(R.string.incorrect_lastName));
+                    resetFirstNameInput.requestFocus();
+                    Toast.makeText(getApplicationContext(), String.format("You have %s more tries", count.decrementAndGet()),
+                            Toast.LENGTH_LONG).show();
+
+                    if(count.get() == 0) {
+                        Toast.makeText(getApplicationContext(), "Password cannot be reset", Toast.LENGTH_LONG).show();
+                        Intent loginIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(loginIntent);
+                        finish();
+                    }
+                }else {
+                    openDialog();
                 }
             }
         });
+
+        resetLastNameInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                /* Enter key press event handler */
+                resetLastNameInput.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                            nextButton.requestFocus();
+                        }
+                    return false;
+                    }
+                });
+            }
+        });
+    }
+    public void openDialog() {
+        ResetPasswordDialogFragment resetDialog = new ResetPasswordDialogFragment();
+        resetDialog.show(getSupportFragmentManager(), TAG);
     }
 
-    private boolean showPasswordInputField(){
-        if(acctUser.getFirstName().equals(resetFirstNameInput) && acctUser.getLastName().equals(resetLastNameInput)) {
-            resetPasswordInput.setVisibility(EditText.VISIBLE);
-            resetPassword2Input.setVisibility(EditText.VISIBLE);
-            return true;
-        }else
-            return false;
+    @Override
+    public void applyName(String input) {
+        acctUser.setPassword(validator.hashPassword(input));
+        account.updatePassword(dbHelper, acctUser);
+        if(account.updatePassword(dbHelper, acctUser)) {
+            Intent logInIntent = new Intent(cabinet.getContext(), MainActivity.class);
+            startActivity(logInIntent);
+            logInIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            logInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            finishAffinity();
+        }
     }
-
-
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }

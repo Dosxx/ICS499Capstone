@@ -14,13 +14,11 @@ public class CreateAccountValidator extends ViewModel {
     /* validation name field */
     private boolean isNameValid(String name) {
         Pattern pattern = Pattern.compile("[^a-zA-Z]");
-        if(name == null){
+        if(name.isEmpty()){
             return false;
         }else {
             Matcher matcher = pattern.matcher(name);
-            if (name.length() == 0) {
-                return false;
-            } else if (name.length() > 20) {
+            if (name.length() > 20) {
                 return false;
             } else return !matcher.find();
         }
@@ -28,7 +26,7 @@ public class CreateAccountValidator extends ViewModel {
 
     /* Validate email field */
     private boolean isEmailValid(String emailInput) {
-        if(emailInput == null) {
+        if(emailInput.isEmpty()) {
             return false;
         }
         else if(emailInput.contains("@")) {
@@ -43,7 +41,7 @@ public class CreateAccountValidator extends ViewModel {
        Pattern pattern1 = Pattern.compile("[\\W]");
         Pattern pattern2 = Pattern.compile("[0-9]");
         Pattern pattern3 = Pattern.compile("[a-zA-Z]");
-        if(password != null){
+        if(!password.isEmpty()){
             Matcher matcher1 = pattern1.matcher(password);
             Matcher matcher2 = pattern2.matcher(password);
             Matcher matcher3 = pattern3.matcher(password);

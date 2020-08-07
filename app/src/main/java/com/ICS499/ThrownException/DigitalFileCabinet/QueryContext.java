@@ -19,6 +19,8 @@ public class QueryContext {
         }else if(sqlBuilder instanceof SelectUserQueryBuilder){
             queryResult = (User)sqlBuilder.selectQuery();
             return queryResult;
+        }else if(sqlBuilder instanceof UpdateUserQueryBuilder){
+            return (Integer) sqlBuilder.updateQuery();
         }else if(sqlBuilder instanceof AddDocumentQueryBuilder){
             return (Document) sqlBuilder.addQuery();
         }else if(sqlBuilder instanceof SelectDocumentQueryBuilder) {
