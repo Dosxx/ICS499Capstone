@@ -3,6 +3,7 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,30 +20,22 @@ import java.util.List;
 public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapter.ViewHolder> implements Filterable {
 
     private static final String TAG = "DocumentListAdapter";
-//    private ArrayList<Document> docList;
     private List<Document> docList;
-    private List<Document> filteredDocList;
-//    private ArrayList<Document> filteredDocList;
+    private List<Document> docListFiltered;
     private LayoutInflater inflater;
     private ItemClickListener documentClickListener;
 
-
+    /* The adapter constructor*/
     public DocumentListAdapter(Context context, List<Document> docList) {
         inflater = LayoutInflater.from(context);
         this.docList = docList;
-        filteredDocList = new ArrayList<>(docList);
+        docListFiltered = new ArrayList<>(docList);
     }
-    // data is passed into the constructor
-//    public DocumentListAdapter(Context context, List<String> data) {
-//        this.inflater = LayoutInflater.from(context);
-//        this.testList = data;
-//    }
-
 
     @Override
     public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.recylerview_row, parent, false);
-        return new ViewHolder(view);
+        View recyclerView = inflater.inflate(R.layout.recylerview_layout, parent, false);
+        return new ViewHolder(recyclerView);
     }
 
     @Override
@@ -75,11 +68,11 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
             List<Document> filteredList = new ArrayList<>();
             System.out.println(charSequence);
             if(charSequence == null || charSequence.length() == 0) {
-                filteredList.addAll(filteredDocList);
+                filteredList.addAll(docListFiltered);
             }else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
-                for(Document doc : filteredDocList){
+                for(Document doc : docListFiltered){
                     if(doc.getDocumentName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(doc);
                     }
@@ -93,19 +86,16 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults results) {
             docList.clear();
-            /**
-             * testing statement below
-             */
-            System.out.println("HERE WE ARE IN THE CODE");
+            Log.d(TAG,"PUBLISHING FILTERED LIST");
             docList.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
 
-    // stores and recycles views as they are scrolled off screen
+    // ViewHolder class stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        final TextView documentDescription;
         final ImageView documentThumbnail;
+        final TextView documentDescription;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -125,7 +115,7 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
         this.documentClickListener = itemClickListener;
     }
 
-    // parent activity will implement this method to respond to click events
+    // parent activity will implement this interface to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
@@ -137,14 +127,12 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
         imageView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int width = imageView.getMeasuredWidth();
         int height = imageView.getMeasuredHeight();
-        System.out.println(String.format("THE WIDTH IS: %S and HEIGHT IS %S",width,height));
         int scaleFactor = Math.min(
                 options.outWidth / width,
                 options.outHeight / height
         );
         options.inJustDecodeBounds = false;
         options.inSampleSize = scaleFactor;
-        options.inPurgeable = true;
         return BitmapFactory.decodeFile(currentImagePath, options);
     }
 }

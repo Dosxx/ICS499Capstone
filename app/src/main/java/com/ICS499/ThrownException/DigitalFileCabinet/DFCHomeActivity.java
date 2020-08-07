@@ -1,6 +1,8 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,12 +18,14 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * UI class and home of the digital file cabinet
@@ -61,13 +65,13 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
         /* Set up the document recycler view */
 //        ArrayList<Document> docList = dfcBrowser.makeQuery();
-        ArrayList<Document> docList = new ArrayList<>(dfcBrowser.makeQuery());
+        List<Document> docList = new ArrayList<>(dfcBrowser.makeQuery());
         if(docList.isEmpty()){
             emptyDocImageView.setVisibility(ImageView.VISIBLE);
             emptyDocTextView.setVisibility(TextView.VISIBLE);
         }
-        adapter = new DocumentListAdapter(this, docList);
-        documentListView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new DocumentListAdapter(getApplicationContext(), docList);
+        documentListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter.setClickListener(this);
         documentListView.setAdapter(adapter);
 
@@ -167,7 +171,6 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         Intent documentViewIntent = new Intent(getApplicationContext(), EditDocumentActivity.class);
         documentViewIntent.putExtra("Document", (Serializable)adapter.getItem(position));
         startActivity(documentViewIntent);
-        Log.d(TAG, adapter.getItem(position).getDocumentID()+"");
     }
 
     @Override
@@ -175,22 +178,35 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
 
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = findViewById(R.id.app_bar_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                adapter.getFilter().filter(s);
+                Log.d(TAG, s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d(TAG,"IN THE QUERY TEXT");
+                Log.d(TAG,"IN THE QUERY TEXT"+s);
                 adapter.getFilter().filter(s);
-                return true;
+                return false;
             }
         });
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.app_bar_search) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
