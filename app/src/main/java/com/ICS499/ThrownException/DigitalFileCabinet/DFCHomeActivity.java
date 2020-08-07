@@ -5,9 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +60,8 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
 
         /* Set up the document recycler view */
-        ArrayList<Document> docList = dfcBrowser.makeQuery();
+//        ArrayList<Document> docList = dfcBrowser.makeQuery();
+        ArrayList<Document> docList = new ArrayList<>(dfcBrowser.makeQuery());
         if(docList.isEmpty()){
             emptyDocImageView.setVisibility(ImageView.VISIBLE);
             emptyDocTextView.setVisibility(TextView.VISIBLE);
@@ -162,5 +168,29 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         documentViewIntent.putExtra("Document", (Serializable)adapter.getItem(position));
         startActivity(documentViewIntent);
         Log.d(TAG, adapter.getItem(position).getDocumentID()+"");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+
+        MenuItem searchItem = findViewById(R.id.app_bar_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Log.d(TAG,"IN THE QUERY TEXT");
+                adapter.getFilter().filter(s);
+                return true;
+            }
+        });
+        return true;
     }
 }

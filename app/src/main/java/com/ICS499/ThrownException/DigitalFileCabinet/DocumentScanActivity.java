@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -159,21 +158,6 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    /* image scaling functions */
-    private Bitmap getScaledBitmap(ImageView imageView) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-
-        int scaleFactor = Math.min(
-                options.outWidth / imageView.getWidth(),
-                options.outHeight / imageView.getHeight()
-        );
-        options.inJustDecodeBounds = false;
-        options.inSampleSize = scaleFactor;
-        options.inPurgeable = true;
-        return BitmapFactory.decodeFile(currentImagePath, options);
     }
 
     @Override
