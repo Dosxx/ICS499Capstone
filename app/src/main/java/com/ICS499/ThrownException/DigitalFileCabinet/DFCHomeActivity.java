@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,15 +57,13 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         final Button scanButton = findViewById(R.id.ScanDocumentButton);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final RecyclerView documentListView = findViewById(R.id.documentRecyclerView);
-        final ImageView emptyDocImageView = findViewById(R.id.emptyFileImageView);
-        final TextView emptyDocTextView = findViewById(R.id.emptyDocTextView);
+        final LinearLayout emptyCabinetViewLayout = findViewById(R.id.emptyCabinetLayout);
 
 
         /* Set up the document recycler view */
         List<Document> docList = new ArrayList<>(dfcBrowser.makeQuery());
         if(docList.isEmpty()){
-            emptyDocImageView.setVisibility(ImageView.VISIBLE);
-            emptyDocTextView.setVisibility(TextView.VISIBLE);
+            emptyCabinetViewLayout.setVisibility(LinearLayout.VISIBLE);
         }
         adapter = new DocumentListAdapter(getApplicationContext(), docList);
         documentListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -172,7 +170,6 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d(TAG, "CREATE MENU OPTION");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.app_bar_search);
@@ -183,13 +180,11 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
             @Override
             public boolean onQueryTextSubmit(String s) {
                 adapter.getFilter().filter(s);
-                Log.d(TAG, s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d(TAG,"IN THE QUERY TEXT"+s);
                 adapter.getFilter().filter(s);
                 return false;
             }

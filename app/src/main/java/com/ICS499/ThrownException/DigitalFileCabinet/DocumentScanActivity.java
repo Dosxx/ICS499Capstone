@@ -136,18 +136,18 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
                 docEditor.saveDoc(dbHelper, document);
                 /* Ask user to return home */
                 builder.setTitle("Confirm Action")
-                        .setMessage("Return Home?")
+                        .setMessage("Scan another Document?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(cabinet.getContext(), DFCHomeActivity.class);
+                                Intent intent = new Intent(cabinet.getContext(), DocumentScanActivity.class);
                                 startActivity(intent);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //  Action for 'NO' Button
-                                Intent intent = new Intent(cabinet.getContext(), DocumentScanActivity.class);
+                                Intent intent = new Intent(cabinet.getContext(), DFCHomeActivity.class);
                                 startActivity(intent);
                             }
                         }).create().show();

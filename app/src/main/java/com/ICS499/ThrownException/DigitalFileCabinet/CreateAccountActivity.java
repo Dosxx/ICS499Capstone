@@ -8,7 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +45,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.email_input);
         passwordEditText = findViewById(R.id.password_input);
         password2EditText = findViewById(R.id.confirm_password_input);
-        final ProgressBar loadingProgressBar = findViewById(R.id.create_loading);
+        final LinearLayout loadingProgressBar = findViewById(R.id.createProgressLayout);
 
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -144,8 +144,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             /* instantiate a user with the provided input */
-            Log.d(TAG,"Creating a user ");
-            loadingProgressBar.setVisibility(View.VISIBLE);
+            loadingProgressBar.setVisibility(LinearLayout.VISIBLE);
             try {
                 if(isValidInputs()) {
                     /* Create a user with valid input only */
@@ -157,9 +156,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                     cabinet.setUser(dfcUser);
 
                     account.createAccount(dbHelper, cabinet.getUser());
-                    Log.d(TAG, dfcUser.toString());
                     while(!account.isActive()){
-                        loadingProgressBar.setVisibility(View.VISIBLE);
+                        loadingProgressBar.setVisibility(LinearLayout.VISIBLE);
                     }
                     Toast.makeText(myContext, "Account created successfully", Toast.LENGTH_LONG).show();
                     Toast.makeText(getApplicationContext(), "Welcome "+
