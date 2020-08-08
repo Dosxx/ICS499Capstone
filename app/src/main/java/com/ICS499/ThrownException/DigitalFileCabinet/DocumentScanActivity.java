@@ -25,14 +25,18 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DocumentScanActivity extends AppCompatActivity implements DocumentNamingDialogFragment.DocumentNameListener {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 2;
-
+    private static AtomicInteger occurrence = new AtomicInteger(0);
     private String currentImagePath;
     private ImageView imageOriginal;
     private TextView documentNameTextView;
@@ -41,8 +45,8 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
     private FileCabinet cabinet;
     private String docName = null;
     private android.app.AlertDialog.Builder builder;
+    private List<Document> docList;
     private final String TAG = "DocumentScanActivity";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,8 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         dbHelper = new DFCAccountDBHelper(getApplicationContext());
         cabinet.setDfcHelper(dbHelper);
         docEditor = new EditDocument();
-
+        Intent listIntent = getIntent();
+        docList = new ArrayList<>((ArrayList<Document>)listIntent.getSerializableExtra("document"));
         builder = new android.app.AlertDialog.Builder(this);
 
         imageOriginal = findViewById(R.id.captureImageOriginal);
@@ -64,6 +69,7 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
             @Override
             public void onClick(View v) {
                 openDialog();
+                occurrence.addAndGet(1);
             }
         });
     }
@@ -98,7 +104,6 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         Log.d(TAG, currentImagePath);
         return imageFile;
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -140,8 +145,9 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(cabinet.getContext(), DocumentScanActivity.class);
-                                startActivity(intent);
+                                Intent scanIntent = new Intent(getApplicationContext(), DocumentScanActivity.class);
+                                scanIntent.putExtra("document", (Serializable)docList);
+                                startActivity(scanIntent);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -172,7 +178,14 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
 
     @Override
     public void applyName(String documentName) {
-        docName = documentName.trim().toUpperCase();
+        //validate that the doc name is not already in used
+        if(findNameInList(documentName)) {
+            String newName = documentName.trim().concat(String.format("_(%s)",occurrence));
+            docName = newName;
+        }else {
+            docName = documentName.trim();
+        }
+
         if(ContextCompat.checkSelfPermission(
                 getApplicationContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
@@ -191,5 +204,14 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         } else {
             dispatchCaptureImageIntent();
         }
+    }
+
+    private boolean findNameInList(String name) {
+        for(Document doc : docList){
+            if(doc.getDocumentName().toLowerCase().equals(name.trim().toLowerCase())){
+                return true;
+            }
+        }
+        return false;
     }
 }

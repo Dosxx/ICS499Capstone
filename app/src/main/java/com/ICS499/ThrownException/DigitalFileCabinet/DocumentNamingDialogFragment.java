@@ -12,19 +12,28 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-
 import androidx.appcompat.app.AppCompatDialogFragment;
+
+import java.util.List;
 
 public class DocumentNamingDialogFragment extends AppCompatDialogFragment {
     private final String TAG = "DocumentNamingDialogFragment";
     private DocumentNameListener listener;
+    private List<Document> docLIst;
 
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceStates) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
+
+//        Bundle bundle = getArguments();
+//        docLIst = new ArrayList<>((ArrayList<Document>)bundle.getSerializable("document"));
+
+
         View view = inflater.inflate(R.layout.dialog_naming_doc, null);
+
+
         final EditText fileName = view.findViewById(R.id.documentName);
         builder.setView(view)
                 .setCancelable(false)
