@@ -1,8 +1,6 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SearchView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,16 +57,13 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         final Button scanButton = findViewById(R.id.ScanDocumentButton);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final RecyclerView documentListView = findViewById(R.id.documentRecyclerView);
-        final ImageView emptyDocImageView = findViewById(R.id.emptyFileImageView);
-        final TextView emptyDocTextView = findViewById(R.id.emptyDocTextView);
+        final LinearLayout emptyCabinetViewLayout = findViewById(R.id.emptyCabinetLayout);
 
 
         /* Set up the document recycler view */
-//        ArrayList<Document> docList = dfcBrowser.makeQuery();
         List<Document> docList = new ArrayList<>(dfcBrowser.makeQuery());
         if(docList.isEmpty()){
-            emptyDocImageView.setVisibility(ImageView.VISIBLE);
-            emptyDocTextView.setVisibility(TextView.VISIBLE);
+            emptyCabinetViewLayout.setVisibility(LinearLayout.VISIBLE);
         }
         adapter = new DocumentListAdapter(getApplicationContext(), docList);
         documentListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -177,23 +172,19 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = findViewById(R.id.app_bar_search);
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 adapter.getFilter().filter(s);
-                Log.d(TAG, s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d(TAG,"IN THE QUERY TEXT"+s);
                 adapter.getFilter().filter(s);
                 return false;
             }
@@ -205,6 +196,7 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.app_bar_search) {
+
             return true;
         }
         return super.onOptionsItemSelected(item);

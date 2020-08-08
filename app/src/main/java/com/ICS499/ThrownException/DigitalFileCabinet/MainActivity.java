@@ -14,7 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView forgotPasswordLabel = findViewById(R.id.forgotPasswordTextView);
         final EditText emailEditText = findViewById(R.id.email_input);
         final EditText passwordEditText = findViewById(R.id.password_input);
-        final ProgressBar loadingProgressBar = findViewById(R.id.progressBar);
+        final LinearLayout progressLayout = findViewById(R.id.loginProgressLayout);
 
         /* Show create content view on the click of create account button*/
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             }else {
                 /* Switch the context to the create activity view */
                 Intent createAccountIntent = new Intent(myContext, CreateAccountActivity.class);
-//                cabinet.setEditAccount(account);
                 startActivity(createAccountIntent);
                 Log.i(TAG, "create activity initiated");
             }
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     model.validatePwdField(passwordEditText.getText().toString())) {
                 if (cabinet.getEditAccount().login(dbHelper, emailEditText.getText().toString(),
                         passwordEditText.getText().toString(), emailEditText, passwordEditText)) {
-                    loadingProgressBar.setVisibility(View.VISIBLE);
+                    progressLayout.setVisibility(LinearLayout.VISIBLE);
 
                     cabinet.setUser(cabinet.getEditAccount().getAcctUser());
                     Intent homeActivityIntent = new Intent(myContext, DFCHomeActivity.class);
