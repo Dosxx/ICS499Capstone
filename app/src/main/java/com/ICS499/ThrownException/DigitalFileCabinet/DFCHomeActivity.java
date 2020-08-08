@@ -36,6 +36,7 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
     private EditAccount account;
     private FileBrowser dfcBrowser;
     private DocumentListAdapter adapter;
+    private List<Document> docList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
 
 
         /* Set up the document recycler view */
-        List<Document> docList = new ArrayList<>(dfcBrowser.makeQuery());
+        docList = new ArrayList<>(dfcBrowser.makeQuery());
         if(docList.isEmpty()){
             emptyCabinetViewLayout.setVisibility(LinearLayout.VISIBLE);
         }
@@ -145,6 +146,7 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
             public void onClick(View v) {
                 /*Implement this activity as dialog */
                 Intent scanIntent = new Intent(cabinet.getContext(), DocumentScanActivity.class);
+                scanIntent.putExtra("document", (Serializable)docList);
                 startActivity(scanIntent);
             }
         });
