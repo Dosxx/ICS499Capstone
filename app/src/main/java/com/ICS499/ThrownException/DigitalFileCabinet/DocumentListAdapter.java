@@ -1,3 +1,8 @@
+/*
+ * Author: Thrown Exceptions
+ * IVS499 Capstone 2020
+ * Created: 7/22/2020
+ */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.Context;

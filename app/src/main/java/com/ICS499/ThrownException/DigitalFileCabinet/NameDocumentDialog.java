@@ -1,3 +1,7 @@
+/*
+ * Author: Thrown Exceptions
+ * ICS499 Capstone 2020
+ */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.app.AlertDialog;
@@ -17,29 +21,12 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 public class NameDocumentDialog extends AppCompatDialogFragment {
     private final String TAG = "NamingDialogFragment";
     private DocumentNameListener listener;
-//    private static Hashtable<String, AtomicInteger> docNameHashTable = new Hashtable<>(25);
-//    private List<Document> docLIst;
-
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceStates) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-//        Bundle bundle = getArguments();
-//        try {
-//            docLIst = new ArrayList<>((ArrayList<Document>)bundle.getSerializable("document"));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            Hashtable<String, AtomicInteger> hash = (Hashtable<String, AtomicInteger>)bundle.getSerializable("hashtable");
-//            Log.d(TAG,hash.toString());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        addNameHashTable(docLIst);
         View view = inflater.inflate(R.layout.dialog_naming_doc, null);
 
         final EditText fileName = view.findViewById(R.id.documentName);
@@ -54,22 +41,6 @@ public class NameDocumentDialog extends AppCompatDialogFragment {
                         Toast.makeText(getContext(), "Must provide a name!", Toast.LENGTH_LONG).show();
                     } else {
                         listener.applyName(name.trim());
-                        //validate that the doc name is not already in used
-//                            if(findNameInList(name)) {
-//                                String altName = name.trim().toLowerCase();
-//                                AtomicInteger value = docNameHashTable.get(altName);
-//                                if (value != null) {
-//                                    value.getAndIncrement();
-//                                }
-//                                docNameHashTable.put(altName, value);
-//                                Log.d(TAG, docNameHashTable.toString());
-//                                String newName = name.trim().concat(String.format("_(%s)",
-//                                        docNameHashTable.get(altName)));
-//                                listener.applyName(newName);
-//                            } else {
-//                                docNameHashTable.put(name.trim().toLowerCase(), new AtomicInteger(0));
-//                                listener.applyName(name.trim());
-//                            }
                     }
                     }
                 })
@@ -95,23 +66,7 @@ public class NameDocumentDialog extends AppCompatDialogFragment {
         }
     }
 
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        outState.putSerializable("docNameHashTable", docNameHashTable);
-//    }
-//
-//    @Override
-//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-//        super.onViewStateRestored(savedInstanceState);
-//        docNameHashTable = (Hashtable<String, AtomicInteger>) savedInstanceState.getSerializable("docNameHashTable");
-//    }
-
     public interface DocumentNameListener {
         void applyName(String documentName);
     }
-
-//    private boolean findNameInList(String name) {
-//        return docNameHashTable.containsKey(name.trim().toLowerCase());
-//    }
-
 }

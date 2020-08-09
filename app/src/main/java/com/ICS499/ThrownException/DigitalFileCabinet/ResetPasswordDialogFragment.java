@@ -1,3 +1,7 @@
+/*
+ * Author: Thrown Exceptions
+ * ICS499 Capstone 2020
+ */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.app.AlertDialog;
@@ -46,7 +50,6 @@ public class ResetPasswordDialogFragment extends AppCompatDialogFragment impleme
                             Toast.makeText(getContext(), R.string.password_mismatch, Toast.LENGTH_LONG).show();
                         } else {
                             listener.applyName(String.valueOf(password.getText()));
-//                            dialog.dismiss();
                         }
                     }
                 })

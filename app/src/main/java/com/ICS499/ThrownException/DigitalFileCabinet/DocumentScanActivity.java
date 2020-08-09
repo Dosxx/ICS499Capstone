@@ -1,3 +1,8 @@
+/*
+ * Author: Thrown Exceptions
+ * IVS499 Capstone 2020
+ * Created: 7/22/2020
+ */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.Manifest;
@@ -142,7 +147,6 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 scanDocumentButton.performClick();
-//                                recreate();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -169,10 +173,6 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
     public void openDialog() {
         NameDocumentDialog namingDialog = new NameDocumentDialog();
         namingDialog.show(getSupportFragmentManager(), TAG);
-//        Bundle listBundle = new Bundle();
-//        listBundle.putSerializable("document", (Serializable) docList);
-//        listBundle.putSerializable("hashtable", docNameHashtable);
-//        namingDialog.setArguments(listBundle);
     }
 
     @Override
@@ -198,15 +198,4 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
         }
     }
 
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putSerializable("docNameHashtable", docNameHashtable);
-//    }
-
-//    @Override
-//    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//        docNameHashtable = (Hashtable<String, AtomicInteger>) savedInstanceState.getSerializable("docNameHashtable");
-//    }
 }

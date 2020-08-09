@@ -1,8 +1,8 @@
 /*
  * Author: Thrown Exceptions
- * ICS499 Capstone 2020
+ * IVS499 Capstone 2020
+ * Created: 7/22/2020
  */
-
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import java.io.File;
@@ -62,24 +62,12 @@ public class Document implements Serializable {
         return fileExtension;
     }
 
-    public void setFileExtension(String fileExtension) {
-        this.fileExtension = fileExtension;
-    }
-
     public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public String getLastEditDate() {
         return lastEditDate;
-    }
-
-    public void setLastEditDate(String lastEditDate) {
-        this.lastEditDate = lastEditDate;
     }
 
     public File getFile() {
@@ -88,10 +76,6 @@ public class Document implements Serializable {
 
     public String getFilePath() {
         return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
     }
 
     public String toString() {
