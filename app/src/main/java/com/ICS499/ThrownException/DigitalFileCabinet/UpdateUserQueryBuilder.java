@@ -1,12 +1,13 @@
+/*
+ * Author: Thrown Exceptions
+ * ICS499 Capstone 2020
+ */
+
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
-/**
- * Author: kekeli D Akouete
- * Created: 8/5/2020
- **/
 class UpdateUserQueryBuilder extends QueryBuilder {
     private DFCAccountDBHelper dbHelper;
     private User accountUser;
