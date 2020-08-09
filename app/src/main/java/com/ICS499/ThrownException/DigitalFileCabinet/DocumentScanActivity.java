@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,18 +24,15 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class DocumentScanActivity extends AppCompatActivity implements DocumentNamingDialogFragment.DocumentNameListener {
+public class DocumentScanActivity extends AppCompatActivity implements NameDocumentDialog.DocumentNameListener {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 2;
-    private static AtomicInteger occurrence = new AtomicInteger(0);
     private String currentImagePath;
     private ImageView imageOriginal;
     private TextView documentNameTextView;
@@ -46,6 +42,7 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
     private String docName = null;
     private android.app.AlertDialog.Builder builder;
     private List<Document> docList;
+    private Button scanDocumentButton;
     private final String TAG = "DocumentScanActivity";
 
     @Override
@@ -63,13 +60,12 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
 
         imageOriginal = findViewById(R.id.captureImageOriginal);
         documentNameTextView = findViewById(R.id.originalImageTextView);
-        final Button scanDocumentButton = findViewById(R.id.ScanDocumentButton);
+        scanDocumentButton = findViewById(R.id.ScanDocumentButton);
 
         scanDocumentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDialog();
-                occurrence.addAndGet(1);
             }
         });
     }
@@ -101,7 +97,6 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         File imageFile = File.createTempFile(
                 docName,"jpg", directory);
         currentImagePath = imageFile.getAbsolutePath();
-        Log.d(TAG, currentImagePath);
         return imageFile;
     }
 
@@ -132,6 +127,7 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
                 String today = new SimpleDateFormat(
                         "yyyy_MM_ddd_HH_mm_ss", Locale.getDefault()
                 ).format(new Date());
+                /*Create the document to be stored*/
                 Document document = new Document.Builder(docName)
                         .setCreatedDate(today)
                         .setLastEditedDate(today)
@@ -145,9 +141,8 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent scanIntent = new Intent(getApplicationContext(), DocumentScanActivity.class);
-                                scanIntent.putExtra("document", (Serializable)docList);
-                                startActivity(scanIntent);
+                                scanDocumentButton.performClick();
+//                                recreate();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -172,20 +167,17 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
     }
 
     public void openDialog() {
-        DocumentNamingDialogFragment namingDialog = new DocumentNamingDialogFragment();
+        NameDocumentDialog namingDialog = new NameDocumentDialog();
         namingDialog.show(getSupportFragmentManager(), TAG);
+//        Bundle listBundle = new Bundle();
+//        listBundle.putSerializable("document", (Serializable) docList);
+//        listBundle.putSerializable("hashtable", docNameHashtable);
+//        namingDialog.setArguments(listBundle);
     }
 
     @Override
     public void applyName(String documentName) {
-        //validate that the doc name is not already in used
-        if(findNameInList(documentName)) {
-            String newName = documentName.trim().concat(String.format("_(%s)",occurrence));
-            docName = newName;
-        }else {
-            docName = documentName.trim();
-        }
-
+        docName = documentName.trim();
         if(ContextCompat.checkSelfPermission(
                 getApplicationContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
@@ -206,12 +198,15 @@ public class DocumentScanActivity extends AppCompatActivity implements DocumentN
         }
     }
 
-    private boolean findNameInList(String name) {
-        for(Document doc : docList){
-            if(doc.getDocumentName().toLowerCase().equals(name.trim().toLowerCase())){
-                return true;
-            }
-        }
-        return false;
-    }
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putSerializable("docNameHashtable", docNameHashtable);
+//    }
+
+//    @Override
+//    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        docNameHashtable = (Hashtable<String, AtomicInteger>) savedInstanceState.getSerializable("docNameHashtable");
+//    }
 }

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EditDocumentActivity extends AppCompatActivity implements DocumentNamingDialogFragment.DocumentNameListener {
+public class EditDocumentActivity extends AppCompatActivity implements NameDocumentDialog.DocumentNameListener {
     private Document document;
     private final String TAG = "EditDocumentActivity";
     private String currentImagePath;
@@ -88,13 +88,13 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
     }
 
     public void openDialog() {
-        DocumentNamingDialogFragment namingDialog = new DocumentNamingDialogFragment();
+        NameDocumentDialog namingDialog = new NameDocumentDialog();
         namingDialog.show(getSupportFragmentManager(), "DocumentNamingActivity");
     }
 
     @Override
     public void applyName(String documentName) {
-        String newName = documentName.trim().toUpperCase();
+        String newName = documentName.trim();
         document.setDocumentName(newName);
         documentNameTextView.setText(newName);
         documentLastEditTextView.setText(document.getLastEditDate());
@@ -105,7 +105,6 @@ public class EditDocumentActivity extends AppCompatActivity implements DocumentN
             Toast.makeText(getApplicationContext(), "Update failed!", Toast.LENGTH_LONG).show();
         }
     }
-
     private void returnToHomeActivity() {
         Intent homeIntent = new Intent(getApplicationContext(), DFCHomeActivity.class);
         startActivity(homeIntent);
