@@ -6,19 +6,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class DocumentNamingDialogFragment extends AppCompatDialogFragment {
-    private final String TAG = "DocumentNamingDialogFragment";
+public class NameDocumentDialog extends AppCompatDialogFragment {
+    private final String TAG = "NamingDialogFragment";
     private DocumentNameListener listener;
+    private static Hashtable<String, AtomicInteger> docNameHashTable = new Hashtable<>(25);
     private List<Document> docLIst;
 
 
@@ -27,12 +33,10 @@ public class DocumentNamingDialogFragment extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-//        Bundle bundle = getArguments();
-//        docLIst = new ArrayList<>((ArrayList<Document>)bundle.getSerializable("document"));
-
-
+        Bundle bundle = getArguments();
+        docLIst = new ArrayList<>((ArrayList<Document>)bundle.getSerializable("document"));
+        addNameHashTable(docLIst);
         View view = inflater.inflate(R.layout.dialog_naming_doc, null);
-
 
         final EditText fileName = view.findViewById(R.id.documentName);
         builder.setView(view)
@@ -43,10 +47,25 @@ public class DocumentNamingDialogFragment extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String name = String.valueOf(fileName.getText());
                         if (name.isEmpty()) {
+                            fileName.setError("ERROR");
                             Toast.makeText(getContext(), "Must provide a name!", Toast.LENGTH_LONG).show();
-                            dialog.dismiss();
                         } else {
-                            listener.applyName(String.valueOf(fileName.getText()));
+                            //validate that the doc name is not already in used
+                            if(findNameInList(name)) {
+                                String altName = name.trim().toLowerCase();
+                                AtomicInteger value = docNameHashTable.get(altName);
+                                if (value != null) {
+                                    value.getAndIncrement();
+                                }
+                                docNameHashTable.put(altName, value);
+                                Log.d(TAG, docNameHashTable.toString());
+                                String newName = name.trim().concat(String.format("_(%s)",
+                                        docNameHashTable.get(altName)));
+                                listener.applyName(newName);
+                            } else {
+                                docNameHashTable.put(name.trim().toLowerCase(), new AtomicInteger(0));
+                                listener.applyName(name.trim());
+                            }
                         }
                     }
                 })
@@ -72,7 +91,28 @@ public class DocumentNamingDialogFragment extends AppCompatDialogFragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putSerializable("docNameHashTable", docNameHashTable);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        docNameHashTable = (Hashtable<String, AtomicInteger>) savedInstanceState.getSerializable("docNameHashTable");
+    }
+
     public interface DocumentNameListener {
         void applyName(String documentName);
+    }
+
+    private boolean findNameInList(String name) {
+        return docNameHashTable.containsKey(name.trim().toLowerCase());
+    }
+
+    private void addNameHashTable(List<Document> list) {
+        for(Document doc : list) {
+            docNameHashTable.put(doc.getDocumentName().trim().toLowerCase(), new AtomicInteger(0));
+        }
     }
 }
