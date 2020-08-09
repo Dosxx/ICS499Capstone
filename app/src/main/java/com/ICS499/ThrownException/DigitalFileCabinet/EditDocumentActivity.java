@@ -94,7 +94,7 @@ public class EditDocumentActivity extends AppCompatActivity implements NameDocum
 
     @Override
     public void applyName(String documentName) {
-        String newName = documentName.trim().toUpperCase();
+        String newName = documentName.trim();
         document.setDocumentName(newName);
         documentNameTextView.setText(newName);
         documentLastEditTextView.setText(document.getLastEditDate());
@@ -105,7 +105,6 @@ public class EditDocumentActivity extends AppCompatActivity implements NameDocum
             Toast.makeText(getApplicationContext(), "Update failed!", Toast.LENGTH_LONG).show();
         }
     }
-
     private void returnToHomeActivity() {
         Intent homeIntent = new Intent(getApplicationContext(), DFCHomeActivity.class);
         startActivity(homeIntent);

@@ -24,7 +24,6 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -144,7 +143,6 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
                             public void onClick(DialogInterface dialog, int id) {
                                 scanDocumentButton.performClick();
 //                                recreate();
-
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -170,15 +168,16 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
 
     public void openDialog() {
         NameDocumentDialog namingDialog = new NameDocumentDialog();
-        Bundle listBundle = new Bundle();
-        listBundle.putSerializable("document", (Serializable) docList);
-        namingDialog.setArguments(listBundle);
         namingDialog.show(getSupportFragmentManager(), TAG);
+//        Bundle listBundle = new Bundle();
+//        listBundle.putSerializable("document", (Serializable) docList);
+//        listBundle.putSerializable("hashtable", docNameHashtable);
+//        namingDialog.setArguments(listBundle);
     }
 
     @Override
     public void applyName(String documentName) {
-        docName = documentName;
+        docName = documentName.trim();
         if(ContextCompat.checkSelfPermission(
                 getApplicationContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
@@ -198,4 +197,16 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
             dispatchCaptureImageIntent();
         }
     }
+
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putSerializable("docNameHashtable", docNameHashtable);
+//    }
+
+//    @Override
+//    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        docNameHashtable = (Hashtable<String, AtomicInteger>) savedInstanceState.getSerializable("docNameHashtable");
+//    }
 }
