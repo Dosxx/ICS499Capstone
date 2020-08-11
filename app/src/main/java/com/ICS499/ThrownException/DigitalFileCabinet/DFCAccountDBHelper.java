@@ -5,10 +5,8 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.Context;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.widget.Toast;
 
 public class DFCAccountDBHelper extends SQLiteOpenHelper {
@@ -22,15 +20,14 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
     public DFCAccountDBHelper (Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
-        Log.d(TAG, " created");
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(UserReaderContract.CREATE_TABLE);
-        db.execSQL(DocumentReaderContract.CREATE_TABLE);
+        DFCDatabase = db;
+        DFCDatabase.execSQL(UserReaderContract.CREATE_TABLE);
+        DFCDatabase.execSQL(DocumentReaderContract.CREATE_TABLE);
         Toast.makeText(context, "All tables are created", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "All tables are created");
     }
 
     @Override
@@ -38,7 +35,6 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
         /* Simply discard the data and start over on upgrade */
         db.execSQL(UserReaderContract.DROP_TABLE);
         db.execSQL(DocumentReaderContract.DROP_TABLE);
-        Log.d("Database Operations", "All tables are deleted");
         onCreate(db);
     }
 
@@ -51,10 +47,4 @@ public class DFCAccountDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public long getDocumentsCount() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        long count = DatabaseUtils.queryNumEntries(db, "Document_table");
-        db.close();
-        return count;
-    }
 }

@@ -67,6 +67,7 @@ public class SelectUserQueryBuilder extends QueryBuilder{
                 break;
             }
             cursor.close();
+            db.close();
             /* Return the first user in the database */
             return foundUser;
         }

@@ -26,7 +26,9 @@ public class DeleteDocumentQueryBuilder extends QueryBuilder{
         String[] selectionArgs = { String.valueOf(document.getDocumentID()) };
 
         // Issue SQL statement.
-        return db.delete(DocumentReaderContract.DocumentEntry.TABLE_NAME,selection, selectionArgs);
+        Object result = db.delete(DocumentReaderContract.DocumentEntry.TABLE_NAME,selection, selectionArgs);
+        db.close();
+        return result;
     }
 
     @Override

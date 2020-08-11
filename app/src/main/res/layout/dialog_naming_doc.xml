@@ -23,7 +23,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="12dp"
         android:hint="@string/document_name"
-        android:inputType="textAutoCorrect|textCapWords"
+        android:inputType="textNoSuggestions"
         android:autofillHints="@string/document_name" />
 
 </LinearLayout>

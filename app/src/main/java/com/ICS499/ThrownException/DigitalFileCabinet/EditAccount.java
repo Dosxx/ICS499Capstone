@@ -51,7 +51,9 @@ public class EditAccount {
 
     private int numberOfRowsInDB(DFCAccountDBHelper dbHelper){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        return (int) DatabaseUtils.queryNumEntries(db, UserReaderContract.UserEntry.TABLE_NAME);
+        int result = (int) DatabaseUtils.queryNumEntries(db, UserReaderContract.UserEntry.TABLE_NAME);
+        db.close();
+        return result;
     }
 
     public boolean deleteAccount(DFCAccountDBHelper dbHelper) {
