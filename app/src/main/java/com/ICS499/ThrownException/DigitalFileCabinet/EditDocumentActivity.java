@@ -4,6 +4,8 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +40,7 @@ public class EditDocumentActivity extends AppCompatActivity implements NameDocum
         final ImageView documentImageView = findViewById(R.id.captureImageOriginal);
         documentNameTextView = findViewById(R.id.document_name_TextView);
         documentLastEditTextView = findViewById(R.id.document_editDate_TextView);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         documentEditor = new EditDocument();
 
         /* Set up the document view with description*/
@@ -72,14 +75,27 @@ public class EditDocumentActivity extends AppCompatActivity implements NameDocum
         deleteDocumentName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean deleted = documentEditor.deleteDoc(dbHelper, document);
-                if(deleted) {
-                    Toast.makeText(getApplicationContext(), document.getDocumentName()+" deleted", Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(getApplicationContext(), "Deletion failed!", Toast.LENGTH_LONG).show();
-                }
-                /*return to the home page */
-                returnToHomeActivity();
+                builder.setTitle("Delete Document")
+                        .setMessage(String.format("Are you sure you want to delete: %S",document.getDocumentName()))
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                boolean deleted = documentEditor.deleteDoc(dbHelper, document);
+                                if(deleted) {
+                                    Toast.makeText(getApplicationContext(), document.getDocumentName()+" deleted", Toast.LENGTH_LONG).show();
+                                }else {
+                                    Toast.makeText(getApplicationContext(), "Deletion failed!", Toast.LENGTH_LONG).show();
+                                }
+                                /*return to the home page */
+                                returnToHomeActivity();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                            }
+                        })
+                        .create().show();
             }
         });
     }
