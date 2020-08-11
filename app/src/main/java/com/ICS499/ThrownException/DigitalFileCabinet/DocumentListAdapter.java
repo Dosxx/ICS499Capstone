@@ -8,7 +8,6 @@ package com.ICS499.ThrownException.DigitalFileCabinet;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +70,6 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<Document> filteredList = new ArrayList<>();
-            System.out.println(charSequence);
             if(charSequence == null || charSequence.length() == 0) {
                 filteredList.addAll(docListFiltered);
             }else {
@@ -91,7 +89,6 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults results) {
             docList.clear();
-            Log.d(TAG,"PUBLISHING FILTERED LIST");
             docList.addAll((List) results.values);
             notifyDataSetChanged();
         }

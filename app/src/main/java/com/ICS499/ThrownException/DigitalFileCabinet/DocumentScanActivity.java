@@ -9,7 +9,6 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -99,8 +98,7 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
     private File createImageFile() throws IOException {
 
         File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(
-                docName,"jpg", directory);
+        File imageFile = new File(directory, String.format("%s.jpg", docName));
         currentImagePath = imageFile.getAbsolutePath();
         return imageFile;
     }
@@ -123,9 +121,6 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_CODE_CAPTURE_IMAGE && resultCode == RESULT_OK) {
             try{
-                // Display original image
-                imageOriginal.setImageBitmap(BitmapFactory.decodeFile(currentImagePath));
-                documentNameTextView.setText(docName);
                 // Following is the captured image file
                 File capturedImageFile = new File(currentImagePath);
                 /* create a document here with the image file created */
@@ -140,6 +135,9 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
                         .setFile(capturedImageFile)
                         .build();
                 docEditor.saveDoc(dbHelper, document);
+                // Display original image
+                imageOriginal.setImageURI(Uri.fromFile(capturedImageFile));
+                documentNameTextView.setText(docName);
                 /* Ask user to return home */
                 builder.setTitle("Confirm Action")
                         .setMessage("Scan another Document?")
@@ -154,6 +152,7 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
                                 //  Action for 'NO' Button
                                 Intent intent = new Intent(cabinet.getContext(), DFCHomeActivity.class);
                                 startActivity(intent);
+                                finish();
                             }
                         }).create().show();
 
@@ -177,7 +176,7 @@ public class DocumentScanActivity extends AppCompatActivity implements NameDocum
 
     @Override
     public void applyName(String documentName) {
-        docName = documentName.trim();
+        docName = documentName.replace(" ", "_").trim();
         if(ContextCompat.checkSelfPermission(
                 getApplicationContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(

@@ -26,7 +26,6 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
         return null;
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public List<Document> selectQuery() {
         /* Make a query to the database to get the document data */
@@ -85,6 +84,7 @@ public class SelectDocumentQueryBuilder extends QueryBuilder {
             queryResultList.add(result);
         }
         cursor.close();
+        db.close();
         return queryResultList;
     }
 

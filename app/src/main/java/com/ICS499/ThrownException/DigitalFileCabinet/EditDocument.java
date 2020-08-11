@@ -5,6 +5,9 @@
  */
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
+
 class EditDocument {
     private QueryContext sqlContext;
     private QueryBuilder sqlBuilder;
@@ -28,6 +31,13 @@ class EditDocument {
         int result = ((Integer)sqlContext.makeQuery()).intValue();
         // positive non zero is return upon update success
         return result > 0;
+    }
+
+    public long getDocumentsCount(DFCAccountDBHelper dbHelper) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        long count = DatabaseUtils.queryNumEntries(db, "Document_table");
+        db.close();
+        return count;
     }
 
     public boolean deleteDoc(DFCAccountDBHelper dbHelper, Document document) {

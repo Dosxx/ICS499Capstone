@@ -5,8 +5,7 @@
 package com.ICS499.ThrownException.DigitalFileCabinet;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,8 +49,7 @@ public class EditDocumentActivity extends AppCompatActivity implements NameDocum
             e.printStackTrace();
         }
 
-        Bitmap imageBitmap = BitmapFactory.decodeFile(currentImagePath);
-        documentImageView.setImageBitmap(imageBitmap);
+        documentImageView.setImageURI(Uri.fromFile(document.getFile()));
 
         documentNameTextView.setText(document.getDocumentName());
         documentCreateTextView.setText(document.getCreatedDate());
@@ -98,7 +96,7 @@ public class EditDocumentActivity extends AppCompatActivity implements NameDocum
 
     @Override
     public void applyName(String documentName) {
-        String newName = documentName.trim();
+        String newName = documentName.replace(" ", "_").trim();
         document.setDocumentName(newName);
         documentNameTextView.setText(newName);
         documentLastEditTextView.setText(document.getLastEditDate());
@@ -112,5 +110,6 @@ public class EditDocumentActivity extends AppCompatActivity implements NameDocum
     private void returnToHomeActivity() {
         Intent homeIntent = new Intent(getApplicationContext(), DFCHomeActivity.class);
         startActivity(homeIntent);
+        finish();
     }
 }

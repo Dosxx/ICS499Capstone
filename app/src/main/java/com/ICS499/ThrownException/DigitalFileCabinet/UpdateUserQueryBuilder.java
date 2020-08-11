@@ -48,10 +48,12 @@ class UpdateUserQueryBuilder extends QueryBuilder {
         String selection = UserReaderContract.UserEntry._ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(accountUser.getUser_id())};
 
-        return db.update(
+        Object result = db.update(
                 UserReaderContract.UserEntry.TABLE_NAME,
                 values,
                 selection,
                 selectionArgs);
+        db.close();
+        return result;
     }
 }

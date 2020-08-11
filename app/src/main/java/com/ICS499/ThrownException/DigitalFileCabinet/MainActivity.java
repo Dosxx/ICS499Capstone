@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = cabinet.getDfcHelper();
         account = new EditAccount();
         cabinet.setEditAccount(account);
-        Log.d(TAG, "onCreate: Started.");
 
         final Button signUpButton = findViewById(R.id.sign_up_button);
         final Button signInButton = findViewById(R.id.sign_in_button);

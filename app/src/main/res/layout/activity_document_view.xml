@@ -135,7 +135,7 @@
 
                     <Button
                         android:id="@+id/editDocumentButton"
-                        android:layout_width="64dp"
+                        android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="175dp"
                         android:background="@drawable/ic_edit_24"
@@ -143,14 +143,14 @@
 
                     <Button
                         android:id="@+id/deleteDocumentButton"
-                        android:layout_width="64dp"
+                        android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@drawable/ic_delete_24"
                         tools:ignore="ButtonStyle" />
 
                     <Button
                         android:id="@+id/closeDocumentButton"
-                        android:layout_width="64dp"
+                        android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@drawable/ic_close_24"
                         tools:ignore="ButtonStyle" />

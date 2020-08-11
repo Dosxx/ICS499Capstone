@@ -49,10 +49,12 @@ public class UpdateDocumentQueryBuilder extends QueryBuilder{
         String selection = DocumentReaderContract.DocumentEntry._ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(document.getDocumentID()) };
 
-        return db.update(
+        Object result = db.update(
                 DocumentReaderContract.DocumentEntry.TABLE_NAME,
                 values,
                 selection,
                 selectionArgs);
+        db.close();
+        return result;
     }
 }

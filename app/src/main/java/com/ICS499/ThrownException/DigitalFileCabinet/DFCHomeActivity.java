@@ -9,7 +9,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -54,7 +53,6 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         account = cabinet.getEditAccount();
         dfcBrowser = new FileBrowser(cabinet);
 
-        Log.d(TAG, cabinet.getDfcHelper().toString());
         final TextView userName = findViewById(R.id.profile_name_textView);
         final TextView userProfile = findViewById(R.id.profileDetailTextView);
         final Button profileButton = findViewById(R.id.profile_button);
@@ -143,6 +141,7 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
                 logoutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(logoutIntent);
                 finishAffinity();
+                DFCHomeActivity.super.finish();
             }
         });
 
