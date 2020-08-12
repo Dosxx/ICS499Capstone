@@ -80,6 +80,7 @@ public class EditDocumentActivity extends AppCompatActivity implements NameDocum
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 boolean deleted = documentEditor.deleteDoc(dbHelper, document);
+                                document.getFile().delete();
                                 if(deleted) {
                                     Toast.makeText(getApplicationContext(), document.getDocumentName()+" deleted", Toast.LENGTH_LONG).show();
                                 }else {

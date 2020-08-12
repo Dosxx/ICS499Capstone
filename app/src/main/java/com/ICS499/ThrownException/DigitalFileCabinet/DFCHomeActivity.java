@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,9 +26,11 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * UI class and home of the digital file cabinet
@@ -62,6 +65,7 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final RecyclerView documentListView = findViewById(R.id.documentRecyclerView);
         final LinearLayout emptyCabinetViewLayout = findViewById(R.id.emptyCabinetLayout);
+        final File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
 
         /* Set up the document recycler view */
@@ -114,6 +118,9 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     boolean yes = account.deleteAccount(cabinet.getDfcHelper());
+                                    if (directory != null) {
+                                        deleteRecursive(directory);
+                                    }
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -206,5 +213,12 @@ public class DFCHomeActivity extends AppCompatActivity implements DocumentListAd
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteRecursive(File directory) {
+        if (directory.isDirectory()) {
+            for (File child : Objects.requireNonNull(directory.listFiles()))
+                child.delete();
+        }
     }
 }
