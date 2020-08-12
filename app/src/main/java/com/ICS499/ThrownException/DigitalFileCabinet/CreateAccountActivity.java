@@ -152,6 +152,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             try {
                 if(isValidInputs()) {
                     /* Create a user with valid input only */
+                    loadingProgressBar.setVisibility(LinearLayout.VISIBLE);
                     account = cabinet.getEditAccount();
                     dfcUser = account.createUser(String.valueOf(firstNameEditText.getText()),
                             String.valueOf(lastNameEditText.getText()),
@@ -160,9 +161,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     cabinet.setUser(dfcUser);
 
                     account.createAccount(dbHelper, cabinet.getUser());
-                    while(!account.isActive()){
-                        loadingProgressBar.setVisibility(LinearLayout.VISIBLE);
-                    }
+
                     Toast.makeText(myContext, "Account created successfully", Toast.LENGTH_LONG).show();
                     Toast.makeText(getApplicationContext(), "Welcome "+
                                     dfcUser.getLastName(),
